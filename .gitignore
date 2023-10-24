@@ -1,0 +1,14 @@
+temp/
+obj/
+venv/
+.vscode/
+.vs/
+*.vsconfig
+*.sln
+*.csproj
+Logs/
+Library/
+Assets/OurProject/Objects/Procedural_Objects/Map.txt
+Assets/OurProject/Objects/Procedural_Objects/Map.txt.meta
+results/
+Assets/ML-Agents/Timers/
