@@ -310,7 +310,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 783048700}
-  - component: {fileID: 783048699}
+  - component: {fileID: 783048701}
   m_Layer: 0
   m_Name: Supermarket
   m_TagString: Untagged
@@ -318,24 +318,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &783048699
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 783048698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1550c82e6ed6b344f8d53067beeab1c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  min_ground_size: 10
-  max_ground_size: 20
-  min_entrance_size: 4
-  max_entrance_size: 5
-  shelf_pref: {fileID: 3262721733602614305, guid: e21166cdf7d83954e872c748f46972a8, type: 3}
-  entrance_pref: {fileID: 906714432143104994, guid: 7b314bce10d84a24085e44ba48313b6e, type: 3}
 --- !u!4 &783048700
 Transform:
   m_ObjectHideFlags: 0
@@ -352,6 +334,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &783048701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 783048698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d6d8be9cc23bb54cb6399cd0b7695b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  min_ground_size: 20
+  max_ground_size: 30
+  min_entrance_size: 6
+  max_entrance_size: 8
+  shelf_pref: {fileID: 3262721733602614305, guid: e21166cdf7d83954e872c748f46972a8, type: 3}
+  entrance_pref: {fileID: 906714432143104994, guid: 7b314bce10d84a24085e44ba48313b6e, type: 3}
+  fruits_pref: {fileID: 3061980688328652459, guid: 3cec2502bfcbb134eae64e759291c40e, type: 3}
+  durablefood_pref: {fileID: 2548879541000398908, guid: 10a46780fb13ede42b5ccd21452f0e1d, type: 3}
+  alcohol_pref: {fileID: 5422409323214981426, guid: 94576245bf33b9c46a1d524bd94053dc, type: 3}
 --- !u!1 &2044154887
 GameObject:
   m_ObjectHideFlags: 0
