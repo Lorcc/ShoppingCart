@@ -175,29 +175,29 @@ public class SetupSupermarket : MonoBehaviour
 
         // Generate north outershelves
         //bool[,] number_of_tiles = new bool[grid_size_x, grid_size_y];
-        /*      
-        for (int x = 1; x < grid_size_x; x++)
+              
+        for (int x = 0; x < grid_size_x; x++)
         {
             float offset = 0.5f;
-            Vector3 shelve_position = this.transform.position + new Vector3((x - (grid_size_x / 2.0f)), 0.5f, (grid_size_y / 2.0f) - offset);
+            Vector3 shelve_position = this.transform.position + new Vector3((x - (grid_size_x / 2.0f) + offset), 0.5f, (grid_size_y / 2.0f) + offset);
             Quaternion shelve_rotation = Quaternion.Euler(0, 0, 0);
             GameObject shelve = Instantiate(shelf_pref, shelve_position, shelve_rotation, this.transform);
             shelve_tiles.Add(shelve);
         }
         //Generate south outershelves
-        for (int x_entr = 1; x_entr < grid_size_x - entrance_pref.transform.localScale[0]; x_entr++)
+        for (int x_entr = 0; x_entr < grid_size_x - entrance_pref.transform.localScale[0]; x_entr++)
         {
             float offset = 0.5f;
-            Vector3 shelve_position = this.transform.position + new Vector3((x_entr - (grid_size_x / 2.0f)), 0.5f, (-grid_size_y / 2.0f) + offset);
+            Vector3 shelve_position = this.transform.position + new Vector3((x_entr - (grid_size_x / 2.0f) + offset), 0.5f, (-grid_size_y / 2.0f) - offset);
             Quaternion shelve_rotation = Quaternion.Euler(0, 0, 0);
             GameObject shelve = Instantiate(shelf_pref, shelve_position, shelve_rotation, this.transform);
             shelve_tiles.Add(shelve);
         }
         //Generate west outershelves
-        for (int y = 1; y < grid_size_y; y++)
+        for (int y = 0; y < grid_size_y; y++)
         {
             float offset = 0.5f;
-            Vector3 shelve_position = this.transform.position + new Vector3(((-grid_size_x / 2.0f) + offset), 0.5f, y - (grid_size_y / 2.0f));
+            Vector3 shelve_position = this.transform.position + new Vector3(((-grid_size_x / 2.0f) - offset), 0.5f, y - (grid_size_y / 2.0f) + offset);
             Quaternion shelve_rotation = Quaternion.Euler(0, 0, 0);
             GameObject shelve = Instantiate(shelf_pref, shelve_position, shelve_rotation, this.transform);
             shelve_tiles.Add(shelve);
@@ -206,11 +206,11 @@ public class SetupSupermarket : MonoBehaviour
         for (int y_entr = (int)entrance_pref.transform.localScale[2]; y_entr < grid_size_y; y_entr++)
         {
             float offset = 0.5f;
-            Vector3 shelve_position = this.transform.position + new Vector3(((grid_size_x / 2.0f) - offset), 0.5f, y_entr - (grid_size_y / 2.0f));
+            Vector3 shelve_position = this.transform.position + new Vector3(((grid_size_x / 2.0f) + offset), 0.5f, y_entr - (grid_size_y / 2.0f) + offset);
             Quaternion shelve_rotation = Quaternion.Euler(0, 0, 0);
             GameObject shelve = Instantiate(shelf_pref, shelve_position, shelve_rotation, this.transform);
             shelve_tiles.Add(shelve);
-        }*/
+        }
     }
 
 
