@@ -101,7 +101,7 @@ public class SetupSupermarket : MonoBehaviour
             {
                 if (grid_hor == 0 || grid_hor == occupied_fruits_grid.GetLength(0) - 2 || grid_hor == occupied_fruits_grid.GetLength(0) - 1)
                     occupied_fruits_grid[grid_hor, grid_vert] = true;
-                if (grid_hor == 0 || grid_hor == 1 || grid_hor == occupied_fruits_grid.GetLength(1) - 1)
+                if (grid_vert == 0 || grid_vert == 1 || grid_vert == occupied_fruits_grid.GetLength(1) - 1)
                     occupied_fruits_grid[grid_hor, grid_vert] = true;
                 Debug.Log(occupied_fruits_grid[grid_hor, grid_vert]);
                 Debug.Log(occupied_fruits_grid.GetLength(0));
@@ -116,7 +116,7 @@ public class SetupSupermarket : MonoBehaviour
             {
                 if (grid_hor == 0 || grid_hor == 1 || grid_hor == occupied_durablefood_grid.GetLength(0) - 1)
                     occupied_durablefood_grid[grid_hor, grid_vert] = true;
-                if (grid_hor == 0 || grid_hor == 1 || grid_hor == occupied_durablefood_grid.GetLength(1) - 1)
+                if (grid_vert == 0 || grid_vert == 1 || grid_vert == occupied_durablefood_grid.GetLength(1) - 1)
                     occupied_durablefood_grid[grid_hor, grid_vert] = true;
             }
         }
@@ -128,7 +128,7 @@ public class SetupSupermarket : MonoBehaviour
             {
                 if (grid_hor == 0 || grid_hor == 1 || grid_hor == occupied_alcohol_grid.GetLength(0) - 1)
                     occupied_alcohol_grid[grid_hor, grid_vert] = true;
-                if (grid_hor == 0 || grid_hor == occupied_alcohol_grid.GetLength(1) - 2 || grid_hor == occupied_alcohol_grid.GetLength(1) - 1)
+                if (grid_vert == 0 || grid_vert == occupied_alcohol_grid.GetLength(1) - 2 || grid_vert == occupied_alcohol_grid.GetLength(1) - 1)
                     occupied_alcohol_grid[grid_hor, grid_vert] = true;
             }
         }
@@ -145,7 +145,7 @@ public class SetupSupermarket : MonoBehaviour
                     {
                         for (int y_local = 0; y_local < occupied_durablefood_grid.GetLength(1); y_local++)
                         {
-                            occupiedGrids[grid_hor + x_local, grid_vert + y_local] = occupied_durablefood_grid[grid_hor + x_local, grid_vert + y_local];
+                            occupiedGrids[grid_hor + x_local, grid_vert + y_local] = false;
                         }
                     }
                 }
