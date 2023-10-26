@@ -57,25 +57,29 @@ public class SetupSupermarket : MonoBehaviour
         // Generate fruits vegetable 
         Quaternion fruitsRotation = Quaternion.Euler(0, 0, 0);
         fruits_pref.transform.localScale = new Vector3(entrance_size[0], 0.5f, grid_size_y - entrance_size[2]);
-        Vector3 fruits_position = this.transform.localPosition + new Vector3((grid_size_x / 2.0f - fruits_pref.transform.localScale[0] / 2.0f), 0.5f, (grid_size_y / 2.0f - fruits_pref.transform.localScale[2] / 2.0f));
+        Vector3 fruits_size = fruits_pref.transform.localScale;
+        Vector3 fruits_position = this.transform.localPosition + new Vector3((grid_size_x / 2.0f - fruits_size[0] / 2.0f), 0.5f, (grid_size_y / 2.0f - fruits_size[2] / 2.0f));
         GameObject fruits = Instantiate(fruits_pref, fruits_position, fruitsRotation, this.transform);
         fruits_tiles.Add(fruits);
 
         // Generate durablefood
         Quaternion durablefoodRotation = Quaternion.Euler(0, 0, 0);
         durablefood_pref.transform.localScale = new Vector3(grid_size_x - entrance_size[0], 0.5f, grid_size_y - entrance_size[2]);
-        Vector3 durablefood_position = this.transform.localPosition + new Vector3(( durablefood_pref.transform.localScale[0]/2.0f - grid_size_x / 2.0f), 0.5f, (grid_size_y / 2.0f - durablefood_pref.transform.localScale[2] / 2.0f));
+        Vector3 durablefood_size = durablefood_pref.transform.localScale;
+        Vector3 durablefood_position = this.transform.localPosition + new Vector3((durablefood_size[0]/2.0f - grid_size_x / 2.0f), 0.5f, (grid_size_y / 2.0f - durablefood_size[2] / 2.0f));
         GameObject durablefood = Instantiate(durablefood_pref, durablefood_position, durablefoodRotation, this.transform);
         durablefood_tiles.Add(durablefood);
 
         // Generate fruits vegetable 
         Quaternion alcoholRotation = Quaternion.Euler(0, 0, 0);
         alcohol_pref.transform.localScale = new Vector3(grid_size_x - entrance_size[0], 0.5f, entrance_size[2]);
-        Vector3 alcohol_position = this.transform.localPosition + new Vector3((alcohol_pref.transform.localScale[0] / 2.0f - grid_size_x / 2.0f), 0.5f, (-grid_size_y / 2.0f + alcohol_pref.transform.localScale[2] / 2.0f));
+        Vector3 alcohol_size = alcohol_pref.transform.localScale;
+        Vector3 alcohol_position = this.transform.localPosition + new Vector3((alcohol_size[0] / 2.0f - grid_size_x / 2.0f), 0.5f, (-grid_size_y / 2.0f + alcohol_size[2] / 2.0f));
         GameObject alcohol = Instantiate(alcohol_pref, alcohol_position, alcoholRotation, this.transform);
         alcohol_tiles.Add(alcohol);
 
         bool[,] occupiedGrids = new bool[grid_size_x, grid_size_y];
+
         // Grid which needs to be blocked and checked if it's free
         bool[,] toFilledGrid = new bool[horizontal_shelve.GetLength(0), horizontal_shelve.GetLength(1)];
         
@@ -89,18 +93,84 @@ public class SetupSupermarket : MonoBehaviour
         bool horizontal_spawn = (Random.value > 0.5f);
 
 
+        // Take out at least one field around the edge of the field and 2 to the north and east
+        bool[,] occupied_fruits_grid = new bool[(int)fruits_size[0], (int)fruits_size[2]];
+        for (int grid_hor = 0; grid_hor < occupied_fruits_grid.GetLength(0); grid_hor++)
+        {
+            for(int grid_vert = 0; grid_vert < occupied_fruits_grid.GetLength(1); grid_vert++)
+            {
+                if (grid_hor == 0 || grid_hor == occupied_fruits_grid.GetLength(0) - 2 || grid_hor == occupied_fruits_grid.GetLength(0) - 1)
+                    occupied_fruits_grid[grid_hor, grid_vert] = true;
+                if (grid_hor == 0 || grid_hor == 1 || grid_hor == occupied_fruits_grid.GetLength(1) - 1)
+                    occupied_fruits_grid[grid_hor, grid_vert] = true;
+                Debug.Log(occupied_fruits_grid[grid_hor, grid_vert]);
+                Debug.Log(occupied_fruits_grid.GetLength(0));
+                Debug.Log(occupied_fruits_grid.GetLength(1));
+            }
+        }
+        // Take out at least one field around the edge of the field and 2 to the north and east
+        bool[,] occupied_durablefood_grid = new bool[(int)durablefood_size[0], (int)durablefood_size[2]];
+        for (int grid_hor = 0; grid_hor < occupied_fruits_grid.GetLength(0); grid_hor++)
+        {
+            for (int grid_vert = 0; grid_vert < occupied_durablefood_grid.GetLength(1); grid_vert++)
+            {
+                if (grid_hor == 0 || grid_hor == 1 || grid_hor == occupied_durablefood_grid.GetLength(0) - 1)
+                    occupied_durablefood_grid[grid_hor, grid_vert] = true;
+                if (grid_hor == 0 || grid_hor == 1 || grid_hor == occupied_durablefood_grid.GetLength(1) - 1)
+                    occupied_durablefood_grid[grid_hor, grid_vert] = true;
+            }
+        }
+        // Take out at least one field around the edge of the field and 2 to the north and east
+        bool[,] occupied_alcohol_grid = new bool[(int)alcohol_size[0], (int)alcohol_size[2]];
+        for (int grid_hor = 0; grid_hor < occupied_alcohol_grid.GetLength(0); grid_hor++)
+        {
+            for (int grid_vert = 0; grid_vert < occupied_alcohol_grid.GetLength(1); grid_vert++)
+            {
+                if (grid_hor == 0 || grid_hor == 1 || grid_hor == occupied_alcohol_grid.GetLength(0) - 1)
+                    occupied_alcohol_grid[grid_hor, grid_vert] = true;
+                if (grid_hor == 0 || grid_hor == occupied_alcohol_grid.GetLength(1) - 2 || grid_hor == occupied_alcohol_grid.GetLength(1) - 1)
+                    occupied_alcohol_grid[grid_hor, grid_vert] = true;
+            }
+        }
 
-        // Take out Fields close to the wall
+        // Take out fields
         for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
             for(int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
             {
-                //respectively 2 field colums west and east
-                if(grid_hor == 0 || grid_hor == 1 || grid_hor == grid_size_x - 2 || grid_hor == grid_size_x - 1)
-                    occupiedGrids[grid_hor, grid_vert] = true;
-                //respectively 2 field rows north and south
-                if(grid_vert == 0 || grid_vert == 1 || grid_vert == grid_size_y -2 || grid_vert == grid_size_y - 1)
-                    occupiedGrids[grid_hor, grid_vert] = true;
+                //take out occupied durablefood fields
+                if (grid_hor == 0 && grid_vert == 0)
+                {
+                    for (int x_local = 0; x_local < occupied_durablefood_grid.GetLength(0); x_local++)
+                    {
+                        for (int y_local = 0; y_local < occupied_durablefood_grid.GetLength(1); y_local++)
+                        {
+                            occupiedGrids[grid_hor + x_local, grid_vert + y_local] = occupied_durablefood_grid[grid_hor + x_local, grid_vert + y_local];
+                        }
+                    }
+                }
+                //take out occupied alcohol fields
+                if (grid_hor == 0 && grid_vert == grid_size_y - alcohol_size[2])
+                {
+                    for (int x_local = 0; x_local < occupied_alcohol_grid.GetLength(0); x_local++)
+                    {
+                        for (int y_local = 0; y_local < occupied_alcohol_grid.GetLength(1); y_local++)
+                        {
+                            occupiedGrids[grid_hor + x_local, grid_vert + y_local] = false;
+                        }
+                    }
+                }
+                //take out occupied fruit fields
+                if (grid_hor == grid_size_x - fruits_size[0] && grid_vert == 0)
+                {
+                    for (int x_local = 0; x_local < occupied_fruits_grid.GetLength(0); x_local++)
+                    {
+                        for (int y_local = 0; y_local < occupied_fruits_grid.GetLength(1); y_local++)
+                        {
+                            occupiedGrids[grid_hor + x_local, grid_vert + y_local] = false;
+                        }
+                    }
+                }
                 //take out entrance fields
                 if (grid_hor == grid_size_x - entrance_size[0] && grid_vert == grid_size_y - entrance_size[2])
                 {
@@ -109,16 +179,14 @@ public class SetupSupermarket : MonoBehaviour
                         for (int y_local = 0; y_local < occupied_entrance.GetLength(1); y_local++)
                         {
                             occupiedGrids[grid_hor + x_local, grid_vert + y_local] = true;
-                            Debug.Log(occupiedGrids[grid_hor + x_local, grid_vert + y_local]);
                         }
                     }
                 }
-                Debug.Log(occupiedGrids[grid_hor, grid_vert]);
             }
         }
 
 
-
+        // Spawn shelves
         for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
             for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
