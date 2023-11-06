@@ -38,7 +38,7 @@ public class SetupSupermarket : MonoBehaviour
 
     public void calculate_Grid()
     {
-        // Generate ground
+        // Generate ground surface
         int grid_size_x = Random.Range(min_ground_size, max_ground_size);
         int grid_size_y = Random.Range(min_ground_size, max_ground_size);
         GameObject ground = this.transform.Find("Ground").gameObject;
@@ -46,7 +46,7 @@ public class SetupSupermarket : MonoBehaviour
         Debug.Log("Grid in x: " + grid_size_x);
         Debug.Log("Grid in y: " + grid_size_y);
 
-        // Generate entrance
+        // Generate entrance surface
         Quaternion entranceRotation = Quaternion.Euler(0, 0, 0);
         entrance_pref.transform.localScale = new Vector3(Random.Range(min_entrance_size, max_entrance_size), 0.5f, Random.Range(min_entrance_size, max_entrance_size));
         Vector3 entrance_size = entrance_pref.transform.localScale;
@@ -54,7 +54,7 @@ public class SetupSupermarket : MonoBehaviour
         GameObject entrance = Instantiate(entrance_pref, entrance_position, entranceRotation, this.transform);
         entrance_tiles.Add(entrance);
 
-        // Generate fruits vegetable 
+        // Generate fruits vegetable surface
         Quaternion fruitsRotation = Quaternion.Euler(0, 0, 0);
         fruits_pref.transform.localScale = new Vector3(entrance_size[0], 0.5f, grid_size_y - entrance_size[2]);
         Vector3 fruits_size = fruits_pref.transform.localScale;
@@ -62,7 +62,7 @@ public class SetupSupermarket : MonoBehaviour
         GameObject fruits = Instantiate(fruits_pref, fruits_position, fruitsRotation, this.transform);
         fruits_tiles.Add(fruits);
 
-        // Generate durablefood
+        // Generate durablefood surface
         Quaternion durablefoodRotation = Quaternion.Euler(0, 0, 0);
         durablefood_pref.transform.localScale = new Vector3(grid_size_x - entrance_size[0], 0.5f, grid_size_y - entrance_size[2]);
         Vector3 durablefood_size = durablefood_pref.transform.localScale;
@@ -70,7 +70,7 @@ public class SetupSupermarket : MonoBehaviour
         GameObject durablefood = Instantiate(durablefood_pref, durablefood_position, durablefoodRotation, this.transform);
         durablefood_tiles.Add(durablefood);
 
-        // Generate fruits vegetable 
+        // Generate fruits vegetable surface
         Quaternion alcoholRotation = Quaternion.Euler(0, 0, 0);
         alcohol_pref.transform.localScale = new Vector3(grid_size_x - entrance_size[0], 0.5f, entrance_size[2]);
         Vector3 alcohol_size = alcohol_pref.transform.localScale;
@@ -85,32 +85,19 @@ public class SetupSupermarket : MonoBehaviour
         
         //Entrance grid this is false but we just check later for false to save a conversion to true
         bool[,] occupied_entrance = new bool [(int)entrance_size[0], (int)entrance_size[2]];
-        Debug.Log("Entrance Size in x: "+entrance_size[0]);
+        Debug.Log("Entrance Size in x: "+ entrance_size[0]);
         Debug.Log("Entrance Size in y: "+ entrance_size[2]);
 
 
         // Decide which Orientation the shelves should have in the durablefood department
-        bool horizontal_spawn = (Random.value > 0.5f);
+        bool horizontal_spawn = true; //(Random.value > 0.5f);
 
 
-        // Take out at least one field around the edge of the field and 2 to the north and east
-        bool[,] occupied_fruits_grid = new bool[(int)fruits_size[0], (int)fruits_size[2]];
-        for (int grid_hor = 0; grid_hor < occupied_fruits_grid.GetLength(0); grid_hor++)
-        {
-            for(int grid_vert = 0; grid_vert < occupied_fruits_grid.GetLength(1); grid_vert++)
-            {
-                if (grid_hor == 0 || grid_hor == occupied_fruits_grid.GetLength(0) - 2 || grid_hor == occupied_fruits_grid.GetLength(0) - 1)
-                    occupied_fruits_grid[grid_hor, grid_vert] = true;
-                if (grid_vert == 0 || grid_vert == 1 || grid_vert == occupied_fruits_grid.GetLength(1) - 1)
-                    occupied_fruits_grid[grid_hor, grid_vert] = true;
-                Debug.Log(occupied_fruits_grid[grid_hor, grid_vert]);
-                Debug.Log(occupied_fruits_grid.GetLength(0));
-                Debug.Log(occupied_fruits_grid.GetLength(1));
-            }
-        }
+
+        
         // Take out at least one field around the edge of the field and 2 to the north and east
         bool[,] occupied_durablefood_grid = new bool[(int)durablefood_size[0], (int)durablefood_size[2]];
-        for (int grid_hor = 0; grid_hor < occupied_fruits_grid.GetLength(0); grid_hor++)
+        for (int grid_hor = 0; grid_hor < occupied_durablefood_grid.GetLength(0); grid_hor++)
         {
             for (int grid_vert = 0; grid_vert < occupied_durablefood_grid.GetLength(1); grid_vert++)
             {
@@ -132,12 +119,25 @@ public class SetupSupermarket : MonoBehaviour
                     occupied_alcohol_grid[grid_hor, grid_vert] = true;
             }
         }
+        // Take out at least one field around the edge of the field and 2 to the north and east
+        bool[,] occupied_fruits_grid = new bool[(int)fruits_size[0], (int)fruits_size[2]];
+        for (int grid_hor = 0; grid_hor < occupied_fruits_grid.GetLength(0); grid_hor++)
+        {
+            for (int grid_vert = 0; grid_vert < occupied_fruits_grid.GetLength(1); grid_vert++)
+            {
+                if (grid_hor == 0 || grid_hor == occupied_fruits_grid.GetLength(0) - 2 || grid_hor == occupied_fruits_grid.GetLength(0) - 1)
+                    occupied_fruits_grid[grid_hor, grid_vert] = true;
+                if (grid_vert == 0 || grid_vert == 1 || grid_vert == occupied_fruits_grid.GetLength(1) - 1)
+                    occupied_fruits_grid[grid_hor, grid_vert] = true;
+            }
+        }
 
         // Take out fields
         for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
             for(int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
             {
+
                 //take out occupied durablefood fields
                 if (grid_hor == 0 && grid_vert == 0)
                 {
@@ -145,7 +145,7 @@ public class SetupSupermarket : MonoBehaviour
                     {
                         for (int y_local = 0; y_local < occupied_durablefood_grid.GetLength(1); y_local++)
                         {
-                            occupiedGrids[grid_hor + x_local, grid_vert + y_local] = false;
+                            occupiedGrids[grid_hor + x_local, grid_vert + y_local] = occupied_durablefood_grid[x_local, y_local];
                         }
                     }
                 }
@@ -156,21 +156,23 @@ public class SetupSupermarket : MonoBehaviour
                     {
                         for (int y_local = 0; y_local < occupied_alcohol_grid.GetLength(1); y_local++)
                         {
-                            occupiedGrids[grid_hor + x_local, grid_vert + y_local] = false;
+                            occupiedGrids[grid_hor + x_local, grid_vert + y_local] = occupied_alcohol_grid[x_local, y_local];
                         }
                     }
                 }
                 //take out occupied fruit fields
                 if (grid_hor == grid_size_x - fruits_size[0] && grid_vert == 0)
                 {
+                    Debug.Log(grid_size_x - fruits_size[0]);
                     for (int x_local = 0; x_local < occupied_fruits_grid.GetLength(0); x_local++)
                     {
                         for (int y_local = 0; y_local < occupied_fruits_grid.GetLength(1); y_local++)
                         {
-                            occupiedGrids[grid_hor + x_local, grid_vert + y_local] = false;
+                            occupiedGrids[grid_hor + x_local, grid_vert + y_local] = occupied_fruits_grid[x_local, y_local];
                         }
                     }
                 }
+
                 //take out entrance fields
                 if (grid_hor == grid_size_x - entrance_size[0] && grid_vert == grid_size_y - entrance_size[2])
                 {
@@ -202,6 +204,8 @@ public class SetupSupermarket : MonoBehaviour
                             {
                                 if(toFilledGrid[x_local, y_local] == true)
                                 {
+                                    Debug.Log("occupiedGrids x: " + grid_hor + x_local);
+                                    Debug.Log("occupiedGrids y: " + grid_vert + y_local);
                                     occupiedGrids[grid_hor + x_local, grid_vert + y_local] = true;
                                 }
                             }
@@ -216,6 +220,8 @@ public class SetupSupermarket : MonoBehaviour
                             {
                                 if (toFilledGrid[x_local, y_local] == true)
                                 {
+                                    Debug.Log("occupiedGrids x: " + grid_hor + x_local);
+                                    Debug.Log("occupiedGrids y: " + grid_vert + y_local);
                                     occupiedGrids[grid_hor + x_local, grid_vert + y_local] = true;
                                 }
                             }
