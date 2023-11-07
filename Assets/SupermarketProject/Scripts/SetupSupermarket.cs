@@ -35,6 +35,41 @@ public class SetupSupermarket : MonoBehaviour
     private List<GameObject> alcohol_tiles = new List<GameObject>();
     private List<GameObject> shelve_tiles = new List<GameObject>();
 
+   public class Area
+    {
+        public Vector2Int area_size;
+        public string orientation;
+        public List<GameObject> ground_tiles = new List<GameObject>();
+
+        public Area(Vector2Int size)
+        {
+            area_size = size;
+            orientation = calculate_shelve_orientation(area_size[0], area_size[1]);
+        }
+
+        public string calculate_shelve_orientation(int area_horizontal_length, int area_vertical_length)
+        {
+            List<string> possible_orientations = new List<string>();
+
+            if (area_horizontal_length % 3 == 1)
+            {
+                possible_orientations.Add("horizontal");
+            }
+            if (area_vertical_length % 3 == 1)
+            {
+                possible_orientations.Add("vertical");
+            }
+
+            int random_index = Random.Range(0, possible_orientations.Count);
+            return possible_orientations[random_index];
+        }
+
+        public void hello()
+        {
+            Debug.Log(orientation);
+        }
+    }
+
 
     public void calculate_Grid()
     {
@@ -46,7 +81,7 @@ public class SetupSupermarket : MonoBehaviour
         Debug.Log("Grid in x: " + grid_size_x);
         Debug.Log("Grid in y: " + grid_size_y);
 
-        // Generate entrance surface
+        // Generate entrance area
         Quaternion entranceRotation = Quaternion.Euler(0, 0, 0);
         entrance_pref.transform.localScale = new Vector3(Random.Range(min_entrance_size, max_entrance_size), 0.5f, Random.Range(min_entrance_size, max_entrance_size));
         Vector3 entrance_size = entrance_pref.transform.localScale;
@@ -54,7 +89,7 @@ public class SetupSupermarket : MonoBehaviour
         GameObject entrance = Instantiate(entrance_pref, entrance_position, entranceRotation, this.transform);
         entrance_tiles.Add(entrance);
 
-        // Generate fruits vegetable surface
+        // Generate fruits vegetable area
         Quaternion fruitsRotation = Quaternion.Euler(0, 0, 0);
         fruits_pref.transform.localScale = new Vector3(entrance_size[0], 0.5f, grid_size_y - entrance_size[2]);
         Vector3 fruits_size = fruits_pref.transform.localScale;
@@ -62,7 +97,7 @@ public class SetupSupermarket : MonoBehaviour
         GameObject fruits = Instantiate(fruits_pref, fruits_position, fruitsRotation, this.transform);
         fruits_tiles.Add(fruits);
 
-        // Generate durablefood surface
+        // Generate durablefood area
         Quaternion durablefoodRotation = Quaternion.Euler(0, 0, 0);
         durablefood_pref.transform.localScale = new Vector3(grid_size_x - entrance_size[0], 0.5f, grid_size_y - entrance_size[2]);
         Vector3 durablefood_size = durablefood_pref.transform.localScale;
@@ -70,7 +105,7 @@ public class SetupSupermarket : MonoBehaviour
         GameObject durablefood = Instantiate(durablefood_pref, durablefood_position, durablefoodRotation, this.transform);
         durablefood_tiles.Add(durablefood);
 
-        // Generate fruits vegetable surface
+        // Generate fruits vegetable area
         Quaternion alcoholRotation = Quaternion.Euler(0, 0, 0);
         alcohol_pref.transform.localScale = new Vector3(grid_size_x - entrance_size[0], 0.5f, entrance_size[2]);
         Vector3 alcohol_size = alcohol_pref.transform.localScale;
@@ -163,7 +198,6 @@ public class SetupSupermarket : MonoBehaviour
                 //take out occupied fruit fields
                 if (grid_hor == grid_size_x - fruits_size[0] && grid_vert == 0)
                 {
-                    Debug.Log(grid_size_x - fruits_size[0]);
                     for (int x_local = 0; x_local < occupied_fruits_grid.GetLength(0); x_local++)
                     {
                         for (int y_local = 0; y_local < occupied_fruits_grid.GetLength(1); y_local++)
@@ -204,8 +238,6 @@ public class SetupSupermarket : MonoBehaviour
                             {
                                 if(toFilledGrid[x_local, y_local] == true)
                                 {
-                                    Debug.Log("occupiedGrids x: " + grid_hor + x_local);
-                                    Debug.Log("occupiedGrids y: " + grid_vert + y_local);
                                     occupiedGrids[grid_hor + x_local, grid_vert + y_local] = true;
                                 }
                             }
@@ -220,8 +252,6 @@ public class SetupSupermarket : MonoBehaviour
                             {
                                 if (toFilledGrid[x_local, y_local] == true)
                                 {
-                                    Debug.Log("occupiedGrids x: " + grid_hor + x_local);
-                                    Debug.Log("occupiedGrids y: " + grid_vert + y_local);
                                     occupiedGrids[grid_hor + x_local, grid_vert + y_local] = true;
                                 }
                             }
@@ -287,7 +317,22 @@ public class SetupSupermarket : MonoBehaviour
         }
     }
 
+    public string calculate_shelve_orientation(int area_horizontal_length, int area_vertical_length)
+    {
+        List<string> possible_orientations = new List<string>();
 
+        if(area_horizontal_length % 3 == 1)
+        {
+            possible_orientations.Add("horizontal");
+        }
+        if(area_vertical_length % 3 == 1)
+        {
+            possible_orientations.Add("vertical");
+        }
+
+        int random_index = Random.Range(0, possible_orientations.Count);
+        return possible_orientations[random_index];
+    }
     // Start is called before the first frame update
     void Start()
     {
