@@ -101,6 +101,7 @@ public class SetupSupermarket : MonoBehaviour
         Vector3 durablefood_position = this.transform.localPosition + new Vector3((durablefood_size[0]/2.0f - grid_size_x / 2.0f), 0.5f, (grid_size_y / 2.0f - durablefood_size[2] / 2.0f));
         GameObject durablefood = Instantiate(durablefood_pref, durablefood_position, durablefoodRotation, this.transform);
         durablefood_tiles.Add(durablefood);
+        Area durablefood_area = new Area(new Vector2Int((int)durablefood_size[0], (int)durablefood_size[2]));
 
         // Generate alcohol area
         Quaternion alcoholRotation = Quaternion.Euler(0, 0, 0);
@@ -147,10 +148,42 @@ public class SetupSupermarket : MonoBehaviour
                     occupied_durablefood_grid[grid_hor, grid_vert] = true;
                 if (grid_vert == 0 || grid_vert == 1 || grid_vert == occupied_durablefood_grid.GetLength(1) - 1)
                     occupied_durablefood_grid[grid_hor, grid_vert] = true;
+                if (durablefood_area.orientation == "horizontal")
+                {
+                    if (occupied_durablefood_grid[grid_hor, grid_vert] == false)
+                    {
+                        toFilledGrid = horizontal_shelve;
+                        for (int x_local = 0; x_local < toFilledGrid.GetLength(0); x_local++)
+                        {
+                            for (int y_local = 0; y_local < toFilledGrid.GetLength(1); y_local++)
+                            {
+                                if (toFilledGrid[x_local, y_local] == true)
+                                {
+                                    occupied_durablefood_grid[grid_hor + y_local, grid_vert + x_local] = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                else if (occupied_durablefood_grid[grid_hor, grid_vert] == false && durablefood_area.orientation == "vertical")
+                {
+                    toFilledGrid = vertical_shelve;
+                    for (int x_local = 0; x_local < toFilledGrid.GetLength(0); x_local++)
+                    {
+                        for (int y_local = 0; y_local < toFilledGrid.GetLength(1); y_local++)
+                        {
+                            if (toFilledGrid[x_local, y_local] == true)
+                            {
+                                occupied_durablefood_grid[grid_hor + y_local, grid_vert + x_local] = true;
+                            }
+                        }
+                    }
+                }
             }
         }
         // Take out at least one field around the edge of the field and 2 to the north and east
-        /*bool[,] occupied_alcohol_grid = new bool[(int)alcohol_size[0], (int)alcohol_size[2]];
+        bool[,] occupied_alcohol_grid = new bool[(int)alcohol_size[0], (int)alcohol_size[2]];
         for (int grid_hor = 0; grid_hor < occupied_alcohol_grid.GetLength(0); grid_hor++)
         {
             for (int grid_vert = 0; grid_vert < occupied_alcohol_grid.GetLength(1); grid_vert++)
@@ -173,7 +206,7 @@ public class SetupSupermarket : MonoBehaviour
                         }
                     }
                 }
-                if (occupied_alcohol_grid[grid_hor, grid_vert] == false && alcohol_area.orientation == "vertical")
+                else if (occupied_alcohol_grid[grid_hor, grid_vert] == false && alcohol_area.orientation == "vertical")
                 {
                     toFilledGrid = vertical_shelve;
                     for (int x_local = 0; x_local < toFilledGrid.GetLength(0); x_local++)
@@ -187,17 +220,8 @@ public class SetupSupermarket : MonoBehaviour
                         }
                     }
                 }
-
-                if (occupied_alcohol_grid[grid_hor, grid_vert] == false)
-                {
-                    float object_offset = 0.5f;
-                    Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
-                    Vector3 object_position = fruits_position + new Vector3((grid_hor + (alcohol_area.area_size[0] / 2.0f) + object_offset), 0.5f, (alcohol_area.area_size[1] / 2.0f) - grid_vert - object_offset);
-                    GameObject new_object = Instantiate(shelf_pref, object_position, object_rotation, this.transform);
-                    shelve_tiles.Add(new_object);
-                }
             }
-        }*/
+        }
         Debug.Log(fruits_area.orientation);
 
         // Take out at least one field around the edge of the field and 2 to the north and east
@@ -231,7 +255,7 @@ public class SetupSupermarket : MonoBehaviour
                         }
                     }
 }
-                if (occupied_fruits_grid[grid_hor, grid_vert] == false && fruits_area.orientation == "vertical")
+                else if (occupied_fruits_grid[grid_hor, grid_vert] == false && fruits_area.orientation == "vertical")
                 {
                     toFilledGrid = vertical_shelve;
                     for (int x_local = 0; x_local < toFilledGrid.GetLength(0); x_local++)
@@ -245,28 +269,16 @@ public class SetupSupermarket : MonoBehaviour
                         }
                     }
                 }
-
-                /*
-                if (occupied_fruits_grid[grid_hor, grid_vert] == false)
-                {
-                    float object_offset = 0.5f;
-                    Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
-                    Vector3 object_position = fruits_position + new Vector3((grid_hor - (fruits_area.area_size[0] / 2.0f) + object_offset), 0.5f, (fruits_area.area_size[1] / 2.0f) - grid_vert - object_offset);
-                    GameObject new_object = Instantiate(shelf_pref, object_position, object_rotation, this.transform);
-                    shelve_tiles.Add(new_object);
-                }*/
-
-
             }
         }
 
         // Take out fields
-        /*
+        
         for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
             for(int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
             {
-
+                
                 //take out occupied durablefood fields
                 if (grid_hor == 0 && grid_vert == 0)
                 {
@@ -315,7 +327,7 @@ public class SetupSupermarket : MonoBehaviour
             }
         }
 
-        
+        /*
         // Spawn shelves
         for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
