@@ -27,6 +27,8 @@ public class SetupSupermarket : MonoBehaviour
                                         {false,false,false}
                                         };
 
+    [SerializeField] private GameObject shelve_wall_tile;
+    [SerializeField] private GameObject[] available_shelves;
 
 
     private List<GameObject> entrance_tiles = new List<GameObject>();
@@ -404,37 +406,41 @@ public class SetupSupermarket : MonoBehaviour
               
         for (int x = 0; x < grid_size_x; x++)
         {
-            float offset = 0.5f;
-            Vector3 shelve_position = this.transform.position + new Vector3((x - (grid_size_x / 2.0f) + offset), 0.5f, (grid_size_y / 2.0f) + offset);
-            Quaternion shelve_rotation = Quaternion.Euler(0, 0, 0);
-            GameObject shelve = Instantiate(shelf_pref, shelve_position, shelve_rotation, this.transform);
+            float offset_x = 0.5f;
+            float offset_y = 0.25f;
+            Vector3 shelve_position = this.transform.position + new Vector3((x - (grid_size_x / 2.0f) + offset_x), 0.8f, (grid_size_y / 2.0f) + offset_y);
+            Quaternion shelve_rotation = Quaternion.Euler(0, -90, 0);
+            GameObject shelve = Instantiate(shelve_wall_tile, shelve_position, shelve_rotation, this.transform);
             shelve_tiles.Add(shelve);
         }
         //Generate south outershelves
         for (int x_entr = 0; x_entr < grid_size_x - entrance_pref.transform.localScale[0]; x_entr++)
         {
-            float offset = 0.5f;
-            Vector3 shelve_position = this.transform.position + new Vector3((x_entr - (grid_size_x / 2.0f) + offset), 0.5f, (-grid_size_y / 2.0f) - offset);
-            Quaternion shelve_rotation = Quaternion.Euler(0, 0, 0);
-            GameObject shelve = Instantiate(shelf_pref, shelve_position, shelve_rotation, this.transform);
+            float offset_x = 0.5f;
+            float offset_y = 0.25f;
+            Vector3 shelve_position = this.transform.position + new Vector3((x_entr - (grid_size_x / 2.0f) + offset_x), 0.8f, (-grid_size_y / 2.0f) - offset_y);
+            Quaternion shelve_rotation = Quaternion.Euler(0, 90, 0);
+            GameObject shelve = Instantiate(shelve_wall_tile, shelve_position, shelve_rotation, this.transform);
             shelve_tiles.Add(shelve);
         }
         //Generate west outershelves
         for (int y = 0; y < grid_size_y; y++)
         {
-            float offset = 0.5f;
-            Vector3 shelve_position = this.transform.position + new Vector3(((-grid_size_x / 2.0f) - offset), 0.5f, y - (grid_size_y / 2.0f) + offset);
-            Quaternion shelve_rotation = Quaternion.Euler(0, 0, 0);
-            GameObject shelve = Instantiate(shelf_pref, shelve_position, shelve_rotation, this.transform);
+            float offset_x = 0.25f;
+            float offset_y = 0.5f;
+            Vector3 shelve_position = this.transform.position + new Vector3(((-grid_size_x / 2.0f) - offset_x), 0.8f, y - (grid_size_y / 2.0f) + offset_y);
+            Quaternion shelve_rotation = Quaternion.Euler(0, 180, 0);
+            GameObject shelve = Instantiate(shelve_wall_tile, shelve_position, shelve_rotation, this.transform);
             shelve_tiles.Add(shelve);
         }
         //Generate east outershelves
         for (int y_entr = (int)entrance_pref.transform.localScale[2]; y_entr < grid_size_y; y_entr++)
         {
-            float offset = 0.5f;
-            Vector3 shelve_position = this.transform.position + new Vector3(((grid_size_x / 2.0f) + offset), 0.5f, y_entr - (grid_size_y / 2.0f) + offset);
+            float offset_x = 0.25f;
+            float offset_y = 0.5f;
+            Vector3 shelve_position = this.transform.position + new Vector3(((grid_size_x / 2.0f) + offset_x), 0.8f, y_entr - (grid_size_y / 2.0f) + offset_y);
             Quaternion shelve_rotation = Quaternion.Euler(0, 0, 0);
-            GameObject shelve = Instantiate(shelf_pref, shelve_position, shelve_rotation, this.transform);
+            GameObject shelve = Instantiate(shelve_wall_tile, shelve_position, shelve_rotation, this.transform);
             shelve_tiles.Add(shelve);
         }
     }
