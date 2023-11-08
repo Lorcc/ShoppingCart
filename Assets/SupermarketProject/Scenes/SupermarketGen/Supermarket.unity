@@ -346,10 +346,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d6d8be9cc23bb54cb6399cd0b7695b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  min_ground_size: 20
-  max_ground_size: 30
-  min_entrance_size: 7
-  max_entrance_size: 9
+  min_ground_size: 10
+  max_ground_size: 20
+  min_entrance_size: 4
+  max_entrance_size: 5
   shelf_pref: {fileID: 3262721733602614305, guid: e21166cdf7d83954e872c748f46972a8, type: 3}
   entrance_pref: {fileID: 906714432143104994, guid: 7b314bce10d84a24085e44ba48313b6e, type: 3}
   fruits_pref: {fileID: 3061980688328652459, guid: 3cec2502bfcbb134eae64e759291c40e, type: 3}

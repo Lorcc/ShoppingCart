@@ -264,7 +264,6 @@ public class SetupSupermarket : MonoBehaviour
 
             }
         }
-        Debug.Log(fruits_area.orientation);
 
         // Take out at least one field around the edge of the field and 2 to the north and east
         bool[,] occupied_fruits_grid = new bool[(int)fruits_size[0], (int)fruits_size[2]];
@@ -438,14 +437,12 @@ public class SetupSupermarket : MonoBehaviour
 
                         if (durablefood_area.orientation == "horizontal")
                         {
-                            Debug.Log("horizontal");
                             object_rotation = Quaternion.Euler(0, 90, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
                             shelve_tiles.Add(new_object);
                         }
                         else
                         {
-                            Debug.Log("vertical");
                             object_rotation = Quaternion.Euler(0, 0, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
                             shelve_tiles.Add(new_object);
@@ -455,14 +452,12 @@ public class SetupSupermarket : MonoBehaviour
                     {
                         if (fruits_area.orientation == "horizontal")
                         {
-                            Debug.Log("horizontal");
                             object_rotation = Quaternion.Euler(0, 90, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
                             shelve_tiles.Add(new_object);
                         }
                         else
                         {
-                            Debug.Log("vertical");
                             object_rotation = Quaternion.Euler(0, 0, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
                             shelve_tiles.Add(new_object);
@@ -472,14 +467,12 @@ public class SetupSupermarket : MonoBehaviour
                     {
                         if (alcohol_area.orientation == "horizontal")
                         {
-                            Debug.Log("horizontal");
                             object_rotation = Quaternion.Euler(0, 90, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
                             shelve_tiles.Add(new_object);
                         }
                         else
                         {
-                            Debug.Log("vertical");
                             object_rotation = Quaternion.Euler(0, 0, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
                             shelve_tiles.Add(new_object);
