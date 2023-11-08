@@ -58,12 +58,12 @@ public class SetupSupermarket : MonoBehaviour
             }
             if (area_vertical_length % 3 == 1)
             {
-                possible_orientations.Add("horizontal");
+                possible_orientations.Add("vertical");
             }
             //TODO random machen
             if(possible_orientations.Count == 0)
             {
-                possible_orientations.Add("horizontal");
+                possible_orientations.Add("vertical");
             }
             int random_index = Random.Range(0, possible_orientations.Count);
             return possible_orientations[random_index];
@@ -150,32 +150,48 @@ public class SetupSupermarket : MonoBehaviour
                     occupied_durablefood_grid[grid_hor, grid_vert] = true;
                 if (durablefood_area.orientation == "horizontal")
                 {
+                    toFilledGrid = horizontal_shelve;
                     if (occupied_durablefood_grid[grid_hor, grid_vert] == false)
                     {
-                        toFilledGrid = horizontal_shelve;
-                        for (int x_local = 0; x_local < toFilledGrid.GetLength(0); x_local++)
+                        if ((occupied_durablefood_grid.GetLength(1) % 3 == 1) && (grid_vert == occupied_durablefood_grid.GetLength(1) - 2))
                         {
-                            for (int y_local = 0; y_local < toFilledGrid.GetLength(1); y_local++)
+                            // empty so that there is false in this row without using the horizontal_shelve which would break the thing
+                        }
+                        else
+                        {
+                            for (int x_local = 0; x_local < toFilledGrid.GetLength(0); x_local++)
                             {
-                                if (toFilledGrid[x_local, y_local] == true)
+                                for (int y_local = 0; y_local < toFilledGrid.GetLength(1); y_local++)
                                 {
-                                    occupied_durablefood_grid[grid_hor + y_local, grid_vert + x_local] = true;
+                                    if (toFilledGrid[x_local, y_local] == true)
+                                    {
+                                        occupied_durablefood_grid[grid_hor + y_local, grid_vert + x_local] = true;
+                                    }
                                 }
                             }
                         }
                     }
                 }
-                
-                else if (occupied_durablefood_grid[grid_hor, grid_vert] == false && durablefood_area.orientation == "vertical")
+                else if (durablefood_area.orientation == "vertical")
                 {
                     toFilledGrid = vertical_shelve;
-                    for (int x_local = 0; x_local < toFilledGrid.GetLength(0); x_local++)
+                    if (occupied_durablefood_grid[grid_hor, grid_vert] == false)
                     {
-                        for (int y_local = 0; y_local < toFilledGrid.GetLength(1); y_local++)
+                        if ((occupied_durablefood_grid.GetLength(0) % 3 == 1) && (grid_hor == occupied_durablefood_grid.GetLength(0) - 2))
                         {
-                            if (toFilledGrid[x_local, y_local] == true)
+
+                        }
+                        else
+                        {
+                            for (int x_local = 0; x_local < toFilledGrid.GetLength(0); x_local++)
                             {
-                                occupied_durablefood_grid[grid_hor + y_local, grid_vert + x_local] = true;
+                                for (int y_local = 0; y_local < toFilledGrid.GetLength(1); y_local++)
+                                {
+                                    if (toFilledGrid[x_local, y_local] == true)
+                                    {
+                                        occupied_durablefood_grid[grid_hor + y_local, grid_vert + x_local] = true;
+                                    }
+                                }
                             }
                         }
                     }
