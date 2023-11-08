@@ -41,6 +41,7 @@ public class SetupSupermarket : MonoBehaviour
         public string orientation;
         public List<GameObject> ground_tiles = new List<GameObject>();
 
+
         public Area(Vector2Int size)
         {
             area_size = size;
@@ -57,12 +58,12 @@ public class SetupSupermarket : MonoBehaviour
             }
             if (area_vertical_length % 3 == 1)
             {
-                possible_orientations.Add("vertical");
+                possible_orientations.Add("horizontal");
             }
             //TODO random machen
             if(possible_orientations.Count == 0)
             {
-                possible_orientations.Add("vertical");
+                possible_orientations.Add("horizontal");
             }
             int random_index = Random.Range(0, possible_orientations.Count);
             return possible_orientations[random_index];
@@ -108,6 +109,7 @@ public class SetupSupermarket : MonoBehaviour
         Vector3 alcohol_position = this.transform.localPosition + new Vector3((alcohol_size[0] / 2.0f - grid_size_x / 2.0f), 0.5f, (-grid_size_y / 2.0f + alcohol_size[2] / 2.0f));
         GameObject alcohol = Instantiate(alcohol_pref, alcohol_position, alcoholRotation, this.transform);
         alcohol_tiles.Add(alcohol);
+        Area alcohol_area = new Area(new Vector2Int((int)alcohol_size[0], (int)alcohol_size[2]));
 
         // Generate fruits vegetable area
         Quaternion fruitsRotation = Quaternion.Euler(0, 0, 0);
@@ -148,18 +150,56 @@ public class SetupSupermarket : MonoBehaviour
             }
         }
         // Take out at least one field around the edge of the field and 2 to the north and east
-        bool[,] occupied_alcohol_grid = new bool[(int)alcohol_size[0], (int)alcohol_size[2]];
+        /*bool[,] occupied_alcohol_grid = new bool[(int)alcohol_size[0], (int)alcohol_size[2]];
         for (int grid_hor = 0; grid_hor < occupied_alcohol_grid.GetLength(0); grid_hor++)
         {
             for (int grid_vert = 0; grid_vert < occupied_alcohol_grid.GetLength(1); grid_vert++)
             {
-                if (grid_hor == 0 || grid_hor == 1 || grid_hor == occupied_alcohol_grid.GetLength(0) - 1)
+                if (grid_hor == 0 || grid_hor == 1 || grid_hor == occupied_alcohol_grid.GetLength(0) - 2 ||  grid_hor == occupied_alcohol_grid.GetLength(0) - 1)
                     occupied_alcohol_grid[grid_hor, grid_vert] = true;
                 if (grid_vert == 0 || grid_vert == occupied_alcohol_grid.GetLength(1) - 2 || grid_vert == occupied_alcohol_grid.GetLength(1) - 1)
                     occupied_alcohol_grid[grid_hor, grid_vert] = true;
+                if (occupied_alcohol_grid[grid_hor, grid_vert] == false && alcohol_area.orientation == "horizontal")
+                {
+                    toFilledGrid = horizontal_shelve;
+                    for (int x_local = 0; x_local < toFilledGrid.GetLength(0); x_local++)
+                    {
+                        for (int y_local = 0; y_local < toFilledGrid.GetLength(1); y_local++)
+                        {
+                            if (toFilledGrid[x_local, y_local] == true)
+                            {
+                                occupied_alcohol_grid[grid_hor + y_local, grid_vert + x_local] = true;
+                            }
+                        }
+                    }
+                }
+                if (occupied_alcohol_grid[grid_hor, grid_vert] == false && alcohol_area.orientation == "vertical")
+                {
+                    toFilledGrid = vertical_shelve;
+                    for (int x_local = 0; x_local < toFilledGrid.GetLength(0); x_local++)
+                    {
+                        for (int y_local = 0; y_local < toFilledGrid.GetLength(1); y_local++)
+                        {
+                            if (toFilledGrid[x_local, y_local] == true)
+                            {
+                                occupied_alcohol_grid[grid_hor + y_local, grid_vert + x_local] = true;
+                            }
+                        }
+                    }
+                }
+
+                if (occupied_alcohol_grid[grid_hor, grid_vert] == false)
+                {
+                    float object_offset = 0.5f;
+                    Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
+                    Vector3 object_position = fruits_position + new Vector3((grid_hor + (alcohol_area.area_size[0] / 2.0f) + object_offset), 0.5f, (alcohol_area.area_size[1] / 2.0f) - grid_vert - object_offset);
+                    GameObject new_object = Instantiate(shelf_pref, object_position, object_rotation, this.transform);
+                    shelve_tiles.Add(new_object);
+                }
             }
-        }
+        }*/
         Debug.Log(fruits_area.orientation);
+
         // Take out at least one field around the edge of the field and 2 to the north and east
         bool[,] occupied_fruits_grid = new bool[(int)fruits_size[0], (int)fruits_size[2]];
         for (int grid_hor = 0; grid_hor < occupied_fruits_grid.GetLength(0); grid_hor++)
@@ -168,7 +208,7 @@ public class SetupSupermarket : MonoBehaviour
             {
                 if (grid_hor == 0 || grid_hor == occupied_fruits_grid.GetLength(0) - 2 || grid_hor == occupied_fruits_grid.GetLength(0) - 1)
                     occupied_fruits_grid[grid_hor, grid_vert] = true;
-                if (grid_vert == 0 || grid_vert == 1 || grid_vert == occupied_fruits_grid.GetLength(1) - 1)
+                if (grid_vert == 0 || grid_vert == 1 || grid_vert == occupied_fruits_grid.GetLength(1) - 2 || grid_vert == occupied_fruits_grid.GetLength(1) - 1)
                     occupied_fruits_grid[grid_hor, grid_vert] = true;
                 if (occupied_fruits_grid[grid_hor, grid_vert] == false && fruits_area.orientation == "horizontal")
                 {
@@ -205,6 +245,8 @@ public class SetupSupermarket : MonoBehaviour
                         }
                     }
                 }
+
+                /*
                 if (occupied_fruits_grid[grid_hor, grid_vert] == false)
                 {
                     float object_offset = 0.5f;
@@ -212,13 +254,14 @@ public class SetupSupermarket : MonoBehaviour
                     Vector3 object_position = fruits_position + new Vector3((grid_hor - (fruits_area.area_size[0] / 2.0f) + object_offset), 0.5f, (fruits_area.area_size[1] / 2.0f) - grid_vert - object_offset);
                     GameObject new_object = Instantiate(shelf_pref, object_position, object_rotation, this.transform);
                     shelve_tiles.Add(new_object);
-                }
+                }*/
 
 
             }
         }
 
         // Take out fields
+        /*
         for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
             for(int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
@@ -272,7 +315,7 @@ public class SetupSupermarket : MonoBehaviour
             }
         }
 
-        /*
+        
         // Spawn shelves
         for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
@@ -310,7 +353,7 @@ public class SetupSupermarket : MonoBehaviour
                     }
                 }
             }
-        }
+        }*/
         
         for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
@@ -325,7 +368,7 @@ public class SetupSupermarket : MonoBehaviour
                     shelve_tiles.Add(new_object);
                 }
             }
-        }*/
+        }
 
 
         // Generate north outershelves
@@ -368,22 +411,7 @@ public class SetupSupermarket : MonoBehaviour
         }
     }
 
-    public string calculate_shelve_orientation(int area_horizontal_length, int area_vertical_length)
-    {
-        List<string> possible_orientations = new List<string>();
 
-        if(area_horizontal_length % 3 == 1)
-        {
-            possible_orientations.Add("horizontal");
-        }
-        if(area_vertical_length % 3 == 1)
-        {
-            possible_orientations.Add("vertical");
-        }
-
-        int random_index = Random.Range(0, possible_orientations.Count);
-        return possible_orientations[random_index];
-    }
     // Start is called before the first frame update
     void Start()
     {
