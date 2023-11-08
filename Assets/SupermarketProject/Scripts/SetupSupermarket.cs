@@ -393,9 +393,69 @@ public class SetupSupermarket : MonoBehaviour
                 {
                     float object_offset = 0.5f;
                     Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
-                    Vector3 object_position= this.transform.localPosition + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.5f, (grid_size_y / 2.0f) - grid_vert - object_offset);
-                    GameObject new_object = Instantiate(shelf_pref, object_position, object_rotation, this.transform);
-                    shelve_tiles.Add(new_object);
+                    Vector3 object_position = this.transform.localPosition + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
+
+                    //durablefood area
+                    if (grid_hor < durablefood_area.area_size[0] && grid_vert < durablefood_area.area_size[1])
+                    {
+
+                        if (durablefood_area.orientation == "horizontal")
+                        {
+                            Debug.Log("horizontal");
+                            object_rotation = Quaternion.Euler(0, 90, 0);
+                            GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
+                            shelve_tiles.Add(new_object);
+                        }
+                        else
+                        {
+                            Debug.Log("vertical");
+                            object_rotation = Quaternion.Euler(0, 0, 0);
+                            GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
+                            shelve_tiles.Add(new_object);
+                        }
+                    }
+                    else if (grid_hor >= grid_size_x - fruits_area.area_size[0] && grid_vert < fruits_area.area_size[1])
+                    {
+                        if (fruits_area.orientation == "horizontal")
+                        {
+                            Debug.Log("horizontal");
+                            object_rotation = Quaternion.Euler(0, 90, 0);
+                            GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
+                            shelve_tiles.Add(new_object);
+                        }
+                        else
+                        {
+                            Debug.Log("vertical");
+                            object_rotation = Quaternion.Euler(0, 0, 0);
+                            GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
+                            shelve_tiles.Add(new_object);
+                        }
+                    }
+                    else if (grid_hor < alcohol_area.area_size[0] && grid_vert >= grid_size_y - alcohol_area.area_size[1])
+                    {
+                        if (alcohol_area.orientation == "horizontal")
+                        {
+                            Debug.Log("horizontal");
+                            object_rotation = Quaternion.Euler(0, 90, 0);
+                            GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
+                            shelve_tiles.Add(new_object);
+                        }
+                        else
+                        {
+                            Debug.Log("vertical");
+                            object_rotation = Quaternion.Euler(0, 0, 0);
+                            GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
+                            shelve_tiles.Add(new_object);
+                        }
+                        
+                    }
+                    /**** spawn red cubes ****
+                    else
+                    {
+                        GameObject new_object = Instantiate(shelf_pref, object_position, object_rotation, this.transform);
+                        shelve_tiles.Add(new_object);
+                    }
+                    **************************/
                 }
             }
         }

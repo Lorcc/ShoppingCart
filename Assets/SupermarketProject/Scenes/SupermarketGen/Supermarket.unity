@@ -348,13 +348,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   min_ground_size: 20
   max_ground_size: 30
-  min_entrance_size: 6
-  max_entrance_size: 8
+  min_entrance_size: 7
+  max_entrance_size: 9
   shelf_pref: {fileID: 3262721733602614305, guid: e21166cdf7d83954e872c748f46972a8, type: 3}
   entrance_pref: {fileID: 906714432143104994, guid: 7b314bce10d84a24085e44ba48313b6e, type: 3}
   fruits_pref: {fileID: 3061980688328652459, guid: 3cec2502bfcbb134eae64e759291c40e, type: 3}
   durablefood_pref: {fileID: 2548879541000398908, guid: 10a46780fb13ede42b5ccd21452f0e1d, type: 3}
   alcohol_pref: {fileID: 5422409323214981426, guid: 94576245bf33b9c46a1d524bd94053dc, type: 3}
+  shelve_wall_tile: {fileID: 9105874131369534015, guid: 5fe4cb81de5e3be4ab7df97c760b1375, type: 3}
+  available_shelves:
+  - {fileID: 8465602949897579274, guid: aa54595542013f94ea7a557c265c295c, type: 3}
 --- !u!1 &2044154887
 GameObject:
   m_ObjectHideFlags: 0
