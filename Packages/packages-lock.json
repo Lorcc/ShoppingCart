@@ -97,7 +97,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ml-agents": {
-      "version": "file:C:/Users/Marc/Documents/Studiumsstuff/Masterarbeit/ml-agents-release_20/ml-agents-release_20/com.unity.ml-agents",
+      "version": "file:D:/Studiumsstuff/Masterarbeit/ml-agents-release_20/ml-agents-release_20/com.unity.ml-agents",
       "depth": 0,
       "source": "local",
       "dependencies": {
@@ -107,7 +107,7 @@
       }
     },
     "com.unity.ml-agents.extensions": {
-      "version": "file:C:/Users/Marc/Documents/Studiumsstuff/Masterarbeit/ml-agents-release_20/ml-agents-release_20/com.unity.ml-agents.extensions",
+      "version": "file:D:/Studiumsstuff/Masterarbeit/ml-agents-release_20/ml-agents-release_20/com.unity.ml-agents.extensions",
       "depth": 0,
       "source": "local",
       "dependencies": {
