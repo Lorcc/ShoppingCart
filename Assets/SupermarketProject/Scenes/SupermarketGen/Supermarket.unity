@@ -357,7 +357,7 @@ MonoBehaviour:
   alcohol_pref: {fileID: 5422409323214981426, guid: 94576245bf33b9c46a1d524bd94053dc, type: 3}
   shelve_wall_tile: {fileID: 9105874131369534015, guid: 5fe4cb81de5e3be4ab7df97c760b1375, type: 3}
   available_shelves:
-  - {fileID: 8465602949897579274, guid: aa54595542013f94ea7a557c265c295c, type: 3}
+  - {fileID: 3577151186742716460, guid: 654eab21b4631c14d83ede6fc96c1fa9, type: 3}
 --- !u!1 &2044154887
 GameObject:
   m_ObjectHideFlags: 0
