@@ -10,6 +10,8 @@ public class SetupSupermarket : MonoBehaviour
     [SerializeField] private int min_entrance_size = 6;
     [SerializeField] private int max_entrance_size = 7;
 
+    [SerializeField] private int number_of_items_to_purchase = 1;
+
     [SerializeField] private GameObject shelf_pref;
     [SerializeField] private GameObject entrance_pref;
     [SerializeField] private GameObject fruits_pref;
@@ -381,52 +383,37 @@ public class SetupSupermarket : MonoBehaviour
             }
         }
 
-        /*
-        // Spawn shelves
-        for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+
+        //get number of spawned shelves in the inner Part
+        int number_of_shelves = 0;
+        for (int i = 0; i < grid_size_x; i++)
         {
-            for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+            for(int k = 0; k < grid_size_y; k++)
             {
-                if(occupiedGrids[grid_hor, grid_vert] == false)
-                {
-                    if (horizontal_spawn)
-                    {
-                        toFilledGrid = horizontal_shelve;
-                        for (int x_local = 0; x_local < toFilledGrid.GetLength(0); x_local++)
-                        {
-                            for (int y_local = 0; y_local < toFilledGrid.GetLength(1); y_local++)
-                            {
-                                if(toFilledGrid[x_local, y_local] == true)
-                                {
-                                    occupiedGrids[grid_hor + x_local, grid_vert + y_local] = true;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        toFilledGrid = vertical_shelve;
-                        for (int x_local = 0; x_local < toFilledGrid.GetLength(0); x_local++)
-                        {
-                            for (int y_local = 0; y_local < toFilledGrid.GetLength(1); y_local++)
-                            {
-                                if (toFilledGrid[x_local, y_local] == true)
-                                {
-                                    occupiedGrids[grid_hor + x_local, grid_vert + y_local] = true;
-                                }
-                            }
-                        }
-                    }
-                }
+                if (occupiedGrids[i, k] == false) number_of_shelves++;
             }
-        }*/
-        
+        }
+
+        //***Spawn Shelves***//
         for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
             for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
             {
                 if (occupiedGrids[grid_hor, grid_vert] == false)
                 {
+                    bool spawn_food_to_purchase = false;
+                    if (number_of_items_to_purchase > 0)
+                    {
+                        float random_number = Random.Range(0.0f, 1.0f);
+
+                        if (random_number < ((float)number_of_items_to_purchase / (float)number_of_shelves))
+                        {
+                            spawn_food_to_purchase = true;
+                            number_of_items_to_purchase--;
+                        }
+                        number_of_shelves--;
+                    }
+
                     float object_offset = 0.5f;
                     Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
                     Vector3 object_position = this.transform.localPosition + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
@@ -448,6 +435,7 @@ public class SetupSupermarket : MonoBehaviour
                             shelve_tiles.Add(new_object);
                         }
                     }
+                    //fruit area
                     else if (grid_hor >= grid_size_x - fruits_area.area_size[0] && grid_vert < fruits_area.area_size[1])
                     {
                         if (fruits_area.orientation == "horizontal")
@@ -463,6 +451,7 @@ public class SetupSupermarket : MonoBehaviour
                             shelve_tiles.Add(new_object);
                         }
                     }
+                    // alcohol area
                     else if (grid_hor < alcohol_area.area_size[0] && grid_vert >= grid_size_y - alcohol_area.area_size[1])
                     {
                         if (alcohol_area.orientation == "horizontal")
