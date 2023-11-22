@@ -11,7 +11,7 @@ public class FoodSpawner : MonoBehaviour
     private float[] scale_value = { 0.75f, 1.25f } ;
     private List<GameObject> all_items = new List<GameObject>();
     private int number_of_items_per_row = 3;
-    // Start is called before the first frame update
+
     void Start()
     {
         Vector3 item_scale = new Vector3(Random.Range(scale_value[0], scale_value[1]), Random.Range(scale_value[0], scale_value[1]), 1);
@@ -24,12 +24,6 @@ public class FoodSpawner : MonoBehaviour
             new_object.transform.localScale = item_scale;
             all_items.Add(new_object);
         }
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         
     }
 }

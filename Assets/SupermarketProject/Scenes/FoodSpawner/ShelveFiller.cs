@@ -8,22 +8,71 @@ public class ShelveFiller : MonoBehaviour
 
     private GameObject generalizer;
 
-    public void hello(int section)
+    int counter;
+    public void spawn_purchable_item(int section)
     {
-        Debug.Log("moin");
+        int counter = generalizer.transform.childCount;
         if ((Section)section == Section.Durable)
         {
             foreach(Transform child in generalizer.transform)
             {
-                PurchableFoodSpawner purchable_food_script = child.GetChild(0).GetComponent<PurchableFoodSpawner>();
-                if (purchable_food_script != null)
+
+                float random_number = Random.Range(0.0f, 1.0f);
+
+                if (random_number < (1.0f / (float)counter))
                 {
-                    purchable_food_script.spawn_durable_item();
-                    Debug.Log(purchable_food_script.transform.position);
+                    PurchableFoodSpawner purchable_food_script = child.GetChild(0).GetComponent<PurchableFoodSpawner>();
+                    if (purchable_food_script != null)
+                    {
+                        purchable_food_script.spawn_durable_item();
+                        Debug.Log(purchable_food_script.transform.position);
+                        break;
+                    }
                 }
+                counter--;
+            }
+        }
+        else if ((Section)section == Section.Fruit)
+        {
+            foreach (Transform child in generalizer.transform)
+            {
+
+                float random_number = Random.Range(0.0f, 1.0f);
+
+                if (random_number < (1.0f / (float)counter))
+                {
+                    PurchableFoodSpawner purchable_food_script = child.GetChild(0).GetComponent<PurchableFoodSpawner>();
+                    if (purchable_food_script != null)
+                    {
+                        purchable_food_script.spawn_fruit_item();
+                        Debug.Log(purchable_food_script.transform.position);
+                        break;
+                    }
+                }
+                counter--;
+            }
+        }
+        else if ((Section)section == Section.Drinks)
+        {
+            foreach (Transform child in generalizer.transform)
+            {
+                float random_number = Random.Range(0.0f, 1.0f);
+
+                if (random_number < (1.0f / (float)counter))
+                {
+                    PurchableFoodSpawner purchable_food_script = child.GetChild(0).GetComponent<PurchableFoodSpawner>();
+                    if (purchable_food_script != null)
+                    {
+                        purchable_food_script.spawn_drinks_item();
+                        Debug.Log(purchable_food_script.transform.position);
+                        break;
+                    }
+                }
+                counter--;
             }
         }
     }
+
     private void Awake()
     {
         generalizer = this.transform.GetChild(0).gameObject;

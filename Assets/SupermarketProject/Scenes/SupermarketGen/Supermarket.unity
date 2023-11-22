@@ -350,7 +350,7 @@ MonoBehaviour:
   max_ground_size: 20
   min_entrance_size: 4
   max_entrance_size: 5
-  number_of_items_to_purchase: 1
+  number_of_items_to_purchase: 10
   shelf_pref: {fileID: 3262721733602614305, guid: e21166cdf7d83954e872c748f46972a8, type: 3}
   entrance_pref: {fileID: 906714432143104994, guid: 7b314bce10d84a24085e44ba48313b6e, type: 3}
   fruits_pref: {fileID: 3061980688328652459, guid: 3cec2502bfcbb134eae64e759291c40e, type: 3}
