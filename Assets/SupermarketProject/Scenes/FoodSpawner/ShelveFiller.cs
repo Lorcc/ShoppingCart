@@ -15,10 +15,11 @@ public class ShelveFiller : MonoBehaviour
         {
             foreach(Transform child in generalizer.transform)
             {
-                PurchableFoodSpawner purchable_food_script = child.GetComponent<PurchableFoodSpawner>();
+                PurchableFoodSpawner purchable_food_script = child.GetChild(0).GetComponent<PurchableFoodSpawner>();
                 if (purchable_food_script != null)
                 {
-                    Debug.Log("hello");
+                    purchable_food_script.spawn_durable_item();
+                    Debug.Log(purchable_food_script.transform.position);
                 }
             }
         }
