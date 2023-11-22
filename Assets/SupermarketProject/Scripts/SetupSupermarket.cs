@@ -39,6 +39,8 @@ public class SetupSupermarket : MonoBehaviour
     private List<GameObject> alcohol_tiles = new List<GameObject>();
     private List<GameObject> shelve_tiles = new List<GameObject>();
 
+    enum Section { Fruit, Durable, Drinks}
+
    public class Area
     {
         public Vector2Int area_size;
@@ -427,12 +429,22 @@ public class SetupSupermarket : MonoBehaviour
                             object_rotation = Quaternion.Euler(0, 90, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
                             shelve_tiles.Add(new_object);
+                            if(spawn_food_to_purchase == true)
+                            {
+                                Section obj = Section.Durable;
+                                new_object.GetComponent<ShelveFiller>().hello((int)obj);
+                            }
                         }
                         else
                         {
                             object_rotation = Quaternion.Euler(0, 0, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
                             shelve_tiles.Add(new_object);
+                            if (spawn_food_to_purchase == true)
+                            {
+                                Section obj = Section.Durable;
+                                new_object.GetComponent<ShelveFiller>().hello((int)obj);
+                            }
                         }
                     }
                     //fruit area

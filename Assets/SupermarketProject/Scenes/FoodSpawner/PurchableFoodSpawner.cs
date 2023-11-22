@@ -11,7 +11,7 @@ public class PurchableFoodSpawner : MonoBehaviour
     private List<GameObject> all_items = new List<GameObject>();
     // Start is called before the first frame update
 
-    void spawn_durable_item()
+    public void spawn_durable_item()
     {
         Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
         GameObject new_object = Instantiate(durableable_food_items, this.transform);
