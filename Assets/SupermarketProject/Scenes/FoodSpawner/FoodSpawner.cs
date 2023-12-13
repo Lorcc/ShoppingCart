@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Spawns greyed out items with random scale in shelves
 public class FoodSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] durableable_food_items;

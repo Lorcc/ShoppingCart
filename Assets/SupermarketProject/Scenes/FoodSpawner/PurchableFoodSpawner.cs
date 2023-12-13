@@ -5,7 +5,7 @@ using UnityEngine;
 public class PurchableFoodSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject durableable_food_items;
-    [SerializeField] private GameObject alcohol_items;
+    [SerializeField] private GameObject beverages_items;
     [SerializeField] private GameObject fruit_items;
 
     private List<GameObject> all_items = new List<GameObject>();
@@ -17,7 +17,7 @@ public class PurchableFoodSpawner : MonoBehaviour
     }
     public void spawn_drinks_item()
     {
-        GameObject new_object = Instantiate(alcohol_items, this.transform);
+        GameObject new_object = Instantiate(beverages_items, this.transform);
         all_items.Add(new_object);
     }
     public void spawn_fruit_item()

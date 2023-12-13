@@ -21,11 +21,11 @@ public class ShelveFiller : MonoBehaviour
 
                 if (random_number < (1.0f / (float)counter))
                 {
-                    PurchableFoodSpawner purchable_food_script = child.GetChild(0).GetComponent<PurchableFoodSpawner>();
+                    PurchableFoodSpawner purchable_food_script = child.GetComponent<PurchableFoodSpawner>();
                     if (purchable_food_script != null)
                     {
                         purchable_food_script.spawn_durable_item();
-                        Debug.Log(purchable_food_script.transform.position);
+                        Debug.Log(purchable_food_script.transform.localPosition);
                         break;
                     }
                 }
@@ -41,11 +41,11 @@ public class ShelveFiller : MonoBehaviour
 
                 if (random_number < (1.0f / (float)counter))
                 {
-                    PurchableFoodSpawner purchable_food_script = child.GetChild(0).GetComponent<PurchableFoodSpawner>();
+                    PurchableFoodSpawner purchable_food_script = child.GetComponent<PurchableFoodSpawner>();
                     if (purchable_food_script != null)
                     {
                         purchable_food_script.spawn_fruit_item();
-                        Debug.Log(purchable_food_script.transform.position);
+                        Debug.Log(purchable_food_script.transform.localPosition);
                         break;
                     }
                 }
@@ -60,11 +60,11 @@ public class ShelveFiller : MonoBehaviour
 
                 if (random_number < (1.0f / (float)counter))
                 {
-                    PurchableFoodSpawner purchable_food_script = child.GetChild(0).GetComponent<PurchableFoodSpawner>();
+                    PurchableFoodSpawner purchable_food_script = child.GetComponent<PurchableFoodSpawner>();
                     if (purchable_food_script != null)
                     {
                         purchable_food_script.spawn_drinks_item();
-                        Debug.Log(purchable_food_script.transform.position);
+                        Debug.Log(purchable_food_script.transform.localPosition);
                         break;
                     }
                 }
@@ -75,6 +75,7 @@ public class ShelveFiller : MonoBehaviour
 
     private void Awake()
     {
+        // Gets purchable_food group from the scene
         generalizer = this.transform.GetChild(0).gameObject;
     }
     // Start is called before the first frame update
