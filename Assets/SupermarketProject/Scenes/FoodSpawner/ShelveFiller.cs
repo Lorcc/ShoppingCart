@@ -9,8 +9,9 @@ public class ShelveFiller : MonoBehaviour
     private GameObject generalizer;
 
     int counter;
-    public void spawn_purchable_item(int section)
+    public Vector3 spawn_purchable_item(int section)
     {
+        Vector3 p_item_position = new Vector3();
         int counter = generalizer.transform.childCount;
         if ((Section)section == Section.Durable)
         {
@@ -25,7 +26,7 @@ public class ShelveFiller : MonoBehaviour
                     if (purchable_food_script != null)
                     {
                         purchable_food_script.spawn_durable_item();
-                        Debug.Log(purchable_food_script.transform.localPosition);
+                        p_item_position = purchable_food_script.transform.localPosition;
                         break;
                     }
                 }
@@ -45,7 +46,7 @@ public class ShelveFiller : MonoBehaviour
                     if (purchable_food_script != null)
                     {
                         purchable_food_script.spawn_fruit_item();
-                        Debug.Log(purchable_food_script.transform.localPosition);
+                        p_item_position = purchable_food_script.transform.localPosition;
                         break;
                     }
                 }
@@ -64,13 +65,14 @@ public class ShelveFiller : MonoBehaviour
                     if (purchable_food_script != null)
                     {
                         purchable_food_script.spawn_drinks_item();
-                        Debug.Log(purchable_food_script.transform.localPosition);
+                        p_item_position = purchable_food_script.transform.localPosition;
                         break;
                     }
                 }
                 counter--;
             }
         }
+        return p_item_position;
     }
 
     private void Awake()

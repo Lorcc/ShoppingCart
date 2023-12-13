@@ -39,6 +39,10 @@ public class SetupSupermarket : MonoBehaviour
     private List<GameObject> alcohol_tiles = new List<GameObject>();
     private List<GameObject> shelve_tiles = new List<GameObject>();
 
+
+    // List with the positions for A*
+    private List<Vector2> goal_positions_2d = new List<Vector2>();
+
     enum Section { Fruit, Durable, Drinks}
 
    public class Area
@@ -420,6 +424,9 @@ public class SetupSupermarket : MonoBehaviour
                     Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
                     Vector3 object_position = this.transform.localPosition + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
 
+                    Vector3 temp_position = new Vector3();
+                    Vector2 temp_goal_position = new Vector2();
+
                     //durablefood area
                     if (grid_hor < durablefood_area.area_size[0] && grid_vert < durablefood_area.area_size[1])
                     {
@@ -432,7 +439,11 @@ public class SetupSupermarket : MonoBehaviour
                             if(spawn_food_to_purchase == true)
                             {
                                 Section obj = Section.Durable;
-                                new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
+                                temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
+
+                                //Calculation
+                                temp_goal_position = calculate_goal_position_horizontal(object_position, temp_position);
+                                goal_positions_2d.Add(temp_goal_position);
                             }
                         }
                         else
@@ -443,7 +454,11 @@ public class SetupSupermarket : MonoBehaviour
                             if (spawn_food_to_purchase == true)
                             {
                                 Section obj = Section.Durable;
-                                new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
+                                temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
+
+                                //Calculation
+                                temp_goal_position = calculate_goal_position_vertical(object_position, temp_position);
+                                goal_positions_2d.Add(temp_goal_position);
                             }
                         }
                     }
@@ -554,8 +569,47 @@ public class SetupSupermarket : MonoBehaviour
             GameObject shelve = Instantiate(shelve_wall_tile, shelve_position, shelve_rotation, this.transform);
             shelve_tiles.Add(shelve);
         }
+
+        for (int i = 0; i < goal_positions_2d.Count; i++)
+        {
+            Debug.Log(goal_positions_2d[i]);
+        }
     }
 
+    public Vector2 calculate_goal_position_horizontal(Vector3 shelve_position, Vector3 p_item_position)
+    {
+        Vector2 goal_pos = new Vector2();
+        goal_pos.x = shelve_position.x;
+
+        if (p_item_position[0] < 0)
+        {
+            goal_pos.y = shelve_position.z + 1; 
+        }
+        else
+        {
+            goal_pos.y = shelve_position.z - 1;
+        }
+        
+
+        return goal_pos;
+    }
+
+    public Vector2 calculate_goal_position_vertical(Vector3 shelve_position, Vector3 p_item_position)
+    {
+        Vector2 goal_pos = new Vector2();
+        goal_pos.y = shelve_position.z;
+
+        if (p_item_position[0] < 0)
+        {
+            goal_pos.x = shelve_position.x - 1;
+        }
+        else
+        {
+            goal_pos.x = shelve_position.x + 1;
+        }
+
+        return goal_pos;
+    }
 
     // Start is called before the first frame update
     void Start()
