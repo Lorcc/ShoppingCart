@@ -42,6 +42,7 @@ public class SetupSupermarket : MonoBehaviour
 
     // List with the positions for A*
     private List<Vector2> goal_positions_2d = new List<Vector2>();
+    private Vector2 agent_starting_position = new Vector2();
 
     enum Section { Fruit, Durable, Drinks}
 
@@ -104,6 +105,8 @@ public class SetupSupermarket : MonoBehaviour
         GameObject entrance = Instantiate(entrance_pref, entrance_position, entranceRotation, this.transform);
         entrance_tiles.Add(entrance);
 
+
+
         // Generate durablefood area
         Quaternion durablefoodRotation = Quaternion.Euler(0, 0, 0);
         durablefood_pref.transform.localScale = new Vector3(grid_size_x - entrance_size[0], 0.5f, grid_size_y - entrance_size[2]);
@@ -113,7 +116,7 @@ public class SetupSupermarket : MonoBehaviour
         durablefood_tiles.Add(durablefood);
         Area durablefood_area = new Area(new Vector2Int((int)durablefood_size[0], (int)durablefood_size[2]));
 
-        // Generate alcohol area
+        // Generate beverages area
         Quaternion alcoholRotation = Quaternion.Euler(0, 0, 0);
         alcohol_pref.transform.localScale = new Vector3(grid_size_x - entrance_size[0], 0.5f, entrance_size[2]);
         Vector3 alcohol_size = alcohol_pref.transform.localScale;
@@ -582,6 +585,10 @@ public class SetupSupermarket : MonoBehaviour
             shelve_tiles.Add(shelve);
         }
 
+        ////////// Agent Position //////////
+        agent_starting_position = calculate_agent_starting_position(entrance_position, entrance_size);
+        Debug.Log("Agent starting position: " + agent_starting_position);
+
         for (int i = 0; i < goal_positions_2d.Count; i++)
         {
             Debug.Log(goal_positions_2d[i]);
@@ -620,6 +627,21 @@ public class SetupSupermarket : MonoBehaviour
         }
 
         return goal_pos;
+    }
+
+    /// <summary>
+    /// calculate Agent starting position in dependencie of the entrence,
+    /// the position is always the third 1x1 square from the right and the first field in the fruits area
+    /// </summary>
+    /// <param name="entrance_position">Position of the entrance </param>
+    /// <param name="entrance_scale">Scale of the entrance </param>
+    /// <returns></returns>
+    public Vector2 calculate_agent_starting_position(Vector3 entrance_position, Vector3 entrance_scale)
+    {
+        Vector2 agent_pos = new Vector2();
+        agent_pos.x = entrance_position.x + entrance_scale.x / 2.0f - 2.5f;
+        agent_pos.y = entrance_position.z + entrance_scale.z / 2.0f + 0.5f;
+        return agent_pos;
     }
 
     // Start is called before the first frame update
