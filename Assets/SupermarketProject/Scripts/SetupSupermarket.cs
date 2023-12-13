@@ -473,7 +473,10 @@ public class SetupSupermarket : MonoBehaviour
                             if (spawn_food_to_purchase == true)
                             {
                                 Section obj = Section.Fruit;
-                                new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
+                                temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
+                                //Calculation
+                                temp_goal_position = calculate_goal_position_horizontal(object_position, temp_position);
+                                goal_positions_2d.Add(temp_goal_position);
                             }
                         }
                         else
@@ -484,7 +487,10 @@ public class SetupSupermarket : MonoBehaviour
                             if (spawn_food_to_purchase == true)
                             {
                                 Section obj = Section.Fruit;
-                                new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
+                                temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
+                                //Calculation
+                                temp_goal_position = calculate_goal_position_vertical(object_position, temp_position);
+                                goal_positions_2d.Add(temp_goal_position);
                             }
                         }
                     }
@@ -499,7 +505,10 @@ public class SetupSupermarket : MonoBehaviour
                             if (spawn_food_to_purchase == true)
                             {
                                 Section obj = Section.Drinks;
-                                new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
+                                temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
+                                //Calculation
+                                temp_goal_position = calculate_goal_position_horizontal(object_position, temp_position);
+                                goal_positions_2d.Add(temp_goal_position);
                             }
                         }
                         else
@@ -510,7 +519,10 @@ public class SetupSupermarket : MonoBehaviour
                             if (spawn_food_to_purchase == true)
                             {
                                 Section obj = Section.Drinks;
-                                new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
+                                temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
+                                //Calculation
+                                temp_goal_position = calculate_goal_position_vertical(object_position, temp_position);
+                                goal_positions_2d.Add(temp_goal_position);
                             }
                         }
                         
@@ -581,7 +593,7 @@ public class SetupSupermarket : MonoBehaviour
         Vector2 goal_pos = new Vector2();
         goal_pos.x = shelve_position.x;
 
-        if (p_item_position[0] < 0)
+        if (p_item_position.x < 0)
         {
             goal_pos.y = shelve_position.z + 1; 
         }
@@ -589,7 +601,6 @@ public class SetupSupermarket : MonoBehaviour
         {
             goal_pos.y = shelve_position.z - 1;
         }
-        
 
         return goal_pos;
     }
@@ -599,7 +610,7 @@ public class SetupSupermarket : MonoBehaviour
         Vector2 goal_pos = new Vector2();
         goal_pos.y = shelve_position.z;
 
-        if (p_item_position[0] < 0)
+        if (p_item_position.x < 0)
         {
             goal_pos.x = shelve_position.x - 1;
         }
