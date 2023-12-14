@@ -1,6 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.MLAgents;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using System.Linq;
+using System.IO;
 
 public class SetupSupermarket : MonoBehaviour
 {
@@ -86,7 +92,40 @@ public class SetupSupermarket : MonoBehaviour
         }
     }
 
+    class GridTile
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Cost { get; set; }
+        public float Distance { get; set; }
+        public float CostDistance => Cost + Distance;
+        public GridTile Parent { get; set; }
+        //The distance is essentially the estimated distance, ignoring walls to our target. 
+        //So how many tiles left and right, up and down, ignoring walls, to get there.
+        public void set_Distance(int targetX, int targetY)
+        {
+            this.Distance = Mathf.Abs(targetX - X) + Mathf.Abs(targetY - Y);
+        }
+    }
 
+    private static List<GridTile> GetWalkableTiles(bool[,] occupiedGrids, GridTile currentTile, GridTile targetTile, int GridSize_x, int GridSize_y)
+    {
+        var possibleTiles = new List<GridTile>()
+        {
+            new GridTile { X = currentTile.X, Y = currentTile.Y - 1, Parent = currentTile, Cost = currentTile.Cost + 1 },
+            new GridTile { X = currentTile.X, Y = currentTile.Y + 1, Parent = currentTile, Cost = currentTile.Cost + 1 },
+            new GridTile { X = currentTile.X - 1, Y = currentTile.Y, Parent = currentTile, Cost = currentTile.Cost + 1 },
+            new GridTile { X = currentTile.X + 1, Y = currentTile.Y, Parent = currentTile, Cost = currentTile.Cost + 1 },
+        };
+        possibleTiles.ForEach(tile => tile.set_Distance(targetTile.X, targetTile.Y));
+        var maxX = GridSize_x - 1;
+        var maxY = GridSize_y - 1;
+        return possibleTiles
+            .Where(tile => tile.X >= 0 && tile.X <= maxX)
+            .Where(tile => tile.Y >= 0 && tile.X <= maxY)
+            .Where(tile => occupiedGrids[tile.X, tile.Y] == true || targetTile.X == tile.X && targetTile.Y == tile.Y)
+            .ToList();
+    }
     public void calculate_Grid()
     {
         // Generate ground surface
@@ -97,6 +136,17 @@ public class SetupSupermarket : MonoBehaviour
         Debug.Log("Grid in x: " + grid_size_x);
         Debug.Log("Grid in y: " + grid_size_y);
 
+        Vector3 playfield_position = this.transform.position;
+        if (grid_size_x % 2 == 0)
+        {
+            transform.position = new Vector3(playfield_position.x + 0.5f, playfield_position.y, playfield_position.z);
+            Debug.Log(transform.position);
+        }
+        if (grid_size_y % 2 == 0)
+        {
+            transform.position = new Vector3(transform.position.x, playfield_position.y, playfield_position.z + 0.5f);
+            Debug.Log(transform.position);
+        }
         // Generate entrance area
         Quaternion entranceRotation = Quaternion.Euler(0, 0, 0);
         entrance_pref.transform.localScale = new Vector3(Random.Range(min_entrance_size, max_entrance_size), 0.5f, Random.Range(min_entrance_size, max_entrance_size));
@@ -111,7 +161,7 @@ public class SetupSupermarket : MonoBehaviour
         Quaternion durablefoodRotation = Quaternion.Euler(0, 0, 0);
         durablefood_pref.transform.localScale = new Vector3(grid_size_x - entrance_size[0], 0.5f, grid_size_y - entrance_size[2]);
         Vector3 durablefood_size = durablefood_pref.transform.localScale;
-        Vector3 durablefood_position = this.transform.localPosition + new Vector3((durablefood_size[0]/2.0f - grid_size_x / 2.0f), 0.5f, (grid_size_y / 2.0f - durablefood_size[2] / 2.0f));
+        Vector3 durablefood_position = this.transform.localPosition + new Vector3((durablefood_size[0] / 2.0f - grid_size_x / 2.0f), 0.5f, (grid_size_y / 2.0f - durablefood_size[2] / 2.0f));
         GameObject durablefood = Instantiate(durablefood_pref, durablefood_position, durablefoodRotation, this.transform);
         durablefood_tiles.Add(durablefood);
         Area durablefood_area = new Area(new Vector2Int((int)durablefood_size[0], (int)durablefood_size[2]));
@@ -139,11 +189,11 @@ public class SetupSupermarket : MonoBehaviour
 
         // Grid which needs to be blocked and checked if it's free
         bool[,] toFilledGrid = new bool[horizontal_shelve.GetLength(0), horizontal_shelve.GetLength(1)];
-        
+
         //Entrance grid this is false but we just check later for false to save a conversion to true
-        bool[,] occupied_entrance = new bool [(int)entrance_size[0], (int)entrance_size[2]];
-        Debug.Log("Entrance Size in x: "+ entrance_size[0]);
-        Debug.Log("Entrance Size in y: "+ entrance_size[2]);
+        bool[,] occupied_entrance = new bool[(int)entrance_size[0], (int)entrance_size[2]];
+        Debug.Log("Entrance Size in x: " + entrance_size[0]);
+        Debug.Log("Entrance Size in y: " + entrance_size[2]);
 
 
         // Decide which Orientation the shelves should have in the durablefood department
@@ -166,7 +216,7 @@ public class SetupSupermarket : MonoBehaviour
                     toFilledGrid = horizontal_shelve;
                     if (occupied_durablefood_grid[grid_hor, grid_vert] == false)
                     {
-                        
+
                         if ((occupied_durablefood_grid.GetLength(1) % 3 == 1) && (grid_vert == occupied_durablefood_grid.GetLength(1) - 2))
                         {
                             // empty so that there is false in this row without using the horizontal_shelve which would break the thing
@@ -228,7 +278,7 @@ public class SetupSupermarket : MonoBehaviour
         {
             for (int grid_vert = 0; grid_vert < occupied_alcohol_grid.GetLength(1); grid_vert++)
             {
-                if (grid_hor == 0 || grid_hor == 1 || grid_hor == occupied_alcohol_grid.GetLength(0) - 2 ||  grid_hor == occupied_alcohol_grid.GetLength(0) - 1)
+                if (grid_hor == 0 || grid_hor == 1 || grid_hor == occupied_alcohol_grid.GetLength(0) - 2 || grid_hor == occupied_alcohol_grid.GetLength(0) - 1)
                     occupied_alcohol_grid[grid_hor, grid_vert] = true;
                 if (grid_vert == 0 || grid_vert == occupied_alcohol_grid.GetLength(1) - 2 || grid_vert == occupied_alcohol_grid.GetLength(1) - 1)
                     occupied_alcohol_grid[grid_hor, grid_vert] = true;
@@ -254,7 +304,7 @@ public class SetupSupermarket : MonoBehaviour
                         occupied_alcohol_grid[grid_hor, grid_vert] = true;
                     }
                 }
-                
+
                 else if (alcohol_area.orientation == "vertical")
                 {
                     if (occupied_alcohol_grid[grid_hor, grid_vert] == false)
@@ -309,7 +359,7 @@ public class SetupSupermarket : MonoBehaviour
                         }
                     }
                 }
-                
+
                 else if (fruits_area.orientation == "vertical")
                 {
                     if (occupied_fruits_grid[grid_hor, grid_vert] == false)
@@ -333,17 +383,17 @@ public class SetupSupermarket : MonoBehaviour
                     }
 
                 }
-                
+
             }
         }
 
         // Take out fields
-        
+
         for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
-            for(int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+            for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
             {
-                
+
                 //take out occupied durablefood fields
                 if (grid_hor == 0 && grid_vert == 0)
                 {
@@ -397,7 +447,7 @@ public class SetupSupermarket : MonoBehaviour
         int number_of_shelves = 0;
         for (int i = 0; i < grid_size_x; i++)
         {
-            for(int k = 0; k < grid_size_y; k++)
+            for (int k = 0; k < grid_size_y; k++)
             {
                 if (occupiedGrids[i, k] == false) number_of_shelves++;
             }
@@ -439,7 +489,7 @@ public class SetupSupermarket : MonoBehaviour
                             object_rotation = Quaternion.Euler(0, 90, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
                             shelve_tiles.Add(new_object);
-                            if(spawn_food_to_purchase == true)
+                            if (spawn_food_to_purchase == true)
                             {
                                 Section obj = Section.Durable;
                                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
@@ -528,7 +578,7 @@ public class SetupSupermarket : MonoBehaviour
                                 goal_positions_2d.Add(temp_goal_position);
                             }
                         }
-                        
+
                     }
                     /**** spawn red cubes ****
                     else
@@ -544,7 +594,7 @@ public class SetupSupermarket : MonoBehaviour
 
         // Generate north outershelves
         //bool[,] number_of_tiles = new bool[grid_size_x, grid_size_y];
-              
+
         for (int x = 0; x < grid_size_x; x++)
         {
             float offset_x = 0.5f;
@@ -587,13 +637,95 @@ public class SetupSupermarket : MonoBehaviour
 
         ////////// Agent Position //////////
         agent_starting_position = calculate_agent_starting_position(entrance_position, entrance_size);
-        Debug.Log("Agent starting position: " + agent_starting_position);
+
+        /*Debug.Log("Agent starting position: " + agent_starting_position);
 
         for (int i = 0; i < goal_positions_2d.Count; i++)
         {
             Debug.Log(goal_positions_2d[i]);
+        }*/
+
+        GridTile Agent = new GridTile();
+        GridTile Goal = new GridTile();
+        Agent.X = 21;//(int)agent_starting_position.x;
+        Agent.Y = 19; //(int)agent_starting_position.y;
+
+        Debug.Log("Agent starting position: " + Agent.X+ " " + Agent.Y);
+
+        if (goal_positions_2d[0] != null)
+        {
+            Goal.X = 0; //(int)goal_positions_2d[0].x;
+            Goal.Y = 0; //(int)goal_positions_2d[0].y;
+
+            Debug.Log("Goal starting position: " + Goal.X + " " + Goal.Y);
+            //A* algorithm to check if both agents can reach each other
+            //https://dotnetcoretutorials.com/2020/07/25/a-search-pathfinding-algorithm-in-c/
+            Agent.set_Distance(Goal.X, Goal.Y);
+            List<GridTile> activeTiles = new List<GridTile>();
+            activeTiles.Add(Agent);
+            List<GridTile> visitedTiles = new List<GridTile>();
+
+            while (activeTiles.Any())
+            {
+                var checkTile = activeTiles.OrderBy(x => x.CostDistance).First();
+
+                if (checkTile.X == Goal.X && checkTile.Y == Goal.Y)
+                {
+                    print("Path found for: " + this.name);
+                    var tile = checkTile;
+                    while (true)
+                    {
+                        Debug.Log("Current Tile x: " + tile.X + " y: " + tile.Y);
+                        tile = tile.Parent;
+                        if (tile == null)
+                        {
+                            Debug.Log("Whole Map written");
+                            return;
+                        }
+                    }
+                    /*for (int i = 0; i < visitedTiles.Count; i++)
+                    {
+                        Debug.Log("Current Tile " + i + " x: " + visitedTiles[i].X + " y: " + visitedTiles[i].Y);
+                    }*/
+                    //We found the destination and we can be sure (Because the the OrderBy above)
+                    //That it is the most low cost option. 
+                    /*if (printMapFile != null)
+                    {
+                        printMapToFile(occupiedGrids, GridSize, checkTile, Agent1, Agent2);
+                    }
+                    return;*/
+                }
+
+                visitedTiles.Add(checkTile);
+                activeTiles.Remove(checkTile);
+                var walkableTiles = GetWalkableTiles(occupiedGrids, checkTile, Goal, grid_size_x, grid_size_y);
+                foreach (var walkableTile in walkableTiles)
+                {
+                    //We have already visited this tile so we don't need to do so again!
+                    if (visitedTiles.Any(x => x.X == walkableTile.X && x.Y == walkableTile.Y))
+                        continue;
+                    //It's already in the active list, but that's OK, maybe this new tile has a better value (e.g. We might zigzag earlier but this is now straighter). 
+                    if (activeTiles.Any(x => x.X == walkableTile.X && x.Y == walkableTile.Y))
+                    {
+                        var existingTile = activeTiles.First(x => x.X == walkableTile.X && x.Y == walkableTile.Y);
+                        if (existingTile.CostDistance > checkTile.CostDistance)
+                        {
+                            activeTiles.Remove(existingTile);
+                            activeTiles.Add(walkableTile);
+                        }
+                    }
+                    else
+                    {
+                        //We've never seen this tile before so add it to the list. 
+                        activeTiles.Add(walkableTile);
+                    }
+                }
+            }
+            //Restart Arena Setup
+            print("No Path Found! Recalculate Map: " + this.name);
         }
     }
+        
 
     public Vector2 calculate_goal_position_horizontal(Vector3 shelve_position, Vector3 p_item_position)
     {
