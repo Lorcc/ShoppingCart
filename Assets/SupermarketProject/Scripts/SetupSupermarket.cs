@@ -92,6 +92,7 @@ public class SetupSupermarket : MonoBehaviour
         }
     }
 
+    // A* Class
     class GridTile
     {
         public int X { get; set; }
@@ -638,12 +639,15 @@ public class SetupSupermarket : MonoBehaviour
         ////////// Agent Position //////////
         agent_starting_position = calculate_agent_starting_position(entrance_position, entrance_size);
 
-        /*Debug.Log("Agent starting position: " + agent_starting_position);
+        //Debug.Log("Agent starting position: " + agent_starting_position);
 
         for (int i = 0; i < goal_positions_2d.Count; i++)
         {
-            Debug.Log(goal_positions_2d[i]);
-        }*/
+            //Debug.Log(goal_positions_2d[i]);
+            Debug.Log("Position " + i + ":" + parser_localposition_to_map(goal_positions_2d[i], grid_size_x, grid_size_y));
+        }
+
+
 
         GridTile Agent = new GridTile();
         GridTile Goal = new GridTile();
@@ -761,6 +765,51 @@ public class SetupSupermarket : MonoBehaviour
         return goal_pos;
     }
 
+    public Vector2 parser_localposition_to_map(Vector2 local_position, int grid_size_x, int grid_size_y)
+    {
+        float x_component = (float)(grid_size_x - 1.0f) / 2.0f;
+        float y_component = (float)(grid_size_y - 1.0f) / 2.0f;
+        Vector2 parsed_value = new Vector2();
+
+        if (local_position.x < 0)
+        {
+            if(local_position.y < 0)
+            {
+                
+            }
+            else
+            {
+                parsed_value.x = (int)(x_component - Mathf.Abs(local_position.y));
+                parsed_value.y = (int)(y_component - Mathf.Abs(local_position.x));
+            }
+        }
+        else if(local_position.x > 0)
+        {
+            if(local_position.y < 0)
+            {
+                
+            }
+            else
+            {
+
+            }    
+        }
+
+        return parsed_value;
+    }
+
+    public Vector2 parser_map_to_localposition(Vector2 map_position, int grid_size_x, int grid_size_y)
+    {
+        float x_component = (float)(grid_size_x - 1.0f) / 2.0f;
+        float y_component = (float)(grid_size_y - 1.0f) / 2.0f;
+        Vector2 parsed_value = new Vector2();
+
+        if (map_position.x < y_component)
+        {
+
+        }
+        return parsed_value;
+    }
     /// <summary>
     /// calculate Agent starting position in dependencie of the entrence,
     /// the position is always the third 1x1 square from the right and the first field in the fruits area
