@@ -645,22 +645,11 @@ public class SetupSupermarket : MonoBehaviour
 
         ///////////////////////////////////////////////////////////////////
         
-        for (int i = 0; i < goal_positions_2d.Count; i++)
+        /*for (int i = 0; i < goal_positions_2d.Count; i++)
         {
             Debug.Log("MapPosition: " + goal_positions_2d[i]);
             Debug.Log("Position " + i + ": " + parser_localposition_to_map(goal_positions_2d[i], grid_size_x, grid_size_y));
-        }
-        /*
-        Debug.Log("Position 0,0: " + parser_localposition_to_map(new Vector2(0.5f, -0.5f), grid_size_x, grid_size_y));
-        Debug.Log("Position -9.5,-9.5: " + parser_localposition_to_map(new Vector2(-9.5f, -9.5f), grid_size_x, grid_size_y));
-        Debug.Log("Position 3.5,6.4: " + parser_localposition_to_map(new Vector2(3.5f, 6.5f), grid_size_x, grid_size_y));
-        Debug.Log("Position 5.5f,-8.5f: " + parser_localposition_to_map(new Vector2(5.5f, -8.5f), grid_size_x, grid_size_y));
-
-        Debug.Log("MapPosition 12,12: " + parser_map_to_localposition(new Vector2(12, 12), grid_size_x, grid_size_y));
-        Debug.Log("MapPosition 14,5: " + parser_map_to_localposition(new Vector2(14, 5), grid_size_x, grid_size_y));
-        Debug.Log("MapPosition 3,22: " + parser_map_to_localposition(new Vector2(3, 22), grid_size_x, grid_size_y));
-        Debug.Log("MapPosition 15,16: " + parser_map_to_localposition(new Vector2(15, 16), grid_size_x, grid_size_y));
-        */
+        }*/
 
         GridTile Agent = new GridTile();
         GridTile Goal = new GridTile();
@@ -863,6 +852,7 @@ public class SetupSupermarket : MonoBehaviour
         }
         return parsed_value;
     }
+
     /// <summary>
     /// calculate Agent starting position in dependencie of the entrence,
     /// the position is always the third 1x1 square from the right and the first field in the fruits area
