@@ -644,12 +644,12 @@ public class SetupSupermarket : MonoBehaviour
         //Debug.Log("Agent starting position: " + agent_starting_position);
 
         ///////////////////////////////////////////////////////////////////
-        /*
+        
         for (int i = 0; i < goal_positions_2d.Count; i++)
         {
-            //Debug.Log(goal_positions_2d[i]);
-            Debug.Log("Position " + i + ":" + parser_localposition_to_map(goal_positions_2d[i], grid_size_x, grid_size_y));
-        }*/
+            Debug.Log("MapPosition: " + goal_positions_2d[i]);
+            Debug.Log("Position " + i + ": " + parser_localposition_to_map(goal_positions_2d[i], grid_size_x, grid_size_y));
+        }
         /*
         Debug.Log("Position 0,0: " + parser_localposition_to_map(new Vector2(0.5f, -0.5f), grid_size_x, grid_size_y));
         Debug.Log("Position -9.5,-9.5: " + parser_localposition_to_map(new Vector2(-9.5f, -9.5f), grid_size_x, grid_size_y));
@@ -693,6 +693,8 @@ public class SetupSupermarket : MonoBehaviour
                     while (true)
                     {
                         Debug.Log("Current Tile x: " + tile.X + " y: " + tile.Y);
+                        var test = new Vector2(tile.X, tile.Y);
+                        Debug.Log("localposition: " + parser_map_to_localposition(test, grid_size_x, grid_size_y));
                         tile = tile.Parent;
                         if (tile == null)
                         {
@@ -710,7 +712,7 @@ public class SetupSupermarket : MonoBehaviour
                     {
                         printMapToFile(occupiedGrids, GridSize, checkTile, Agent1, Agent2);
                     }
-                    return;*/
+                    return; */
                 }
 
                 visitedTiles.Add(checkTile);
@@ -820,6 +822,11 @@ public class SetupSupermarket : MonoBehaviour
 
     public Vector2 parser_map_to_localposition(Vector2 map_position, int grid_size_x, int grid_size_y)
     {
+        if (map_position.x < 0 || map_position.y < 0)
+        {
+            Debug.Log("Wrong function used");
+            return new Vector2(0f,0f);
+        }
         float x_half_map_size = (float)(grid_size_x - 1.0f) / 2.0f;
         float y_half_map_size = (float)(grid_size_y - 1.0f) / 2.0f;
         Vector2 parsed_value = new Vector2();
