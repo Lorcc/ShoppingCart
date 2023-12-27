@@ -346,8 +346,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d6d8be9cc23bb54cb6399cd0b7695b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  min_ground_size: 25
-  max_ground_size: 25
+  min_ground_size: 24
+  max_ground_size: 24
   min_entrance_size: 5
   max_entrance_size: 5
   number_of_items_to_purchase: 20

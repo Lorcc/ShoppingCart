@@ -136,7 +136,8 @@ public class SetupSupermarket : MonoBehaviour
         ground.transform.localScale = new Vector3(grid_size_x, 0.5f, grid_size_y);
         Debug.Log("Grid in x: " + grid_size_x);
         Debug.Log("Grid in y: " + grid_size_y);
-
+        
+        /* maybe necessary in the future
         Vector3 playfield_position = this.transform.position;
         if (grid_size_x % 2 == 0)
         {
@@ -147,7 +148,8 @@ public class SetupSupermarket : MonoBehaviour
         {
             transform.position = new Vector3(transform.position.x, playfield_position.y, playfield_position.z + 0.5f);
             Debug.Log(transform.position);
-        }
+        }*/
+
         // Generate entrance area
         Quaternion entranceRotation = Quaternion.Euler(0, 0, 0);
         entrance_pref.transform.localScale = new Vector3(Random.Range(min_entrance_size, max_entrance_size), 0.5f, Random.Range(min_entrance_size, max_entrance_size));
@@ -641,13 +643,24 @@ public class SetupSupermarket : MonoBehaviour
 
         //Debug.Log("Agent starting position: " + agent_starting_position);
 
+        ///////////////////////////////////////////////////////////////////
+        /*
         for (int i = 0; i < goal_positions_2d.Count; i++)
         {
             //Debug.Log(goal_positions_2d[i]);
             Debug.Log("Position " + i + ":" + parser_localposition_to_map(goal_positions_2d[i], grid_size_x, grid_size_y));
-        }
+        }*/
+        /*
+        Debug.Log("Position 0,0: " + parser_localposition_to_map(new Vector2(0.5f, -0.5f), grid_size_x, grid_size_y));
+        Debug.Log("Position -9.5,-9.5: " + parser_localposition_to_map(new Vector2(-9.5f, -9.5f), grid_size_x, grid_size_y));
+        Debug.Log("Position 3.5,6.4: " + parser_localposition_to_map(new Vector2(3.5f, 6.5f), grid_size_x, grid_size_y));
+        Debug.Log("Position 5.5f,-8.5f: " + parser_localposition_to_map(new Vector2(5.5f, -8.5f), grid_size_x, grid_size_y));
 
-
+        Debug.Log("MapPosition 12,12: " + parser_map_to_localposition(new Vector2(12, 12), grid_size_x, grid_size_y));
+        Debug.Log("MapPosition 14,5: " + parser_map_to_localposition(new Vector2(14, 5), grid_size_x, grid_size_y));
+        Debug.Log("MapPosition 3,22: " + parser_map_to_localposition(new Vector2(3, 22), grid_size_x, grid_size_y));
+        Debug.Log("MapPosition 15,16: " + parser_map_to_localposition(new Vector2(15, 16), grid_size_x, grid_size_y));
+        */
 
         GridTile Agent = new GridTile();
         GridTile Goal = new GridTile();
@@ -767,31 +780,38 @@ public class SetupSupermarket : MonoBehaviour
 
     public Vector2 parser_localposition_to_map(Vector2 local_position, int grid_size_x, int grid_size_y)
     {
-        float x_component = (float)(grid_size_x - 1.0f) / 2.0f;
-        float y_component = (float)(grid_size_y - 1.0f) / 2.0f;
+        float x_half_map_size = (float)(grid_size_x - 1.0f) / 2.0f;
+        float y_half_map_size = (float)(grid_size_y - 1.0f) / 2.0f;
         Vector2 parsed_value = new Vector2();
 
-        if (local_position.x < 0)
+        if (local_position.x <= 0)
         {
+            // for cartesian coordinate system 3.quadrant (-,-)
             if(local_position.y < 0)
             {
-                
+                parsed_value.x = (int)(x_half_map_size + Mathf.Abs(local_position.y));
+                parsed_value.y = (int)(y_half_map_size - Mathf.Abs(local_position.x));
             }
+            // for cartesian coordinate system 2.quadrant (-,+)
             else
             {
-                parsed_value.x = (int)(x_component - Mathf.Abs(local_position.y));
-                parsed_value.y = (int)(y_component - Mathf.Abs(local_position.x));
+                parsed_value.x = (int)(x_half_map_size - Mathf.Abs(local_position.y));
+                parsed_value.y = (int)(y_half_map_size - Mathf.Abs(local_position.x));
             }
         }
         else if(local_position.x > 0)
         {
-            if(local_position.y < 0)
+            // for cartesian coordinate system 4.quadrant (+,-)
+            if (local_position.y < 0)
             {
-                
+                parsed_value.x = (int)(x_half_map_size + Mathf.Abs(local_position.y));
+                parsed_value.y = (int)(y_half_map_size + Mathf.Abs(local_position.x));
             }
+            // for cartesian coordinate system 1.quadrant (+,+)
             else
             {
-
+                parsed_value.x = (int)(x_half_map_size - Mathf.Abs(local_position.y));
+                parsed_value.y = (int)(y_half_map_size + Mathf.Abs(local_position.x));
             }    
         }
 
@@ -800,13 +820,39 @@ public class SetupSupermarket : MonoBehaviour
 
     public Vector2 parser_map_to_localposition(Vector2 map_position, int grid_size_x, int grid_size_y)
     {
-        float x_component = (float)(grid_size_x - 1.0f) / 2.0f;
-        float y_component = (float)(grid_size_y - 1.0f) / 2.0f;
+        float x_half_map_size = (float)(grid_size_x - 1.0f) / 2.0f;
+        float y_half_map_size = (float)(grid_size_y - 1.0f) / 2.0f;
         Vector2 parsed_value = new Vector2();
 
-        if (map_position.x < y_component)
+        if (map_position.y <= x_half_map_size)
         {
-
+            // for cartesian coordinate system 2.quadrant (-,+)
+            if (map_position.x < y_half_map_size)
+            {
+                parsed_value.x = -x_half_map_size + map_position.y;
+                parsed_value.y = y_half_map_size - map_position.x; 
+            }
+            // for cartesian coordinate system 3.quadrant (-,-)
+            else
+            {
+                parsed_value.x = -x_half_map_size + map_position.y;
+                parsed_value.y = y_half_map_size - map_position.x;
+            }
+        }
+        else if (map_position.y > x_half_map_size)
+        {
+            // for cartesian coordinate system 1.quadrant (+,+)
+            if (map_position.x < y_half_map_size)
+            {
+                parsed_value.x = map_position.y - x_half_map_size;
+                parsed_value.y = y_half_map_size - map_position.x;
+            }
+            // for cartesian coordinate system 4.quadrant (+,-)
+            else
+            {
+                parsed_value.x = map_position.y - x_half_map_size;
+                parsed_value.y = y_half_map_size - map_position.x;
+            }
         }
         return parsed_value;
     }
