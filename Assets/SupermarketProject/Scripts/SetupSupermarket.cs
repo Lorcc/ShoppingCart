@@ -46,10 +46,7 @@ public class SetupSupermarket : MonoBehaviour
     [SerializeField] private GameObject[] available_shelves;
 
 
-    private List<GameObject> entrance_tiles = new List<GameObject>();
-    private List<GameObject> fruits_tiles = new List<GameObject>();
-    private List<GameObject> durablefood_tiles = new List<GameObject>();
-    private List<GameObject> alcohol_tiles = new List<GameObject>();
+    private List<GameObject> ground_tiles = new List<GameObject>();
     private List<GameObject> shelve_tiles = new List<GameObject>();
 
 
@@ -64,7 +61,6 @@ public class SetupSupermarket : MonoBehaviour
         public Vector2Int area_size;
         public string orientation;
         public List<GameObject> ground_tiles = new List<GameObject>();
-
 
         public Area(Vector2Int size)
         {
@@ -129,6 +125,7 @@ public class SetupSupermarket : MonoBehaviour
             .Where(tile => occupiedGrids[tile.X, tile.Y] == true || targetTile.X == tile.X && targetTile.Y == tile.Y)
             .ToList();
     }
+
     public void setup_Supermarket()
     {
         if (min_ground_size > max_ground_size)
@@ -162,6 +159,12 @@ public class SetupSupermarket : MonoBehaviour
             Application.Quit();
         }
 
+        //Clear ground tiles
+        foreach (GameObject ground_tile in ground_tiles)
+        {
+            Destroy(ground_tile);
+        }
+
         // Generate ground surface
         int grid_size_x = Random.Range(min_ground_size, max_ground_size);
         int grid_size_y = Random.Range(min_ground_size, max_ground_size);
@@ -169,6 +172,7 @@ public class SetupSupermarket : MonoBehaviour
         ground.transform.localScale = new Vector3(grid_size_x, 0.5f, grid_size_y);
         Debug.Log("Grid in x: " + grid_size_x);
         Debug.Log("Grid in y: " + grid_size_y);
+        //ground_tiles.Add(ground);
         
 
         // Generate entrance area
@@ -177,7 +181,7 @@ public class SetupSupermarket : MonoBehaviour
         Vector3 entrance_size = entrance_pref.transform.localScale;
         Vector3 entrance_position = this.transform.localPosition + new Vector3((grid_size_x / 2.0f - entrance_size[0] / 2.0f), 0.5f, (-grid_size_y / 2.0f + entrance_size[2] / 2.0f));
         GameObject entrance = Instantiate(entrance_pref, entrance_position, entranceRotation, this.transform);
-        entrance_tiles.Add(entrance);
+        ground_tiles.Add(entrance);
 
 
         // Generate durablefood area
@@ -186,7 +190,7 @@ public class SetupSupermarket : MonoBehaviour
         Vector3 durablefood_size = durablefood_pref.transform.localScale;
         Vector3 durablefood_position = this.transform.localPosition + new Vector3((durablefood_size[0] / 2.0f - grid_size_x / 2.0f), 0.5f, (grid_size_y / 2.0f - durablefood_size[2] / 2.0f));
         GameObject durablefood = Instantiate(durablefood_pref, durablefood_position, durablefoodRotation, this.transform);
-        durablefood_tiles.Add(durablefood);
+        ground_tiles.Add(durablefood);
         Area durablefood_area = new Area(new Vector2Int((int)durablefood_size[0], (int)durablefood_size[2]));
 
         // Generate beverages area
@@ -195,7 +199,7 @@ public class SetupSupermarket : MonoBehaviour
         Vector3 alcohol_size = alcohol_pref.transform.localScale;
         Vector3 alcohol_position = this.transform.localPosition + new Vector3((alcohol_size[0] / 2.0f - grid_size_x / 2.0f), 0.5f, (-grid_size_y / 2.0f + alcohol_size[2] / 2.0f));
         GameObject alcohol = Instantiate(alcohol_pref, alcohol_position, alcoholRotation, this.transform);
-        alcohol_tiles.Add(alcohol);
+        ground_tiles.Add(alcohol);
         Area alcohol_area = new Area(new Vector2Int((int)alcohol_size[0], (int)alcohol_size[2]));
 
         // Generate fruits vegetable area
@@ -204,7 +208,7 @@ public class SetupSupermarket : MonoBehaviour
         Vector3 fruits_size = fruits_pref.transform.localScale;
         Vector3 fruits_position = this.transform.localPosition + new Vector3((grid_size_x / 2.0f - fruits_size[0] / 2.0f), 0.5f, (grid_size_y / 2.0f - fruits_size[2] / 2.0f));
         GameObject fruits = Instantiate(fruits_pref, fruits_position, fruitsRotation, this.transform);
-        fruits_tiles.Add(fruits);
+        ground_tiles.Add(fruits);
         Area fruits_area = new Area(new Vector2Int((int)fruits_size[0], (int)fruits_size[2]));
 
 
@@ -219,9 +223,12 @@ public class SetupSupermarket : MonoBehaviour
         Debug.Log("Entrance Size in y: " + entrance_size[2]);
 
 
-        // Decide which Orientation the shelves should have in the durablefood department
-        //bool horizontal_spawn = true; //(Random.value > 0.5f);
 
+
+        foreach(GameObject shelve in shelve_tiles)
+        {
+            Destroy(shelve);
+        }
 
 
         // Take out at least one field around the edge of the field and 2 to the north and east
@@ -891,18 +898,5 @@ public class SetupSupermarket : MonoBehaviour
         agent_pos.x = entrance_position.x + entrance_scale.x / 2.0f - 2.5f;
         agent_pos.y = entrance_position.z + entrance_scale.z / 2.0f + 0.5f;
         return agent_pos;
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        setup_Supermarket();
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
