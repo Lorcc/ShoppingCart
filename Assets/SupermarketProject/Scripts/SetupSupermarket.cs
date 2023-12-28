@@ -10,6 +10,9 @@ using System.IO;
 
 public class SetupSupermarket : MonoBehaviour
 {
+    private const int lower_ground_size_threshold = 10;
+    private const int lower_entrance_size_threshold = 3;
+
     [SerializeField] private int min_ground_size = 20;
     [SerializeField] private int max_ground_size = 30;
 
@@ -17,6 +20,10 @@ public class SetupSupermarket : MonoBehaviour
     [SerializeField] private int max_entrance_size = 7;
 
     [SerializeField] private int number_of_items_to_purchase = 1;
+
+
+    [SerializeField] private GameObject agent;
+    [SerializeField] private GameObject goal;
 
     [SerializeField] private GameObject shelf_pref;
     [SerializeField] private GameObject entrance_pref;
@@ -85,11 +92,6 @@ public class SetupSupermarket : MonoBehaviour
             int random_index = Random.Range(0, possible_orientations.Count);
             return possible_orientations[random_index];
         }
-
-        public void hello()
-        {
-            Debug.Log(orientation);
-        }
     }
 
     // A* Class
@@ -127,8 +129,39 @@ public class SetupSupermarket : MonoBehaviour
             .Where(tile => occupiedGrids[tile.X, tile.Y] == true || targetTile.X == tile.X && targetTile.Y == tile.Y)
             .ToList();
     }
-    public void calculate_Grid()
+    public void setup_Supermarket()
     {
+        if (min_ground_size > max_ground_size)
+        {
+            Debug.LogError("Minimum ground size should not be bigger or the same as maximum ground size.");
+            Application.Quit();
+        }
+        else if (min_ground_size < lower_ground_size_threshold)
+        {
+            Debug.LogError("Minimum ground size should be higher than 10 meters.");
+            Application.Quit();
+        }
+        else if (min_entrance_size > max_entrance_size)
+        {
+            Debug.LogError("Minimum entrance size should be bigger or the same as maximum entrance size.");
+            Application.Quit();
+        }
+        else if (min_entrance_size < lower_entrance_size_threshold)
+        {
+            Debug.LogError("Minimum entrance_size should be bigger than 3 meters.");
+            Application.Quit();
+        }
+        else if (max_entrance_size > min_ground_size/2)
+        {
+            Debug.LogError("Entrance size should not exceed halve the minimum ground size.");
+            Application.Quit();
+        }
+        else if (number_of_items_to_purchase < 1)
+        {
+            Debug.LogError("Number of items to purchase must be greater than 0.");
+            Application.Quit();
+        }
+
         // Generate ground surface
         int grid_size_x = Random.Range(min_ground_size, max_ground_size);
         int grid_size_y = Random.Range(min_ground_size, max_ground_size);
@@ -137,18 +170,6 @@ public class SetupSupermarket : MonoBehaviour
         Debug.Log("Grid in x: " + grid_size_x);
         Debug.Log("Grid in y: " + grid_size_y);
         
-        /* maybe necessary in the future
-        Vector3 playfield_position = this.transform.position;
-        if (grid_size_x % 2 == 0)
-        {
-            transform.position = new Vector3(playfield_position.x + 0.5f, playfield_position.y, playfield_position.z);
-            Debug.Log(transform.position);
-        }
-        if (grid_size_y % 2 == 0)
-        {
-            transform.position = new Vector3(transform.position.x, playfield_position.y, playfield_position.z + 0.5f);
-            Debug.Log(transform.position);
-        }*/
 
         // Generate entrance area
         Quaternion entranceRotation = Quaternion.Euler(0, 0, 0);
@@ -157,7 +178,6 @@ public class SetupSupermarket : MonoBehaviour
         Vector3 entrance_position = this.transform.localPosition + new Vector3((grid_size_x / 2.0f - entrance_size[0] / 2.0f), 0.5f, (-grid_size_y / 2.0f + entrance_size[2] / 2.0f));
         GameObject entrance = Instantiate(entrance_pref, entrance_position, entranceRotation, this.transform);
         entrance_tiles.Add(entrance);
-
 
 
         // Generate durablefood area
@@ -457,6 +477,7 @@ public class SetupSupermarket : MonoBehaviour
         }
 
         //***Spawn Shelves***//
+        int temp_number_of_items = number_of_items_to_purchase;
         for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
             for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
@@ -464,14 +485,14 @@ public class SetupSupermarket : MonoBehaviour
                 if (occupiedGrids[grid_hor, grid_vert] == false)
                 {
                     bool spawn_food_to_purchase = false;
-                    if (number_of_items_to_purchase > 0)
+                    if (temp_number_of_items > 0)
                     {
                         float random_number = Random.Range(0.0f, 1.0f);
 
-                        if (random_number < ((float)number_of_items_to_purchase / (float)number_of_shelves))
+                        if (random_number < ((float)temp_number_of_items / (float)number_of_shelves))
                         {
                             spawn_food_to_purchase = true;
-                            number_of_items_to_purchase--;
+                            temp_number_of_items--;
                         }
                         number_of_shelves--;
                     }
@@ -640,29 +661,33 @@ public class SetupSupermarket : MonoBehaviour
 
         ////////// Agent Position //////////
         agent_starting_position = calculate_agent_starting_position(entrance_position, entrance_size);
+        GridTile Agent = new GridTile();
+        Vector2 agent_pos = parse_localposition_to_map(new Vector2(Agent.X, Agent.Y), grid_size_x, grid_size_y);
+        Agent.X = (int)agent_pos.x;
+        Agent.Y = (int)agent_pos.y;
+        Vector3 agent_spawn_pos = new Vector3(agent_starting_position.x, 1.5f, agent_starting_position.y);
+        //occupiedGrids[(int)agent_pos.x, (int)agent_pos.y] = false;
+        agent.GetComponent<AgentReposition>().reposition(agent_spawn_pos);
+        Debug.Log("Agent starting position: " + Agent.X + " " + Agent.Y);
 
-        //Debug.Log("Agent starting position: " + agent_starting_position);
+        //temporary for the goal as well
+        GridTile Goal = new GridTile();
+        Vector2 goal_pos = parse_localposition_to_map(goal_positions_2d[0], grid_size_x, grid_size_y);
+        Goal.X = (int)goal_pos.x;
+        Goal.Y = (int)goal_pos.y;
+        Vector3 goal_spawn_pos = new Vector3(goal_positions_2d[0].x, 1.5f, goal_positions_2d[0].y);
+        goal.GetComponent<Goal>().reposition(goal_spawn_pos);
 
-        ///////////////////////////////////////////////////////////////////
-        
         /*for (int i = 0; i < goal_positions_2d.Count; i++)
         {
             Debug.Log("MapPosition: " + goal_positions_2d[i]);
-            Debug.Log("Position " + i + ": " + parser_localposition_to_map(goal_positions_2d[i], grid_size_x, grid_size_y));
+            Debug.Log("Position " + i + ": " + parse_localposition_to_map(goal_positions_2d[i], grid_size_x, grid_size_y));
         }*/
 
-        GridTile Agent = new GridTile();
-        GridTile Goal = new GridTile();
-        Agent.X = 21;//(int)agent_starting_position.x;
-        Agent.Y = 19; //(int)agent_starting_position.y;
-
-        Debug.Log("Agent starting position: " + Agent.X+ " " + Agent.Y);
+        
 
         if (goal_positions_2d[0] != null)
         {
-            Goal.X = 0; //(int)goal_positions_2d[0].x;
-            Goal.Y = 0; //(int)goal_positions_2d[0].y;
-
             Debug.Log("Goal starting position: " + Goal.X + " " + Goal.Y);
             //A* algorithm to check if both agents can reach each other
             //https://dotnetcoretutorials.com/2020/07/25/a-search-pathfinding-algorithm-in-c/
@@ -683,7 +708,7 @@ public class SetupSupermarket : MonoBehaviour
                     {
                         Debug.Log("Current Tile x: " + tile.X + " y: " + tile.Y);
                         var test = new Vector2(tile.X, tile.Y);
-                        Debug.Log("localposition: " + parser_map_to_localposition(test, grid_size_x, grid_size_y));
+                        Debug.Log("localposition: " + parse_map_to_localposition(test, grid_size_x, grid_size_y));
                         tile = tile.Parent;
                         if (tile == null)
                         {
@@ -769,7 +794,7 @@ public class SetupSupermarket : MonoBehaviour
         return goal_pos;
     }
 
-    public Vector2 parser_localposition_to_map(Vector2 local_position, int grid_size_x, int grid_size_y)
+    public Vector2 parse_localposition_to_map(Vector2 local_position, int grid_size_x, int grid_size_y)
     {
         float x_half_map_size = (float)(grid_size_x - 1.0f) / 2.0f;
         float y_half_map_size = (float)(grid_size_y - 1.0f) / 2.0f;
@@ -809,7 +834,7 @@ public class SetupSupermarket : MonoBehaviour
         return parsed_value;
     }
 
-    public Vector2 parser_map_to_localposition(Vector2 map_position, int grid_size_x, int grid_size_y)
+    public Vector2 parse_map_to_localposition(Vector2 map_position, int grid_size_x, int grid_size_y)
     {
         if (map_position.x < 0 || map_position.y < 0)
         {
@@ -871,7 +896,7 @@ public class SetupSupermarket : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        calculate_Grid();
+        setup_Supermarket();
     }
 
 
