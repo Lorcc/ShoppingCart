@@ -25,6 +25,5 @@ public class FoodSpawner : MonoBehaviour
             new_object.transform.localScale = item_scale;
             all_items.Add(new_object);
         }
-        
     }
 }

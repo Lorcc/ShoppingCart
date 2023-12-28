@@ -8,7 +8,6 @@ public class ShelveFiller : MonoBehaviour
 
     private GameObject generalizer;
 
-    int counter;
     public Vector3 spawn_purchable_item(int section)
     {
         Vector3 p_item_position = new Vector3();
@@ -17,7 +16,6 @@ public class ShelveFiller : MonoBehaviour
         {
             foreach(Transform child in generalizer.transform)
             {
-
                 float random_number = Random.Range(0.0f, 1.0f);
 
                 if (random_number < (1.0f / (float)counter))
@@ -79,16 +77,5 @@ public class ShelveFiller : MonoBehaviour
     {
         // Gets purchable_food group from the scene
         generalizer = this.transform.GetChild(0).gameObject;
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -459,9 +459,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   min_ground_size: 24
-  max_ground_size: 24
+  max_ground_size: 26
   min_entrance_size: 5
-  max_entrance_size: 5
+  max_entrance_size: 8
   number_of_items_to_purchase: 1
   agent: {fileID: 2090351700}
   goal: {fileID: 313015841}

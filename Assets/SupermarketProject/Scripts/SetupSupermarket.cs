@@ -80,10 +80,18 @@ public class SetupSupermarket : MonoBehaviour
             {
                 possible_orientations.Add("vertical");
             }
-            //TODO random machen
             if(possible_orientations.Count == 0)
             {
-                possible_orientations.Add("vertical");
+                int temp_random = Random.Range(0, 2);
+                if (temp_random == 0)
+                {
+                    possible_orientations.Add("vertical");
+                }
+                else
+                {
+                    possible_orientations.Add("horizontal");
+                }
+                
             }
             int random_index = Random.Range(0, possible_orientations.Count);
             return possible_orientations[random_index];
@@ -180,8 +188,6 @@ public class SetupSupermarket : MonoBehaviour
         int grid_size_y = Random.Range(min_ground_size, max_ground_size);
         GameObject ground = this.transform.Find("Ground").gameObject;
         ground.transform.localScale = new Vector3(grid_size_x, 0.5f, grid_size_y);
-        Debug.Log("Grid in x: " + grid_size_x);
-        Debug.Log("Grid in y: " + grid_size_y);
         //ground_tiles.Add(ground);
         
 
@@ -228,8 +234,6 @@ public class SetupSupermarket : MonoBehaviour
 
         //Entrance grid this is false but we just check later for false to save a conversion to true
         bool[,] occupied_entrance = new bool[(int)entrance_size[0], (int)entrance_size[2]];
-        Debug.Log("Entrance Size in x: " + entrance_size[0]);
-        Debug.Log("Entrance Size in y: " + entrance_size[2]);
 
 
         // Take out at least one field around the edge of the field and 2 to the north and east
@@ -416,7 +420,6 @@ public class SetupSupermarket : MonoBehaviour
         }
 
         // Take out fields
-
         for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
             for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
@@ -513,7 +516,6 @@ public class SetupSupermarket : MonoBehaviour
                     //durablefood area
                     if (grid_hor < durablefood_area.area_size[0] && grid_vert < durablefood_area.area_size[1])
                     {
-
                         if (durablefood_area.orientation == "horizontal")
                         {
                             object_rotation = Quaternion.Euler(0, 90, 0);
@@ -609,13 +611,6 @@ public class SetupSupermarket : MonoBehaviour
                             }
                         }
                     }
-                    /**** spawn red cubes ****
-                    else
-                    {
-                        GameObject new_object = Instantiate(shelf_pref, object_position, object_rotation, this.transform);
-                        shelve_tiles.Add(new_object);
-                    }
-                    **************************/
                 }
             }
         }
@@ -673,7 +668,7 @@ public class SetupSupermarket : MonoBehaviour
         Vector3 agent_spawn_pos = new Vector3(agent_starting_position.x, 1.5f, agent_starting_position.y);
         //occupiedGrids[(int)agent_pos.x, (int)agent_pos.y] = false;
         agent.GetComponent<AgentReposition>().reposition(agent_spawn_pos);
-        Debug.Log("Agent starting position: " + Agent.X + " " + Agent.Y);
+        //Debug.Log("Agent starting position: " + Agent.X + " " + Agent.Y);
 
         //temporary for the goal as well
         GridTile Goal = new GridTile();
@@ -691,7 +686,7 @@ public class SetupSupermarket : MonoBehaviour
 
         if (goal_positions_2d[0] != null)
         {
-            Debug.Log("Goal starting position: " + Goal.X + " " + Goal.Y);
+            //Debug.Log("Goal starting position: " + Goal.X + " " + Goal.Y);
             //A* algorithm to check if both agents can reach each other
             //https://dotnetcoretutorials.com/2020/07/25/a-search-pathfinding-algorithm-in-c/
             Agent.set_Distance(Goal.X, Goal.Y);
@@ -705,31 +700,18 @@ public class SetupSupermarket : MonoBehaviour
 
                 if (checkTile.X == Goal.X && checkTile.Y == Goal.Y)
                 {
-                    print("Path found for: " + this.name);
                     var tile = checkTile;
                     while (true)
                     {
-                        Debug.Log("Current Tile x: " + tile.X + " y: " + tile.Y);
+                        //Debug.Log("Current Tile x: " + tile.X + " y: " + tile.Y);
                         var test = new Vector2(tile.X, tile.Y);
-                        Debug.Log("localposition: " + parse_map_to_localposition(test, grid_size_x, grid_size_y));
+                        //Debug.Log("localposition: " + parse_map_to_localposition(test, grid_size_x, grid_size_y));
                         tile = tile.Parent;
                         if (tile == null)
                         {
-                            Debug.Log("Whole Map written");
                             return;
                         }
                     }
-                    /*for (int i = 0; i < visitedTiles.Count; i++)
-                    {
-                        Debug.Log("Current Tile " + i + " x: " + visitedTiles[i].X + " y: " + visitedTiles[i].Y);
-                    }*/
-                    //We found the destination and we can be sure (Because the the OrderBy above)
-                    //That it is the most low cost option. 
-                    /*if (printMapFile != null)
-                    {
-                        printMapToFile(occupiedGrids, GridSize, checkTile, Agent1, Agent2);
-                    }
-                    return; */
                 }
 
                 visitedTiles.Add(checkTile);
@@ -838,7 +820,7 @@ public class SetupSupermarket : MonoBehaviour
     {
         if (map_position.x < 0 || map_position.y < 0)
         {
-            Debug.Log("Wrong function used");
+            Debug.LogError("Wrong function used. Vector2(0f,0f) is given");
             return new Vector2(0f,0f);
         }
         float x_half_map_size = (float)(grid_size_x - 1.0f) / 2.0f;
