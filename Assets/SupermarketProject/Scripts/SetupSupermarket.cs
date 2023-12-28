@@ -159,11 +159,21 @@ public class SetupSupermarket : MonoBehaviour
             Application.Quit();
         }
 
+        /////Reset Values/////
+        //***Empty Goal List***//
+        goal_positions_2d.Clear();
+
         //Clear ground tiles
         foreach (GameObject ground_tile in ground_tiles)
         {
             Destroy(ground_tile);
         }
+        //Clear shelve tiles
+        foreach (GameObject shelve in shelve_tiles)
+        {
+            Destroy(shelve);
+        }
+
 
         // Generate ground surface
         int grid_size_x = Random.Range(min_ground_size, max_ground_size);
@@ -182,7 +192,6 @@ public class SetupSupermarket : MonoBehaviour
         Vector3 entrance_position = this.transform.localPosition + new Vector3((grid_size_x / 2.0f - entrance_size[0] / 2.0f), 0.5f, (-grid_size_y / 2.0f + entrance_size[2] / 2.0f));
         GameObject entrance = Instantiate(entrance_pref, entrance_position, entranceRotation, this.transform);
         ground_tiles.Add(entrance);
-
 
         // Generate durablefood area
         Quaternion durablefoodRotation = Quaternion.Euler(0, 0, 0);
@@ -221,14 +230,6 @@ public class SetupSupermarket : MonoBehaviour
         bool[,] occupied_entrance = new bool[(int)entrance_size[0], (int)entrance_size[2]];
         Debug.Log("Entrance Size in x: " + entrance_size[0]);
         Debug.Log("Entrance Size in y: " + entrance_size[2]);
-
-
-
-
-        foreach(GameObject shelve in shelve_tiles)
-        {
-            Destroy(shelve);
-        }
 
 
         // Take out at least one field around the edge of the field and 2 to the north and east
@@ -278,7 +279,7 @@ public class SetupSupermarket : MonoBehaviour
                     {
                         if ((occupied_durablefood_grid.GetLength(0) % 3 == 1) && (grid_hor == occupied_durablefood_grid.GetLength(0) - 2))
                         {
-
+                            //pass
                         }
                         else
                         {
@@ -352,7 +353,6 @@ public class SetupSupermarket : MonoBehaviour
                         }
                     }
                 }
-
             }
         }
 
@@ -411,9 +411,7 @@ public class SetupSupermarket : MonoBehaviour
                     {
                         occupied_fruits_grid[grid_hor, grid_vert] = true;
                     }
-
                 }
-
             }
         }
 
@@ -482,6 +480,7 @@ public class SetupSupermarket : MonoBehaviour
                 if (occupiedGrids[i, k] == false) number_of_shelves++;
             }
         }
+
 
         //***Spawn Shelves***//
         int temp_number_of_items = number_of_items_to_purchase;
@@ -609,7 +608,6 @@ public class SetupSupermarket : MonoBehaviour
                                 goal_positions_2d.Add(temp_goal_position);
                             }
                         }
-
                     }
                     /**** spawn red cubes ****
                     else
@@ -690,8 +688,6 @@ public class SetupSupermarket : MonoBehaviour
             Debug.Log("MapPosition: " + goal_positions_2d[i]);
             Debug.Log("Position " + i + ": " + parse_localposition_to_map(goal_positions_2d[i], grid_size_x, grid_size_y));
         }*/
-
-        
 
         if (goal_positions_2d[0] != null)
         {
@@ -780,7 +776,6 @@ public class SetupSupermarket : MonoBehaviour
         {
             goal_pos.y = shelve_position.z - 1;
         }
-
         return goal_pos;
     }
 
@@ -797,7 +792,6 @@ public class SetupSupermarket : MonoBehaviour
         {
             goal_pos.x = shelve_position.x + 1;
         }
-
         return goal_pos;
     }
 
@@ -837,7 +831,6 @@ public class SetupSupermarket : MonoBehaviour
                 parsed_value.y = (int)(y_half_map_size + Mathf.Abs(local_position.x));
             }    
         }
-
         return parsed_value;
     }
 
