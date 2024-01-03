@@ -194,6 +194,7 @@ public class SetupSupermarket : MonoBehaviour
         // Generate entrance area
         Quaternion entranceRotation = Quaternion.Euler(0, 0, 0);
         entrance_pref.transform.localScale = new Vector3(Random.Range(min_entrance_size, max_entrance_size), 0.5f, Random.Range(min_entrance_size, max_entrance_size));
+        //entrance_pref.GetComponent<ground_scaling>().scale_Texture();
         Vector3 entrance_size = entrance_pref.transform.localScale;
         Vector3 entrance_position = this.transform.localPosition + new Vector3((grid_size_x / 2.0f - entrance_size[0] / 2.0f), 0.5f, (-grid_size_y / 2.0f + entrance_size[2] / 2.0f));
         GameObject entrance = Instantiate(entrance_pref, entrance_position, entranceRotation, this.transform);

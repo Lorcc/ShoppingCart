@@ -404,7 +404,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 604041991}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 25, z: 0}
+  m_LocalPosition: {x: 0, y: 40, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -469,7 +469,7 @@ MonoBehaviour:
   entrance_pref: {fileID: 906714432143104994, guid: 7b314bce10d84a24085e44ba48313b6e, type: 3}
   fruits_pref: {fileID: 3061980688328652459, guid: 3cec2502bfcbb134eae64e759291c40e, type: 3}
   durablefood_pref: {fileID: 2548879541000398908, guid: 10a46780fb13ede42b5ccd21452f0e1d, type: 3}
-  alcohol_pref: {fileID: 5422409323214981426, guid: 94576245bf33b9c46a1d524bd94053dc, type: 3}
+  alcohol_pref: {fileID: 8418388618802863418, guid: 45ddcbdbe1f04b7499ca7e03fe19918b, type: 3}
   shelve_wall_tile: {fileID: 9105874131369534015, guid: 5fe4cb81de5e3be4ab7df97c760b1375, type: 3}
   available_shelves:
   - {fileID: 3577151186742716460, guid: 654eab21b4631c14d83ede6fc96c1fa9, type: 3}
