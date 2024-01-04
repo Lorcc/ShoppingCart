@@ -194,7 +194,7 @@ public class SetupSupermarket : MonoBehaviour
         // Generate entrance area
         Quaternion entranceRotation = Quaternion.Euler(0, 0, 0);
         entrance_pref.transform.localScale = new Vector3(Random.Range(min_entrance_size, max_entrance_size), 0.5f, Random.Range(min_entrance_size, max_entrance_size));
-        //entrance_pref.GetComponent<ground_scaling>().scale_Texture();
+        entrance_pref.GetComponent<ground_scaling>().scale_Texture(entrance_pref.transform.localScale);
         Vector3 entrance_size = entrance_pref.transform.localScale;
         Vector3 entrance_position = this.transform.localPosition + new Vector3((grid_size_x / 2.0f - entrance_size[0] / 2.0f), 0.5f, (-grid_size_y / 2.0f + entrance_size[2] / 2.0f));
         GameObject entrance = Instantiate(entrance_pref, entrance_position, entranceRotation, this.transform);
@@ -203,6 +203,7 @@ public class SetupSupermarket : MonoBehaviour
         // Generate durablefood area
         Quaternion durablefoodRotation = Quaternion.Euler(0, 0, 0);
         durablefood_pref.transform.localScale = new Vector3(grid_size_x - entrance_size[0], 0.5f, grid_size_y - entrance_size[2]);
+        durablefood_pref.GetComponent<ground_scaling>().scale_Texture(durablefood_pref.transform.localScale);
         Vector3 durablefood_size = durablefood_pref.transform.localScale;
         Vector3 durablefood_position = this.transform.localPosition + new Vector3((durablefood_size[0] / 2.0f - grid_size_x / 2.0f), 0.5f, (grid_size_y / 2.0f - durablefood_size[2] / 2.0f));
         GameObject durablefood = Instantiate(durablefood_pref, durablefood_position, durablefoodRotation, this.transform);
@@ -212,6 +213,7 @@ public class SetupSupermarket : MonoBehaviour
         // Generate beverages area
         Quaternion alcoholRotation = Quaternion.Euler(0, 0, 0);
         alcohol_pref.transform.localScale = new Vector3(grid_size_x - entrance_size[0], 0.5f, entrance_size[2]);
+        alcohol_pref.GetComponent<ground_scaling>().scale_Texture(alcohol_pref.transform.localScale);
         Vector3 alcohol_size = alcohol_pref.transform.localScale;
         Vector3 alcohol_position = this.transform.localPosition + new Vector3((alcohol_size[0] / 2.0f - grid_size_x / 2.0f), 0.5f, (-grid_size_y / 2.0f + alcohol_size[2] / 2.0f));
         GameObject alcohol = Instantiate(alcohol_pref, alcohol_position, alcoholRotation, this.transform);
@@ -221,6 +223,7 @@ public class SetupSupermarket : MonoBehaviour
         // Generate fruits vegetable area
         Quaternion fruitsRotation = Quaternion.Euler(0, 0, 0);
         fruits_pref.transform.localScale = new Vector3(entrance_size[0], 0.5f, grid_size_y - entrance_size[2]);
+        fruits_pref.GetComponent<ground_scaling>().scale_Texture(fruits_pref.transform.localScale);
         Vector3 fruits_size = fruits_pref.transform.localScale;
         Vector3 fruits_position = this.transform.localPosition + new Vector3((grid_size_x / 2.0f - fruits_size[0] / 2.0f), 0.5f, (grid_size_y / 2.0f - fruits_size[2] / 2.0f));
         GameObject fruits = Instantiate(fruits_pref, fruits_position, fruitsRotation, this.transform);
