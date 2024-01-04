@@ -11,7 +11,7 @@ using System.IO;
 public class SetupSupermarket : MonoBehaviour
 {
     private const int lower_ground_size_threshold = 10;
-    private const int lower_entrance_size_threshold = 3;
+    private const int lower_entrance_size_threshold = 6;
 
     [SerializeField] private int min_ground_size = 20;
     [SerializeField] private int max_ground_size = 30;
@@ -31,6 +31,8 @@ public class SetupSupermarket : MonoBehaviour
     [SerializeField] private GameObject durablefood_pref;
     [SerializeField] private GameObject beverages_pref;
 
+    [SerializeField] private GameObject checkout; 
+
     private bool[,] horizontal_shelve = new bool[3, 3]{
                                         {false, false, false},
                                         {true, false, false},
@@ -48,7 +50,7 @@ public class SetupSupermarket : MonoBehaviour
 
     private List<GameObject> ground_tiles = new List<GameObject>();
     private List<GameObject> shelve_tiles = new List<GameObject>();
-
+    private List<GameObject> checkout_objects = new List<GameObject>();
 
     // List with the positions for A*
     private List<Vector2> goal_positions_2d = new List<Vector2>();
@@ -153,7 +155,7 @@ public class SetupSupermarket : MonoBehaviour
         }
         else if (min_entrance_size < lower_entrance_size_threshold)
         {
-            Debug.LogError("Minimum entrance_size should be bigger than 3 meters.");
+            Debug.LogError("Minimum entrance_size should be at least 6 meters.");
             Application.Quit();
         }
         else if (max_entrance_size > min_ground_size/2)
@@ -180,6 +182,11 @@ public class SetupSupermarket : MonoBehaviour
         foreach (GameObject shelve in shelve_tiles)
         {
             Destroy(shelve);
+        }
+        //Clear checkout objects
+        foreach (GameObject checkout in checkout_objects)
+        {
+            Destroy(checkout);
         }
 
 
@@ -317,7 +324,7 @@ public class SetupSupermarket : MonoBehaviour
         {
             for (int grid_vert = 0; grid_vert < occupied_beverages_grid.GetLength(1); grid_vert++)
             {
-                if (grid_hor == 0 || grid_hor == 1 || grid_hor == occupied_beverages_grid.GetLength(0) - 2 || grid_hor == occupied_beverages_grid.GetLength(0) - 1)
+                if (grid_hor == 0 || grid_hor == 1 ||  occupied_beverages_grid.GetLength(0) - 7 <= grid_hor)
                     occupied_beverages_grid[grid_hor, grid_vert] = true;
                 if (grid_vert == 0 || grid_vert == occupied_beverages_grid.GetLength(1) - 2 || grid_vert == occupied_beverages_grid.GetLength(1) - 1)
                     occupied_beverages_grid[grid_hor, grid_vert] = true;
@@ -663,6 +670,13 @@ public class SetupSupermarket : MonoBehaviour
             shelve_tiles.Add(shelve);
         }
 
+        ////////// Checkout Spawn //////////
+        Vector3 first_checkout_spawn_position = calculate_first_checkout_position(entrance_position, entrance_size);
+        Quaternion checkout_rotation = Quaternion.Euler(0, 0, 0);
+        GameObject first_checkout = Instantiate(checkout, first_checkout_spawn_position, checkout_rotation, this.transform);
+        checkout_objects.Add(first_checkout);
+
+
         ////////// Agent Position //////////
         agent_starting_position = calculate_agent_starting_position(entrance_position, entrance_size);
         GridTile Agent = new GridTile();
@@ -877,5 +891,15 @@ public class SetupSupermarket : MonoBehaviour
         agent_pos.x = entrance_position.x + entrance_scale.x / 2.0f - 2.5f;
         agent_pos.y = entrance_position.z + entrance_scale.z / 2.0f + 0.5f;
         return agent_pos;
+    }
+
+    //hard coded checkout position for first checkout closest to the wall, because we want room for the robot to bring the items to their checkout in the corner
+    public Vector3 calculate_first_checkout_position(Vector3 entrance_position, Vector3 entrance_scale)
+    {
+        Vector3 checkout_pos = new Vector2();
+        checkout_pos.x = entrance_position.x - entrance_scale.x/2.0f - 2.5f;
+        checkout_pos.y = 0.8f;
+        checkout_pos.z = entrance_position.z - entrance_scale.z/2.0f + 3.5f;
+        return checkout_pos;
     }
 }
