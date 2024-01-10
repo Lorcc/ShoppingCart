@@ -46,5 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   durableable_food_items:
   - {fileID: 3853866425287293871, guid: 07c678391c3f31b4b9087b26200b9dd6, type: 3}
-  alcohol_items: []
-  fruit_items: []
+  fruit_items:
+  - {fileID: 3853866425287293871, guid: 07c678391c3f31b4b9087b26200b9dd6, type: 3}
+  beverages_items:
+  - {fileID: 6449736800615297071, guid: 55f1881811b9f974f8d277db6ba2bd9c, type: 3}
+  - {fileID: 3892783746348519245, guid: fa19f2ed470fee445bb6c659ff28f86c, type: 3}
+  - {fileID: 539832593420000480, guid: 1bc2bb28471ff9a4a9473469f4a1f2bf, type: 3}

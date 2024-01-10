@@ -529,12 +529,13 @@ public class SetupSupermarket : MonoBehaviour
                     {
                         if (durablefood_area.orientation == "horizontal")
                         {
+                            Section obj = Section.Durable;
                             object_rotation = Quaternion.Euler(0, 90, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
+                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
                             shelve_tiles.Add(new_object);
                             if (spawn_food_to_purchase == true)
                             {
-                                Section obj = Section.Durable;
                                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
 
                                 //Calculation
@@ -544,12 +545,13 @@ public class SetupSupermarket : MonoBehaviour
                         }
                         else
                         {
+                            Section obj = Section.Durable;
                             object_rotation = Quaternion.Euler(0, 0, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
+                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
                             shelve_tiles.Add(new_object);
                             if (spawn_food_to_purchase == true)
                             {
-                                Section obj = Section.Durable;
                                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
 
                                 //Calculation
@@ -563,12 +565,13 @@ public class SetupSupermarket : MonoBehaviour
                     {
                         if (fruits_area.orientation == "horizontal")
                         {
+                            Section obj = Section.Fruit;
                             object_rotation = Quaternion.Euler(0, 90, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
+                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
                             shelve_tiles.Add(new_object);
                             if (spawn_food_to_purchase == true)
                             {
-                                Section obj = Section.Fruit;
                                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
                                 //Calculation
                                 temp_goal_position = calculate_goal_position_horizontal(object_position, temp_position);
@@ -577,12 +580,13 @@ public class SetupSupermarket : MonoBehaviour
                         }
                         else
                         {
+                            Section obj = Section.Fruit;
                             object_rotation = Quaternion.Euler(0, 0, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
+                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
                             shelve_tiles.Add(new_object);
                             if (spawn_food_to_purchase == true)
                             {
-                                Section obj = Section.Fruit;
                                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
                                 //Calculation
                                 temp_goal_position = calculate_goal_position_vertical(object_position, temp_position);
@@ -595,12 +599,13 @@ public class SetupSupermarket : MonoBehaviour
                     {
                         if (beverages_area.orientation == "horizontal")
                         {
+                            Section obj = Section.Drinks;
                             object_rotation = Quaternion.Euler(0, 90, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
+                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
                             shelve_tiles.Add(new_object);
                             if (spawn_food_to_purchase == true)
                             {
-                                Section obj = Section.Drinks;
                                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
                                 //Calculation
                                 temp_goal_position = calculate_goal_position_horizontal(object_position, temp_position);
@@ -609,12 +614,13 @@ public class SetupSupermarket : MonoBehaviour
                         }
                         else
                         {
+                            Section obj = Section.Drinks;
                             object_rotation = Quaternion.Euler(0, 0, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
+                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
                             shelve_tiles.Add(new_object);
                             if (spawn_food_to_purchase == true)
                             {
-                                Section obj = Section.Drinks;
                                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
                                 //Calculation
                                 temp_goal_position = calculate_goal_position_vertical(object_position, temp_position);

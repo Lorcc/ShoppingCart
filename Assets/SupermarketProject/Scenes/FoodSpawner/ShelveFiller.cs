@@ -7,6 +7,7 @@ public class ShelveFiller : MonoBehaviour
     enum Section { Fruit, Durable, Drinks }
 
     private GameObject generalizer;
+    private GameObject random_item;
 
     public Vector3 spawn_purchable_item(int section)
     {
@@ -73,9 +74,47 @@ public class ShelveFiller : MonoBehaviour
         return p_item_position;
     }
 
+    public void spawn_random_items(int section)
+    {
+        if ((Section)section == Section.Durable)
+        {
+            foreach (Transform child in random_item.transform)
+            {
+                FoodSpawner random_food_spawner_script = child.GetComponent<FoodSpawner>();
+                if (random_food_spawner_script != null)
+                {
+                    random_food_spawner_script.spawn_random_durable_item();
+                }
+            }
+        }
+        else if ((Section)section == Section.Fruit)
+        {
+            foreach (Transform child in random_item.transform)
+            {
+                FoodSpawner random_food_spawner_script = child.GetComponent<FoodSpawner>();
+                if (random_food_spawner_script != null)
+                {
+                    random_food_spawner_script.spawn_random_fruits_item();
+                }
+            }
+        }
+        else if ((Section)section == Section.Drinks)
+        {
+            foreach (Transform child in random_item.transform)
+            {
+                FoodSpawner random_food_spawner_script = child.GetComponent<FoodSpawner>();
+                if (random_food_spawner_script != null)
+                {
+                    random_food_spawner_script.spawn_random_drinks_item();
+                }
+            }
+        }
+    }
+
     private void Awake()
     {
         // Gets purchable_food group from the scene
         generalizer = this.transform.GetChild(0).gameObject;
+        random_item = this.transform.GetChild(1).gameObject;
     }
 }

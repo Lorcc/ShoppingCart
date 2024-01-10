@@ -458,11 +458,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d6d8be9cc23bb54cb6399cd0b7695b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  min_ground_size: 25
-  max_ground_size: 25
+  min_ground_size: 20
+  max_ground_size: 20
   min_entrance_size: 6
   max_entrance_size: 7
-  number_of_items_to_purchase: 100
+  number_of_items_to_purchase: 5
   agent: {fileID: 2090351700}
   goal: {fileID: 313015841}
   shelf_pref: {fileID: 3262721733602614305, guid: e21166cdf7d83954e872c748f46972a8, type: 3}
