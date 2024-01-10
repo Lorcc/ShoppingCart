@@ -44,6 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3276b438fe6a30349bf02b24e111d1e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  durableable_food_items: {fileID: 7227623531101504111, guid: 0e606c709495f36478252707b013f4d3, type: 3}
-  beverages_items: {fileID: 7863871301831459299, guid: cbd84910661e2694aacccbbbd9db11d6, type: 3}
-  fruit_items: {fileID: 6227557486261460020, guid: d7309d8ecf5162c46938c380b3f30991, type: 3}
+  durableable_food_items:
+  - {fileID: 7227623531101504111, guid: 0e606c709495f36478252707b013f4d3, type: 3}
+  fruit_items:
+  - {fileID: 6227557486261460020, guid: d7309d8ecf5162c46938c380b3f30991, type: 3}
+  beverages_items:
+  - {fileID: 6089440818813123465, guid: 52071af37a9a5b946ba7f0c6513afe76, type: 3}
+  - {fileID: 7863871301831459299, guid: cbd84910661e2694aacccbbbd9db11d6, type: 3}
+  - {fileID: 7075815246352617046, guid: 6560be407e833804fba84f36aef1a9d9, type: 3}
