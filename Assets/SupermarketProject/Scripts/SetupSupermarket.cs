@@ -10,7 +10,7 @@ using System.IO;
 
 public class SetupSupermarket : MonoBehaviour
 {
-    private const int lower_ground_size_threshold = 10;
+    private const int lower_ground_size_threshold = 15;
     private const int lower_entrance_size_threshold = 6;
 
     [SerializeField] private int min_ground_size = 20;
@@ -145,7 +145,7 @@ public class SetupSupermarket : MonoBehaviour
         }
         else if (min_ground_size < lower_ground_size_threshold)
         {
-            Debug.LogError("Minimum ground size should be higher than 10 meters.");
+            Debug.LogError("Minimum ground size should be higher than 14 meters.");
             Application.Quit();
         }
         else if (min_entrance_size > max_entrance_size)
