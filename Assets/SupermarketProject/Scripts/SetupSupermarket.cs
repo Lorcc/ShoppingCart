@@ -680,7 +680,7 @@ public class SetupSupermarket : MonoBehaviour
         }
 
         //Spawn entrance fences
-        setup_entrance.setup_entrance(grid_size_x, grid_size_y, (int)entrance_pref.transform.localScale[0]);
+        setup_entrance.setup_entrance(grid_size_x, grid_size_y, entrance_size);
             
 
         ////////// Checkout Spawn //////////
