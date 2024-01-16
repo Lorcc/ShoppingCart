@@ -462,7 +462,7 @@ MonoBehaviour:
   min_ground_size: 20
   max_ground_size: 20
   min_entrance_size: 6
-  max_entrance_size: 7
+  max_entrance_size: 9
   number_of_items_to_purchase: 5
   agent: {fileID: 2090351700}
   goal: {fileID: 313015841}

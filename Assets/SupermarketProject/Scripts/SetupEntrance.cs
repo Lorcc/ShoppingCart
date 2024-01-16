@@ -9,33 +9,58 @@ public class SetupEntrance : MonoBehaviour
 
     private List<GameObject> fence_tiles = new List<GameObject>();
 
-
-
     public void setup_entrance(int grid_size_x, int grid_size_y, Vector3 entrance_size)
     {
-        //Spawn entrance fences
-        for (int x_entr = (int)grid_size_x - (int)entrance_size.x; x_entr < grid_size_x; x_entr++)
+        //Clear ground tiles
+        foreach (GameObject fence_tile in fence_tiles)
         {
-            float offset_x = 0.5f;
-            float offset_y = 0.05f;
-            float fence_position_z = (-grid_size_y / 2.0f) + entrance_size.z - offset_y;
-            Vector3 fence_position = this.transform.position + new Vector3((x_entr - (grid_size_x / 2.0f) + offset_x), 0.8f, fence_position_z);
-            Quaternion shelve_rotation = Quaternion.Euler(0, 0, 0);
-            GameObject fence = Instantiate(fence_tile, fence_position, shelve_rotation, this.transform);
-            fence_tiles.Add(fence);
-            //agent_pos.x = entrance_position.x + entrance_scale.x / 2.0f - 1.5f;
-            //agent_pos.y = entrance_position.z + entrance_scale.z / 2.0f + 0.5f;
+            Destroy(fence_tile);
+        }
+        //Spawn entrance fences
+        int x_entr_start = (int)grid_size_x - (int)entrance_size.x;
+        int x_entr = x_entr_start;
+        while(x_entr < grid_size_x)
+        {
+            if (x_entr < x_entr_start + (int)entrance_size.x / 2)
+            {
+                float offset_x = 0.5f;
+                float offset_y = 0.1f;
+                float fence_position_z = (-grid_size_y / 2.0f) + entrance_size.z - offset_y;
+                Vector3 fence_position = this.transform.position + new Vector3((x_entr - (grid_size_x / 2.0f) + offset_x), 0.8f, fence_position_z);
+                Quaternion fence_rotation = Quaternion.Euler(0, 0, 0);
+                GameObject fence = Instantiate(fence_tile, fence_position, fence_rotation, this.transform);
+                fence_tiles.Add(fence);
+                x_entr++;
+            }
+            else if (x_entr == x_entr_start + (int)entrance_size.x / 2)
+            {
+                float offset_x = 1.0f;
+                float offset_y = 0.1f;
+                float fence_position_z = (-grid_size_y / 2.0f) + entrance_size.z - offset_y;
+                Vector3 fence_position = this.transform.position + new Vector3((x_entr - (grid_size_x / 2.0f) + offset_x), 0.8f, fence_position_z);
+                Quaternion fence_rotation = Quaternion.Euler(0, 0, 0);
+                GameObject fence = Instantiate(fence_doubleentrance_tile, fence_position, fence_rotation, this.transform);
+                fence_tiles.Add(fence);
+                x_entr++;
+                x_entr++;
+            }
+            else if(x_entr > x_entr_start + (int)entrance_size.x / 2 + 1)
+            {
+                float offset_x = 0.5f;
+                float offset_y = 0.1f;
+                float fence_position_z = (-grid_size_y / 2.0f) + entrance_size.z - offset_y;
+                Vector3 fence_position = this.transform.position + new Vector3((x_entr - (grid_size_x / 2.0f) + offset_x), 0.8f, fence_position_z);
+                Quaternion fence_rotation = Quaternion.Euler(0, 180, 0);
+                GameObject fence = Instantiate(fence_tile, fence_position, fence_rotation, this.transform);
+                fence_tiles.Add(fence);
+                x_entr++;
+            }
+            else
+            {
+                Debug.LogError("Out of bounds entrance spawn");
+                x_entr++;
+            }
         }
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
