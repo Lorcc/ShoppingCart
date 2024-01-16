@@ -48,6 +48,9 @@ public class SetupSupermarket : MonoBehaviour
     [SerializeField] private GameObject[] available_shelves;
 
 
+    SetupEntrance setup_entrance;
+
+
     private List<GameObject> ground_tiles = new List<GameObject>();
     private List<GameObject> shelve_tiles = new List<GameObject>();
     private List<GameObject> checkout_objects = new List<GameObject>();
@@ -676,6 +679,10 @@ public class SetupSupermarket : MonoBehaviour
             shelve_tiles.Add(shelve);
         }
 
+        //Spawn entrance fences
+        setup_entrance.setup_entrance(grid_size_x, grid_size_y, entrance_size);
+            
+
         ////////// Checkout Spawn //////////
         Vector3 first_checkout_spawn_position = calculate_first_checkout_position(entrance_position, entrance_size);
         Quaternion checkout_rotation = Quaternion.Euler(0, 0, 0);
@@ -894,7 +901,7 @@ public class SetupSupermarket : MonoBehaviour
     public Vector2 calculate_agent_starting_position(Vector3 entrance_position, Vector3 entrance_scale)
     {
         Vector2 agent_pos = new Vector2();
-        agent_pos.x = entrance_position.x + entrance_scale.x / 2.0f - 2.5f;
+        agent_pos.x = entrance_position.x + entrance_scale.x / 2.0f - 1.5f;
         agent_pos.y = entrance_position.z + entrance_scale.z / 2.0f + 0.5f;
         return agent_pos;
     }
@@ -907,5 +914,11 @@ public class SetupSupermarket : MonoBehaviour
         checkout_pos.y = 0.8f;
         checkout_pos.z = entrance_position.z - entrance_scale.z/2.0f + 3.5f;
         return checkout_pos;
+    }
+
+    private void Awake()
+    {
+        // Gets entrance script
+        setup_entrance = this.transform.GetComponent<SetupEntrance>();
     }
 }
