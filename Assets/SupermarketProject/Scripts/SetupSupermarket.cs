@@ -15,6 +15,8 @@ public class SetupSupermarket : MonoBehaviour
 
     private const int CHECKOUT_SIZE = 7;
 
+    public GameObject main_camera;
+
     [SerializeField] private int min_ground_size = 20;
     [SerializeField] private int max_ground_size = 30;
 
@@ -204,15 +206,16 @@ public class SetupSupermarket : MonoBehaviour
         {
             Destroy(obstacle);
         }
-
-
+        
         // Generate ground surface
         int grid_size_x = Random.Range(min_ground_size, max_ground_size);
         int grid_size_y = Random.Range(min_ground_size, max_ground_size);
         GameObject ground = this.transform.Find("Ground").gameObject;
         ground.transform.localScale = new Vector3(grid_size_x, 0.5f, grid_size_y);
         //ground_tiles.Add(ground);
-        
+
+        //Camera 
+        main_camera.transform.localPosition = new Vector3(0,grid_size_x+3,0);
 
         // Generate entrance area
         Quaternion entranceRotation = Quaternion.Euler(0, 0, 0);
@@ -717,43 +720,28 @@ public class SetupSupermarket : MonoBehaviour
         {
             for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
             {
+                //guard clause
+                if (temp_number_of_obstacles <= 0)
+                {
+                    break;
+                }
                 if (occupied_grid_static_obstacles[grid_hor, grid_vert] == false)
                 {
-                    bool spawn_obstacle = false;
-                    if (temp_number_of_obstacles > 0)
-                    {
-                        float random_number = Random.Range(0.0f, 1.0f);
-
-                        if (random_number < ((float)temp_number_of_obstacles / (float)number_of_possible_obstacle_fields))
-                        {
-                            spawn_obstacle = true;
-                            temp_number_of_obstacles--;
-                        }
-                        number_of_possible_obstacle_fields--;
-                    }
-                    else
-                    {
-                        break;
-                    }
-
-                    if (spawn_obstacle == true)
+                    float random_number = Random.Range(0.0f, 1.0f);
+                    if (random_number < ((float)temp_number_of_obstacles / (float)number_of_possible_obstacle_fields))
                     {
                         float object_offset = 0.5f;
                         int random_item = Random.Range(0, available_static_obstacles.Length);
-                        int random_rotation = Random.Range(0,2);
+                        int random_rotation = Random.Range(0, 2);
 
                         Vector3 object_rotation_vertical = new Vector3(0, 0, 0);
                         Vector3 object_rotation_horizontal = new Vector3(0, 90, 0);
-                        if (random_rotation == 0)
-                        {
-                            object_rotation_vertical.y = 0;
-                            object_rotation_horizontal.y = 90;
-                        }
-                        else
+                        if (random_rotation == 1)
                         {
                             object_rotation_vertical.y = 180;
                             object_rotation_horizontal.y = 270;
                         }
+
                         Quaternion object_rotation = Quaternion.Euler(object_rotation_vertical);
                         Vector3 object_position = this.transform.localPosition + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
 
@@ -800,7 +788,9 @@ public class SetupSupermarket : MonoBehaviour
                                 static_obstacles.Add(new_object);
                             }
                         }
+                        temp_number_of_obstacles--;
                     }
+                    number_of_possible_obstacle_fields--;    
                 }
             }
         }
@@ -1045,5 +1035,9 @@ public class SetupSupermarket : MonoBehaviour
     {
         // Gets entrance script
         setup_entrance = this.transform.GetComponent<SetupEntrance>();
+    }
+    private void Start()
+    {
+        main_camera = GameObject.Find("Main Camera");
     }
 }

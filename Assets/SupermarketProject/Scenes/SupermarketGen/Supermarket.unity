@@ -403,8 +403,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 604041991}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 40, z: 0}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 20, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -459,6 +459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d6d8be9cc23bb54cb6399cd0b7695b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  main_camera: {fileID: 0}
   min_ground_size: 20
   max_ground_size: 20
   min_entrance_size: 6
@@ -475,10 +476,10 @@ MonoBehaviour:
   shelve_wall_tile: {fileID: 9105874131369534015, guid: 5fe4cb81de5e3be4ab7df97c760b1375, type: 3}
   available_shelves:
   - {fileID: 3577151186742716460, guid: 654eab21b4631c14d83ede6fc96c1fa9, type: 3}
-  number_of_static_obstacles: 5
+  number_of_static_obstacles: 10
   available_static_obstacles:
   - {fileID: 4636400699403017173, guid: 0c56c59bd95efa34ea67815663808ba4, type: 3}
-  - {fileID: 9032422360866681831, guid: 557173dc3bacf6b4bb77fbd254f77f5e, type: 3}
+  - {fileID: 612432780565889836, guid: 2309fc43869efb84e97f810d7701d6ec, type: 3}
 --- !u!114 &783048702
 MonoBehaviour:
   m_ObjectHideFlags: 0
