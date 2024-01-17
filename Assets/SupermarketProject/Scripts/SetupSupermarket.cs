@@ -13,6 +13,8 @@ public class SetupSupermarket : MonoBehaviour
     private const int lower_ground_size_threshold = 15;
     private const int lower_entrance_size_threshold = 6;
 
+    private const int CHECKOUT_SIZE = 7;
+
     [SerializeField] private int min_ground_size = 20;
     [SerializeField] private int max_ground_size = 30;
 
@@ -51,6 +53,7 @@ public class SetupSupermarket : MonoBehaviour
     SetupEntrance setup_entrance;
 
 
+
     private List<GameObject> ground_tiles = new List<GameObject>();
     private List<GameObject> shelve_tiles = new List<GameObject>();
     private List<GameObject> checkout_objects = new List<GameObject>();
@@ -59,7 +62,7 @@ public class SetupSupermarket : MonoBehaviour
     private List<Vector2> goal_positions_2d = new List<Vector2>();
     private Vector2 agent_starting_position = new Vector2();
 
-    enum Section { Fruit, Durable, Drinks}
+    enum Section { Fruit, Durable, Drinks }
 
    public class Area
     {
@@ -327,7 +330,7 @@ public class SetupSupermarket : MonoBehaviour
         {
             for (int grid_vert = 0; grid_vert < occupied_beverages_grid.GetLength(1); grid_vert++)
             {
-                if (grid_hor == 0 || grid_hor == 1 ||  occupied_beverages_grid.GetLength(0) - 7 <= grid_hor)
+                if (grid_hor == 0 || grid_hor == 1 ||  occupied_beverages_grid.GetLength(0) - CHECKOUT_SIZE <= grid_hor)
                     occupied_beverages_grid[grid_hor, grid_vert] = true;
                 if (grid_vert == 0 || grid_vert == occupied_beverages_grid.GetLength(1) - 2 || grid_vert == occupied_beverages_grid.GetLength(1) - 1)
                     occupied_beverages_grid[grid_hor, grid_vert] = true;
@@ -678,6 +681,40 @@ public class SetupSupermarket : MonoBehaviour
             GameObject shelve = Instantiate(shelve_wall_tile, shelve_position, shelve_rotation, this.transform);
             shelve_tiles.Add(shelve);
         }
+
+        ////////// Spawn Static Obstacles //////////
+        bool[,] occupied_grid_static_obstacles = new bool[grid_size_x, grid_size_y];
+        for(int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+        {
+            for(int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+            {
+                if (grid_hor >= grid_size_x - entrance_size[0] - CHECKOUT_SIZE && grid_vert >= grid_size_y - entrance_size[2] - 1)
+                {
+                    occupied_grid_static_obstacles[grid_hor, grid_vert] = true;
+                }
+                else
+                {
+                    occupied_grid_static_obstacles[grid_hor, grid_vert] = !occupiedGrids[grid_hor, grid_vert];
+                }
+            }
+        }
+
+        for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+        {
+            for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+            {
+                if (occupied_grid_static_obstacles[grid_hor, grid_vert] == false)
+                {
+                    float object_offset = 0.5f;
+                    Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
+                    Vector3 object_position = this.transform.localPosition + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
+                    object_rotation = Quaternion.Euler(0, 90, 0);
+                    GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
+                    shelve_tiles.Add(new_object);
+                }
+            }
+        }
+
 
         //Spawn entrance fences
         setup_entrance.setup_entrance(grid_size_x, grid_size_y, entrance_size);
