@@ -25,7 +25,6 @@ public class PurchableFoodSpawner : MonoBehaviour
     }
     public void spawn_drinks_item()
     {
-        Debug.Log(beverages_items.Length);
         int random_item = Random.Range(0, beverages_items.Length);
         GameObject new_object = Instantiate(beverages_items[random_item], this.transform);
         all_items.Add(new_object);
