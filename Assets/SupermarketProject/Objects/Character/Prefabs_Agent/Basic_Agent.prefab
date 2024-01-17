@@ -206,7 +206,7 @@ MonoBehaviour:
   m_DetectableTags: []
   m_RaysPerDirection: 4
   m_MaxRayDegrees: 45
-  m_SphereCastRadius: 0.5
+  m_SphereCastRadius: 0.15
   m_RayLength: 20
   m_RayLayerMask:
     serializedVersion: 2
@@ -563,11 +563,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2429256246785184297}
-  - component: {fileID: 2783134775948858766}
   - component: {fileID: 3262374335367740989}
   - component: {fileID: 3918704731879050294}
   - component: {fileID: 8945414667138045126}
   - component: {fileID: 7748667287056552563}
+  - component: {fileID: 7698946914629865784}
   m_Layer: 0
   m_Name: Basic_Agent
   m_TagString: Untagged
@@ -592,19 +592,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2783134775948858766
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8460377995368969055}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &3262374335367740989
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -668,6 +655,7 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
+  targetTransform: {fileID: 0}
 --- !u!114 &7748667287056552563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -682,3 +670,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DecisionPeriod: 5
   TakeActionsBetweenDecisions: 1
+--- !u!65 &7698946914629865784
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8460377995368969055}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

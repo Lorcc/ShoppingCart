@@ -475,7 +475,7 @@ MonoBehaviour:
   shelve_wall_tile: {fileID: 9105874131369534015, guid: 5fe4cb81de5e3be4ab7df97c760b1375, type: 3}
   available_shelves:
   - {fileID: 3577151186742716460, guid: 654eab21b4631c14d83ede6fc96c1fa9, type: 3}
-  number_of_static_obstacles: 10
+  number_of_static_obstacles: 5
   available_static_obstacles:
   - {fileID: 4636400699403017173, guid: 0c56c59bd95efa34ea67815663808ba4, type: 3}
   - {fileID: 9032422360866681831, guid: 557173dc3bacf6b4bb77fbd254f77f5e, type: 3}

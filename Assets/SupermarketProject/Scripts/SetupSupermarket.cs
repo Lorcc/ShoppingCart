@@ -61,7 +61,7 @@ public class SetupSupermarket : MonoBehaviour
     private List<GameObject> ground_tiles = new List<GameObject>();
     private List<GameObject> shelve_tiles = new List<GameObject>();
     private List<GameObject> checkout_objects = new List<GameObject>();
-    private List<GameObject> static_obsticles = new List<GameObject>();
+    private List<GameObject> static_obstacles = new List<GameObject>();
 
     // List with the positions for A*
     private List<Vector2> goal_positions_2d = new List<Vector2>();
@@ -198,6 +198,11 @@ public class SetupSupermarket : MonoBehaviour
         foreach (GameObject checkout in checkout_objects)
         {
             Destroy(checkout);
+        }
+        //Clear obstacle objects
+        foreach (GameObject obstacle in static_obstacles)
+        {
+            Destroy(obstacle);
         }
 
 
@@ -759,12 +764,12 @@ public class SetupSupermarket : MonoBehaviour
                             {
                                 object_rotation = Quaternion.Euler(object_rotation_horizontal);
                                 GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
-                                static_obsticles.Add(new_object);
+                                static_obstacles.Add(new_object);
                             }
                             else
                             {
                                 GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
-                                static_obsticles.Add(new_object);
+                                static_obstacles.Add(new_object);
                             }
                         }
                         else if (grid_hor >= grid_size_x - fruits_area.area_size[0] && grid_vert < fruits_area.area_size[1])
@@ -773,12 +778,12 @@ public class SetupSupermarket : MonoBehaviour
                             {
                                 object_rotation = Quaternion.Euler(object_rotation_horizontal);
                                 GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
-                                static_obsticles.Add(new_object);
+                                static_obstacles.Add(new_object);
                             }
                             else
                             {
                                 GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
-                                static_obsticles.Add(new_object);
+                                static_obstacles.Add(new_object);
                             }
                         }
                         else if (grid_hor < beverages_area.area_size[0] && grid_vert >= grid_size_y - beverages_area.area_size[1])
@@ -787,19 +792,21 @@ public class SetupSupermarket : MonoBehaviour
                             {
                                 object_rotation = Quaternion.Euler(object_rotation_horizontal);
                                 GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
-                                static_obsticles.Add(new_object);
+                                static_obstacles.Add(new_object);
                             }
                             else
                             {
                                 GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
-                                static_obsticles.Add(new_object);
+                                static_obstacles.Add(new_object);
                             }
                         }
                     }
                 }
             }
         }
-            
+
+        ////////// Spawn Entrance Fence //////////
+        setup_entrance.setup_entrance(grid_size_x, grid_size_y, entrance_size);
 
         ////////// Checkout Spawn //////////
         Vector3 first_checkout_spawn_position = calculate_first_checkout_position(entrance_position, entrance_size);
