@@ -13,6 +13,10 @@ public class SetupSupermarket : MonoBehaviour
     private const int lower_ground_size_threshold = 15;
     private const int lower_entrance_size_threshold = 6;
 
+    private const int CHECKOUT_SIZE = 7;
+
+    public GameObject main_camera;
+
     [SerializeField] private int min_ground_size = 20;
     [SerializeField] private int max_ground_size = 30;
 
@@ -20,6 +24,7 @@ public class SetupSupermarket : MonoBehaviour
     [SerializeField] private int max_entrance_size = 7;
 
     [SerializeField] private int number_of_items_to_purchase = 1;
+    
 
 
     [SerializeField] private GameObject agent;
@@ -47,19 +52,24 @@ public class SetupSupermarket : MonoBehaviour
     [SerializeField] private GameObject shelve_wall_tile;
     [SerializeField] private GameObject[] available_shelves;
 
+    [SerializeField] private int number_of_static_obstacles = 1;
+    [SerializeField] private GameObject[] available_static_obstacles;
+
 
     SetupEntrance setup_entrance;
+
 
 
     private List<GameObject> ground_tiles = new List<GameObject>();
     private List<GameObject> shelve_tiles = new List<GameObject>();
     private List<GameObject> checkout_objects = new List<GameObject>();
+    private List<GameObject> static_obstacles = new List<GameObject>();
 
     // List with the positions for A*
     private List<Vector2> goal_positions_2d = new List<Vector2>();
     private Vector2 agent_starting_position = new Vector2();
 
-    enum Section { Fruit, Durable, Drinks}
+    enum Section { Fruit, Durable, Drinks }
 
    public class Area
     {
@@ -191,15 +201,21 @@ public class SetupSupermarket : MonoBehaviour
         {
             Destroy(checkout);
         }
-
-
+        //Clear obstacle objects
+        foreach (GameObject obstacle in static_obstacles)
+        {
+            Destroy(obstacle);
+        }
+        
         // Generate ground surface
         int grid_size_x = Random.Range(min_ground_size, max_ground_size);
         int grid_size_y = Random.Range(min_ground_size, max_ground_size);
         GameObject ground = this.transform.Find("Ground").gameObject;
         ground.transform.localScale = new Vector3(grid_size_x, 0.5f, grid_size_y);
         //ground_tiles.Add(ground);
-        
+
+        //Camera 
+        main_camera.transform.localPosition = new Vector3(0,grid_size_x+3,0);
 
         // Generate entrance area
         Quaternion entranceRotation = Quaternion.Euler(0, 0, 0);
@@ -327,7 +343,7 @@ public class SetupSupermarket : MonoBehaviour
         {
             for (int grid_vert = 0; grid_vert < occupied_beverages_grid.GetLength(1); grid_vert++)
             {
-                if (grid_hor == 0 || grid_hor == 1 ||  occupied_beverages_grid.GetLength(0) - 7 <= grid_hor)
+                if (grid_hor == 0 || grid_hor == 1 ||  occupied_beverages_grid.GetLength(0) - CHECKOUT_SIZE <= grid_hor)
                     occupied_beverages_grid[grid_hor, grid_vert] = true;
                 if (grid_vert == 0 || grid_vert == occupied_beverages_grid.GetLength(1) - 2 || grid_vert == occupied_beverages_grid.GetLength(1) - 1)
                     occupied_beverages_grid[grid_hor, grid_vert] = true;
@@ -497,7 +513,7 @@ public class SetupSupermarket : MonoBehaviour
                 if (occupiedGrids[i, k] == false) number_of_shelves++;
             }
         }
-
+        int temp_number_of_shelves = number_of_shelves;
 
         //***Spawn Shelves***//
         int temp_number_of_items = number_of_items_to_purchase;
@@ -512,12 +528,12 @@ public class SetupSupermarket : MonoBehaviour
                     {
                         float random_number = Random.Range(0.0f, 1.0f);
 
-                        if (random_number < ((float)temp_number_of_items / (float)number_of_shelves))
+                        if (random_number < ((float)temp_number_of_items / (float)temp_number_of_shelves))
                         {
                             spawn_food_to_purchase = true;
                             temp_number_of_items--;
                         }
-                        number_of_shelves--;
+                        temp_number_of_shelves--;
                     }
 
                     float object_offset = 0.5f;
@@ -679,9 +695,108 @@ public class SetupSupermarket : MonoBehaviour
             shelve_tiles.Add(shelve);
         }
 
-        //Spawn entrance fences
+        ////////// Spawn Static Obstacles //////////
+        bool[,] occupied_grid_static_obstacles = new bool[grid_size_x, grid_size_y];
+        int number_of_occupied_checkout_fields = 0;
+        for(int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+        {
+            for(int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+            {
+                if (grid_hor >= grid_size_x - entrance_size[0] - CHECKOUT_SIZE && grid_vert >= grid_size_y - entrance_size[2] - 1)
+                {
+                    occupied_grid_static_obstacles[grid_hor, grid_vert] = true;
+                    number_of_occupied_checkout_fields++;
+                }
+                else
+                {
+                    occupied_grid_static_obstacles[grid_hor, grid_vert] = !occupiedGrids[grid_hor, grid_vert];
+                }
+            }
+        }
+
+        int number_of_possible_obstacle_fields = grid_size_x * grid_size_y - number_of_shelves - number_of_occupied_checkout_fields;
+        int temp_number_of_obstacles = number_of_static_obstacles;
+        for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+        {
+            for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+            {
+                //guard clause
+                if (temp_number_of_obstacles <= 0)
+                {
+                    break;
+                }
+                if (occupied_grid_static_obstacles[grid_hor, grid_vert] == false)
+                {
+                    float random_number = Random.Range(0.0f, 1.0f);
+                    if (random_number < ((float)temp_number_of_obstacles / (float)number_of_possible_obstacle_fields))
+                    {
+                        float object_offset = 0.5f;
+                        int random_item = Random.Range(0, available_static_obstacles.Length);
+                        int random_rotation = Random.Range(0, 2);
+
+                        Vector3 object_rotation_vertical = new Vector3(0, 0, 0);
+                        Vector3 object_rotation_horizontal = new Vector3(0, 90, 0);
+                        if (random_rotation == 1)
+                        {
+                            object_rotation_vertical.y = 180;
+                            object_rotation_horizontal.y = 270;
+                        }
+
+                        Quaternion object_rotation = Quaternion.Euler(object_rotation_vertical);
+                        Vector3 object_position = this.transform.localPosition + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
+
+                        //durablefood area
+                        if (grid_hor < durablefood_area.area_size[0] && grid_vert < durablefood_area.area_size[1])
+                        {
+                            if (durablefood_area.orientation == "horizontal")
+                            {
+                                object_rotation = Quaternion.Euler(object_rotation_horizontal);
+                                GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
+                                static_obstacles.Add(new_object);
+                            }
+                            else
+                            {
+                                GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
+                                static_obstacles.Add(new_object);
+                            }
+                        }
+                        else if (grid_hor >= grid_size_x - fruits_area.area_size[0] && grid_vert < fruits_area.area_size[1])
+                        {
+                            if (fruits_area.orientation == "horizontal")
+                            {
+                                object_rotation = Quaternion.Euler(object_rotation_horizontal);
+                                GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
+                                static_obstacles.Add(new_object);
+                            }
+                            else
+                            {
+                                GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
+                                static_obstacles.Add(new_object);
+                            }
+                        }
+                        else if (grid_hor < beverages_area.area_size[0] && grid_vert >= grid_size_y - beverages_area.area_size[1])
+                        {
+                            if (beverages_area.orientation == "horizontal")
+                            {
+                                object_rotation = Quaternion.Euler(object_rotation_horizontal);
+                                GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
+                                static_obstacles.Add(new_object);
+                            }
+                            else
+                            {
+                                GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
+                                static_obstacles.Add(new_object);
+                            }
+                        }
+                        temp_number_of_obstacles--;
+                    }
+                    number_of_possible_obstacle_fields--;    
+                }
+            }
+        }
+
+        ////////// Spawn Entrance Fence //////////
         setup_entrance.setup_entrance(grid_size_x, grid_size_y, entrance_size);
-            
 
         ////////// Checkout Spawn //////////
         Vector3 first_checkout_spawn_position = calculate_first_checkout_position(entrance_position, entrance_size);
@@ -920,5 +1035,9 @@ public class SetupSupermarket : MonoBehaviour
     {
         // Gets entrance script
         setup_entrance = this.transform.GetComponent<SetupEntrance>();
+    }
+    private void Start()
+    {
+        main_camera = GameObject.Find("Main Camera");
     }
 }
