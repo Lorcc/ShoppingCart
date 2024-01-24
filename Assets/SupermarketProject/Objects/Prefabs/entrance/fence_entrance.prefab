@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2146710993802207604}
   - component: {fileID: 2484703579042550355}
+  - component: {fileID: 8397041899628943867}
   m_Layer: 0
   m_Name: fence_entrance
   m_TagString: Untagged
@@ -41,10 +42,23 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5243236599313317085}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 0.07}
+  m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!65 &8397041899628943867
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5243236599313317085}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 0.06}
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1001 &5596378184481092299
 PrefabInstance:

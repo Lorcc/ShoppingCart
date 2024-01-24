@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1219486991698075883}
   - component: {fileID: 5382832199811699013}
+  - component: {fileID: 7740408644433086576}
   m_Layer: 0
   m_Name: shelve_single
   m_TagString: Untagged
@@ -41,10 +42,23 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9105874131369534015}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.5, y: 2.2, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!65 &7740408644433086576
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9105874131369534015}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.48, y: 2.2, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &6214783726053497112
 PrefabInstance:

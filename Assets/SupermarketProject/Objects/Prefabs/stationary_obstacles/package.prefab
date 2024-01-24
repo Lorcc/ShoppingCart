@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2414258599793146361}
   - component: {fileID: 557253227564993993}
+  - component: {fileID: 8440600590495650555}
   m_Layer: 0
   m_Name: package
   m_TagString: Untagged
@@ -41,10 +42,23 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9032422360866681831}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.35, y: 0.2, z: 0.5}
+  m_Center: {x: 0, y: 0.1, z: 0}
+--- !u!65 &8440600590495650555
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9032422360866681831}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.33, y: 0.2, z: 0.48}
   m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!1001 &2768769697618034582
 PrefabInstance:

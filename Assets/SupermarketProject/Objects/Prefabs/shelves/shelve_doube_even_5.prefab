@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5859777902920438415}
   - component: {fileID: 8275074848592124093}
+  - component: {fileID: 3051424346747258194}
   m_Layer: 0
   m_Name: shelve_doube_even_5
   m_TagString: Untagged
@@ -41,10 +42,23 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2289253464957531869}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 2.1, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!65 &3051424346747258194
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2289253464957531869}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.98, y: 2.1, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &8172400347868608597
 PrefabInstance:
