@@ -9,15 +9,35 @@ public class MoveToGoalAgent : Agent
 {
     [SerializeField] private Transform targetTransform;
     [SerializeField] private GameObject agent_camera;
-    private float agent_cameraspeed = 100f;
-    private float agent_movespeed_force = 1500f;
-    private float agent_movespeed_velocity = 150f;
+    private float agent_cameraspeed = 100f; //100f
+    private float agent_movespeed_force = 1500f; // 1500f
+    //private float agent_movespeed_velocity = 150f;
     private float ground_drag = 5f;
-    private float ground_angular_drag = 5f;
 
     Vector3 movement_direction;
 
     Rigidbody agent_rigidbody;
+
+    private bool is_heuristic = false;
+
+    private void Start()
+    {
+        agent_rigidbody = GetComponent<Rigidbody>();
+        agent_rigidbody.freezeRotation = true;
+
+        switch (Unity.MLAgents.Policies.BehaviorType.HeuristicOnly.ToString())
+        {
+            case "HeuristicOnly":
+                is_heuristic = true;
+                break;
+            case "InferenceOnly":
+                break;
+            default:
+                break;
+                
+
+        }
+    }
 
     public override void OnEpisodeBegin()
     {
@@ -41,6 +61,13 @@ public class MoveToGoalAgent : Agent
         float movement_x = actions.ContinuousActions[1];
         float rotation_y = actions.ContinuousActions[0];
 
+        // to get values between -0,5 until 0,5
+        if (is_heuristic != true)
+        {
+            movement_x -= 0.5f;
+            rotation_y -= 0.5f;
+        }
+
         Vector3 rotation_direction = new Vector3(0, rotation_y, 0);
         Quaternion delta_rotation = Quaternion.Euler(rotation_direction * Time.fixedDeltaTime * agent_cameraspeed);
         agent_rigidbody.MoveRotation(agent_rigidbody.rotation * delta_rotation);
@@ -63,8 +90,8 @@ public class MoveToGoalAgent : Agent
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
-        continuousActions[0] = Input.GetAxisRaw("Horizontal");
-        continuousActions[1] = Input.GetAxisRaw("Vertical");
+        continuousActions[0] = Input.GetAxisRaw("Horizontal") * 0.5f;
+        continuousActions[1] = Input.GetAxisRaw("Vertical") * 0.5f;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -81,10 +108,4 @@ public class MoveToGoalAgent : Agent
     }
 
 
-
-    private void Start()
-    {
-        agent_rigidbody = GetComponent<Rigidbody>();
-        agent_rigidbody.freezeRotation = true;
-    }
 }
