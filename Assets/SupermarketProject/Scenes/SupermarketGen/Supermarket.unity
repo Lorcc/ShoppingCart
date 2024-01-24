@@ -494,6 +494,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fence_tile: {fileID: 8338949753139154336, guid: 0a04445fa6e7c474b8d0d09bddc079c1, type: 3}
   fence_doubleentrance_tile: {fileID: 3732486507125587177, guid: 4958c6fdbfb6a2446b355eafc9cf1e31, type: 3}
+--- !u!1 &924898964 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1341628429422529564, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
+  m_PrefabInstance: {fileID: 1672095297}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1672095297
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -549,6 +554,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Basic_Agent
       objectReference: {fileID: 0}
+    - target: {fileID: 8945414667138045126, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
+      propertyPath: agent_camera
+      value: 
+      objectReference: {fileID: 924898964}
     - target: {fileID: 8945414667138045126, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
       propertyPath: targetTransform
       value: 
