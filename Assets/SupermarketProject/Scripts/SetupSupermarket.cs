@@ -15,7 +15,7 @@ public class SetupSupermarket : MonoBehaviour
 
     private const int CHECKOUT_SIZE = 7;
 
-    public GameObject main_camera;
+    private GameObject main_camera;
 
     [SerializeField] private int min_ground_size = 20;
     [SerializeField] private int max_ground_size = 30;
@@ -702,7 +702,7 @@ public class SetupSupermarket : MonoBehaviour
         {
             for(int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
             {
-                if (grid_hor >= grid_size_x - entrance_size[0] - CHECKOUT_SIZE && grid_vert >= grid_size_y - entrance_size[2] - 1)
+                if (grid_hor >= grid_size_x - entrance_size[0] - CHECKOUT_SIZE && grid_vert >= grid_size_y - entrance_size[2] - 2)
                 {
                     occupied_grid_static_obstacles[grid_hor, grid_vert] = true;
                     number_of_occupied_checkout_fields++;
@@ -1017,7 +1017,7 @@ public class SetupSupermarket : MonoBehaviour
     {
         Vector2 agent_pos = new Vector2();
         agent_pos.x = entrance_position.x + entrance_scale.x / 2.0f - 1.5f;
-        agent_pos.y = entrance_position.z + entrance_scale.z / 2.0f + 0.5f;
+        agent_pos.y = entrance_position.z + entrance_scale.z / 2.0f + 0.7f;
         return agent_pos;
     }
 

@@ -103,11 +103,13 @@ public class MoveToGoalAgent : Agent
         }
         else
         {
-            reward_count -= 0.5f;
+            reward_count -= 0.2f;
             Debug.Log(reward_count);
-            AddReward(-0.5f);
+            AddReward(-0.2f);
         }
     }
-
-
+    public void FixedUpdate()
+    {
+        AddReward(-0.001f);
+    }
 }

@@ -459,11 +459,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d6d8be9cc23bb54cb6399cd0b7695b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  main_camera: {fileID: 0}
-  min_ground_size: 20
-  max_ground_size: 20
-  min_entrance_size: 8
-  max_entrance_size: 8
+  min_ground_size: 15
+  max_ground_size: 16
+  min_entrance_size: 6
+  max_entrance_size: 7
   number_of_items_to_purchase: 5
   agent: {fileID: 2090351700}
   goal: {fileID: 313015841}
@@ -476,7 +475,7 @@ MonoBehaviour:
   shelve_wall_tile: {fileID: 9105874131369534015, guid: 5fe4cb81de5e3be4ab7df97c760b1375, type: 3}
   available_shelves:
   - {fileID: 3577151186742716460, guid: 654eab21b4631c14d83ede6fc96c1fa9, type: 3}
-  number_of_static_obstacles: 10
+  number_of_static_obstacles: 1
   available_static_obstacles:
   - {fileID: 4636400699403017173, guid: 0c56c59bd95efa34ea67815663808ba4, type: 3}
   - {fileID: 612432780565889836, guid: 2309fc43869efb84e97f810d7701d6ec, type: 3}
@@ -550,9 +549,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3918704731879050294, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 5022602860645237092, guid: b9bf26d729f7dcd47a09b17daf6f012f, type: 3}
     - target: {fileID: 8460377995368969055, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
       propertyPath: m_Name
       value: Basic_Agent
+      objectReference: {fileID: 0}
+    - target: {fileID: 8945414667138045126, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
+      propertyPath: MaxStep
+      value: 15000
       objectReference: {fileID: 0}
     - target: {fileID: 8945414667138045126, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
       propertyPath: agent_camera
