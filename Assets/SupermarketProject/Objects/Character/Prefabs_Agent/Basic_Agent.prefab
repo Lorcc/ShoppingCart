@@ -204,8 +204,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SensorName: RayPerceptionSensor
   m_DetectableTags: []
-  m_RaysPerDirection: 4
-  m_MaxRayDegrees: 45
+  m_RaysPerDirection: 12
+  m_MaxRayDegrees: 180
   m_SphereCastRadius: 0.15
   m_RayLength: 20
   m_RayLayerMask:

@@ -84,7 +84,9 @@ public class MoveToGoalAgent : Agent
         //agent_rigidbody.velocity = movement_direction * Time.fixedDeltaTime * agent_movespeed_velocity;
         agent_rigidbody.AddForce(movement_direction * Time.fixedDeltaTime * agent_movespeed_force, ForceMode.Force);
 
-        agent_rigidbody.drag = ground_drag;  
+        agent_rigidbody.drag = ground_drag;
+
+        AddReward(-0.005f);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -107,9 +109,5 @@ public class MoveToGoalAgent : Agent
             Debug.Log(reward_count);
             AddReward(-0.2f);
         }
-    }
-    public void FixedUpdate()
-    {
-        AddReward(-0.001f);
     }
 }

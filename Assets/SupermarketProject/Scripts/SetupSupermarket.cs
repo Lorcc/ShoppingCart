@@ -215,7 +215,7 @@ public class SetupSupermarket : MonoBehaviour
         //ground_tiles.Add(ground);
 
         //Camera 
-        main_camera.transform.localPosition = new Vector3(0,grid_size_x+3,0);
+        //main_camera.transform.localPosition = new Vector3(0,grid_size_x+3,0);
 
         // Generate entrance area
         Quaternion entranceRotation = Quaternion.Euler(0, 0, 0);
