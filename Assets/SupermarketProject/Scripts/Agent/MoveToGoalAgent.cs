@@ -46,26 +46,19 @@ public class MoveToGoalAgent : Agent
     }
     public override void CollectObservations(VectorSensor sensor)
     {
-        var localVelocity = transform.InverseTransformDirection(agent_rigidbody.velocity);
-        sensor.AddObservation(localVelocity.x);
-        sensor.AddObservation(localVelocity.z);
+        var local_velocity = transform.InverseTransformDirection(agent_rigidbody.velocity);
+        var vector_distance = targetTransform.localPosition - transform.localPosition;
+        sensor.AddObservation(local_velocity.x);
+        sensor.AddObservation(local_velocity.z);
         //Debug.Log(localVelocity.magnitude);
         sensor.AddObservation(transform.localPosition);
         sensor.AddObservation(targetTransform.localPosition);
-        Debug.Log(transform.localPosition);
-        Debug.Log(targetTransform.localPosition);
+        sensor.AddObservation(vector_distance.magnitude);
+        //Debug.Log(vector_distance.magnitude);
         //sensor.AddObservation(transform.localRotation);
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
-        // old movement
-        /*float moveX = actions.ContinuousActions[0]; 
-        float moveZ = actions.ContinuousActions[1];
-
-        float moveSpeed = 5f;
-        transform.position += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
-        */
-
         float movement_x = actions.ContinuousActions[1];
         float rotation_y = actions.ContinuousActions[0];
 
@@ -116,9 +109,9 @@ public class MoveToGoalAgent : Agent
         }
         else
         {
-            collision_reward -= 0.2f;
+            collision_reward -= 0.5f;
             //Debug.Log(collision_reward);
-            AddReward(-0.2f);
+            AddReward(-0.5f);
         }
     }
 }
