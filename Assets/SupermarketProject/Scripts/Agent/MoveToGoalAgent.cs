@@ -18,6 +18,8 @@ public class MoveToGoalAgent : Agent
 
     Rigidbody agent_rigidbody;
 
+    private float collision_reward = 0f;
+
     private bool is_heuristic = false;
 
     private void Start()
@@ -34,22 +36,24 @@ public class MoveToGoalAgent : Agent
                 break;
             default:
                 break;
-                
-
         }
     }
 
     public override void OnEpisodeBegin()
     {
+        collision_reward = 0f;
         this.GetComponentInParent<SetupSupermarket>().setup_Supermarket();
     }
     public override void CollectObservations(VectorSensor sensor)
     {
         var localVelocity = transform.InverseTransformDirection(agent_rigidbody.velocity);
         sensor.AddObservation(localVelocity.x);
-        sensor.AddObservation(localVelocity.y);
+        sensor.AddObservation(localVelocity.z);
+        //Debug.Log(localVelocity.magnitude);
         sensor.AddObservation(transform.localPosition);
         sensor.AddObservation(targetTransform.localPosition);
+        Debug.Log(transform.localPosition);
+        Debug.Log(targetTransform.localPosition);
         //sensor.AddObservation(transform.localRotation);
     }
     public override void OnActionReceived(ActionBuffers actions)
@@ -66,12 +70,18 @@ public class MoveToGoalAgent : Agent
         float rotation_y = actions.ContinuousActions[0];
 
         // to get values between -0,5 until 0,5
-        if (is_heuristic != true)
+        if (is_heuristic == false)
         {
             movement_x -= 0.5f;
             rotation_y -= 0.5f;
         }
 
+        //backwards speed is roughly 1/3 the speed the agent is driving forward
+        if (movement_x < 0)
+        {
+            movement_x *= 0.6f;
+        }
+        
         Vector3 rotation_direction = new Vector3(0, rotation_y, 0);
         Quaternion delta_rotation = Quaternion.Euler(rotation_direction * Time.fixedDeltaTime * agent_cameraspeed);
         agent_rigidbody.MoveRotation(agent_rigidbody.rotation * delta_rotation);
@@ -87,7 +97,7 @@ public class MoveToGoalAgent : Agent
 
         agent_rigidbody.drag = ground_drag;
 
-        AddReward(-0.005f);
+        AddReward(-0.0025f);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -106,6 +116,8 @@ public class MoveToGoalAgent : Agent
         }
         else
         {
+            collision_reward -= 0.2f;
+            //Debug.Log(collision_reward);
             AddReward(-0.2f);
         }
     }
