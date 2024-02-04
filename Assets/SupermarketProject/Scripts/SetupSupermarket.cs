@@ -222,7 +222,7 @@ public class SetupSupermarket : MonoBehaviour
         entrance_pref.transform.localScale = new Vector3(Random.Range(min_entrance_size, max_entrance_size), 0.5f, Random.Range(min_entrance_size, max_entrance_size));
         entrance_pref.GetComponent<ground_scaling>().scale_Texture(entrance_pref.transform.localScale);
         Vector3 entrance_size = entrance_pref.transform.localScale;
-        Vector3 entrance_position = this.transform.localPosition + new Vector3((grid_size_x / 2.0f - entrance_size[0] / 2.0f), 0.5f, (-grid_size_y / 2.0f + entrance_size[2] / 2.0f));
+        Vector3 entrance_position = this.transform.position + new Vector3((grid_size_x / 2.0f - entrance_size[0] / 2.0f), 0.5f, (-grid_size_y / 2.0f + entrance_size[2] / 2.0f));
         GameObject entrance = Instantiate(entrance_pref, entrance_position, entranceRotation, this.transform);
         ground_tiles.Add(entrance);
 
@@ -231,7 +231,7 @@ public class SetupSupermarket : MonoBehaviour
         durablefood_pref.transform.localScale = new Vector3(grid_size_x - entrance_size[0], 0.5f, grid_size_y - entrance_size[2]);
         durablefood_pref.GetComponent<ground_scaling>().scale_Texture(durablefood_pref.transform.localScale);
         Vector3 durablefood_size = durablefood_pref.transform.localScale;
-        Vector3 durablefood_position = this.transform.localPosition + new Vector3((durablefood_size[0] / 2.0f - grid_size_x / 2.0f), 0.5f, (grid_size_y / 2.0f - durablefood_size[2] / 2.0f));
+        Vector3 durablefood_position = this.transform.position + new Vector3((durablefood_size[0] / 2.0f - grid_size_x / 2.0f), 0.5f, (grid_size_y / 2.0f - durablefood_size[2] / 2.0f));
         GameObject durablefood = Instantiate(durablefood_pref, durablefood_position, durablefoodRotation, this.transform);
         ground_tiles.Add(durablefood);
         Area durablefood_area = new Area(new Vector2Int((int)durablefood_size[0], (int)durablefood_size[2]));
@@ -241,7 +241,7 @@ public class SetupSupermarket : MonoBehaviour
         beverages_pref.transform.localScale = new Vector3(grid_size_x - entrance_size[0], 0.5f, entrance_size[2]);
         beverages_pref.GetComponent<ground_scaling>().scale_Texture(beverages_pref.transform.localScale);
         Vector3 beverages_size = beverages_pref.transform.localScale;
-        Vector3 beverages_position = this.transform.localPosition + new Vector3((beverages_size[0] / 2.0f - grid_size_x / 2.0f), 0.5f, (-grid_size_y / 2.0f + beverages_size[2] / 2.0f));
+        Vector3 beverages_position = this.transform.position + new Vector3((beverages_size[0] / 2.0f - grid_size_x / 2.0f), 0.5f, (-grid_size_y / 2.0f + beverages_size[2] / 2.0f));
         GameObject beverages = Instantiate(beverages_pref, beverages_position, beveragesRotation, this.transform);
         ground_tiles.Add(beverages);
         Area beverages_area = new Area(new Vector2Int((int)beverages_size[0], (int)beverages_size[2]));
@@ -251,7 +251,7 @@ public class SetupSupermarket : MonoBehaviour
         fruits_pref.transform.localScale = new Vector3(entrance_size[0], 0.5f, grid_size_y - entrance_size[2]);
         fruits_pref.GetComponent<ground_scaling>().scale_Texture(fruits_pref.transform.localScale);
         Vector3 fruits_size = fruits_pref.transform.localScale;
-        Vector3 fruits_position = this.transform.localPosition + new Vector3((grid_size_x / 2.0f - fruits_size[0] / 2.0f), 0.5f, (grid_size_y / 2.0f - fruits_size[2] / 2.0f));
+        Vector3 fruits_position = this.transform.position + new Vector3((grid_size_x / 2.0f - fruits_size[0] / 2.0f), 0.5f, (grid_size_y / 2.0f - fruits_size[2] / 2.0f));
         GameObject fruits = Instantiate(fruits_pref, fruits_position, fruitsRotation, this.transform);
         ground_tiles.Add(fruits);
         Area fruits_area = new Area(new Vector2Int((int)fruits_size[0], (int)fruits_size[2]));
@@ -538,7 +538,7 @@ public class SetupSupermarket : MonoBehaviour
 
                     float object_offset = 0.5f;
                     Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
-                    Vector3 object_position = this.transform.localPosition + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
+                    Vector3 object_position = this.transform.position + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
 
                     Vector3 temp_position = new Vector3();
                     Vector2 temp_goal_position = new Vector2();
@@ -743,7 +743,7 @@ public class SetupSupermarket : MonoBehaviour
                         }
 
                         Quaternion object_rotation = Quaternion.Euler(object_rotation_vertical);
-                        Vector3 object_position = this.transform.localPosition + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
+                        Vector3 object_position = this.transform.position + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
 
                         //durablefood area
                         if (grid_hor < durablefood_area.area_size[0] && grid_vert < durablefood_area.area_size[1])
@@ -811,7 +811,7 @@ public class SetupSupermarket : MonoBehaviour
         Vector2 agent_pos = parse_localposition_to_map(new Vector2(Agent.X, Agent.Y), grid_size_x, grid_size_y);
         Agent.X = (int)agent_pos.x;
         Agent.Y = (int)agent_pos.y;
-        Vector3 agent_spawn_pos = new Vector3(agent_starting_position.x, 1.5f, agent_starting_position.y);
+        Vector3 agent_spawn_pos = new Vector3(agent_starting_position.x, this.transform.position.y + 1.5f, agent_starting_position.y);
         //occupiedGrids[(int)agent_pos.x, (int)agent_pos.y] = false;
         agent.GetComponent<AgentReposition>().reposition(agent_spawn_pos);
         //Debug.Log("Agent starting position: " + Agent.X + " " + Agent.Y);
@@ -821,7 +821,7 @@ public class SetupSupermarket : MonoBehaviour
         Vector2 goal_pos = parse_localposition_to_map(goal_positions_2d[0], grid_size_x, grid_size_y);
         Goal.X = (int)goal_pos.x;
         Goal.Y = (int)goal_pos.y;
-        Vector3 goal_spawn_pos = new Vector3(goal_positions_2d[0].x, 1.5f, goal_positions_2d[0].y);
+        Vector3 goal_spawn_pos = new Vector3(goal_positions_2d[0].x, this.transform.position.y +  1.5f, goal_positions_2d[0].y);
         goal.GetComponent<Goal>().reposition(goal_spawn_pos);
 
         /*for (int i = 0; i < goal_positions_2d.Count; i++)
@@ -830,6 +830,7 @@ public class SetupSupermarket : MonoBehaviour
             Debug.Log("Position " + i + ": " + parse_localposition_to_map(goal_positions_2d[i], grid_size_x, grid_size_y));
         }*/
 
+        ////////// Ausführung A* //////////
         if (goal_positions_2d[0] != null)
         {
             //Debug.Log("Goal starting position: " + Goal.X + " " + Goal.Y);
@@ -846,7 +847,7 @@ public class SetupSupermarket : MonoBehaviour
 
                 if (checkTile.X == Goal.X && checkTile.Y == Goal.Y)
                 {
-                    var tile = checkTile;
+                    var tile = checkTile; 
                     while (true)
                     {
                         //Debug.Log("Current Tile x: " + tile.X + " y: " + tile.Y);
@@ -1026,7 +1027,7 @@ public class SetupSupermarket : MonoBehaviour
     {
         Vector3 checkout_pos = new Vector2();
         checkout_pos.x = entrance_position.x - entrance_scale.x/2.0f - 2.5f;
-        checkout_pos.y = 0.8f;
+        checkout_pos.y = 0.8f + this.transform.position.y;
         checkout_pos.z = entrance_position.z - entrance_scale.z/2.0f + 3.5f;
         return checkout_pos;
     }

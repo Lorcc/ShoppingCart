@@ -6,7 +6,7 @@ public class AgentReposition : MonoBehaviour
 {
     public void reposition(Vector3 position)
     {
-        this.transform.localPosition = position;
+        this.transform.position = position;
         this.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 }

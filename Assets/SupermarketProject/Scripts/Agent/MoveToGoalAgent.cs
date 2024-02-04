@@ -20,8 +20,6 @@ public class MoveToGoalAgent : Agent
 
     private bool is_heuristic = false;
 
-    //testing
-    private float reward_count = 0f;
     private void Start()
     {
         agent_rigidbody = GetComponent<Rigidbody>();
@@ -43,13 +41,16 @@ public class MoveToGoalAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        reward_count = 0f;
         this.GetComponentInParent<SetupSupermarket>().setup_Supermarket();
     }
     public override void CollectObservations(VectorSensor sensor)
     {
+        var localVelocity = transform.InverseTransformDirection(agent_rigidbody.velocity);
+        sensor.AddObservation(localVelocity.x);
+        sensor.AddObservation(localVelocity.y);
         sensor.AddObservation(transform.localPosition);
         sensor.AddObservation(targetTransform.localPosition);
+        //sensor.AddObservation(transform.localRotation);
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
@@ -105,8 +106,6 @@ public class MoveToGoalAgent : Agent
         }
         else
         {
-            reward_count -= 0.2f;
-            Debug.Log(reward_count);
             AddReward(-0.2f);
         }
     }
