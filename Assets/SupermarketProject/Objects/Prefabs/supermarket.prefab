@@ -49,12 +49,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   min_ground_size: 16
-  max_ground_size: 17
+  max_ground_size: 16
   min_entrance_size: 6
   max_entrance_size: 7
   number_of_items_to_purchase: 1
   agent: {fileID: 4744068095808736469}
   goal: {fileID: 3800787646201735146}
+  waypoint: {fileID: 8046157479276514286, guid: c17727f4c5b263a44a4776cd91494f60, type: 3}
   shelf_pref: {fileID: 3262721733602614305, guid: e21166cdf7d83954e872c748f46972a8, type: 3}
   entrance_pref: {fileID: 3148838559748976440, guid: 60f1758056f65014bbc5cfe29e2ec6cc, type: 3}
   fruits_pref: {fileID: 3220738413746459506, guid: 41cefcd693822a04b8990d8777fe0bfa, type: 3}

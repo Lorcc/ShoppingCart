@@ -94,6 +94,12 @@ public class MoveToGoalAgent : Agent
             SetReward(1f);
             EndEpisode();
         }
+        else if(other.TryGetComponent<Waypoint>(out Waypoint waypoint))
+        {
+            collision_reward += 0.2f;
+            Debug.Log(collision_reward);
+            AddReward(0.2f);
+        }
         else
         {
             //collision_reward -= 0.5f;
@@ -106,6 +112,10 @@ public class MoveToGoalAgent : Agent
     private void OnTriggerExit(Collider other)
     {
         if(other.TryGetComponent<Goal>(out Goal component))
+        {
+
+        }
+        else if(other.TryGetComponent<Waypoint>(out Waypoint waypoint))
         {
 
         }

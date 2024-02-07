@@ -266,6 +266,17 @@ public class SetupSupermarket : MonoBehaviour
 
         bool[,] occupiedGrids = new bool[grid_size_x, grid_size_y];
 
+        bool[,] occupied_grids_spawn = new bool[grid_size_x, grid_size_y];
+
+        // initialize occupied_grids_spawn with only true values
+        for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+        {
+            for(int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+            {
+                occupied_grids_spawn[grid_hor, grid_vert] = true;
+            }
+        }
+
         // Grid which needs to be blocked and checked if it's free
         bool[,] toFilledGrid = new bool[horizontal_shelve.GetLength(0), horizontal_shelve.GetLength(1)];
 
@@ -545,9 +556,12 @@ public class SetupSupermarket : MonoBehaviour
 
                     float object_offset = 0.5f;
                     Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
-                    Vector2 testing_parse = parse_map_to_localposition(new Vector2(grid_hor, grid_vert), grid_size_x, grid_size_y);
-                    Vector3 object_position = this.transform.position + new Vector3(testing_parse.x, 0.75f, testing_parse.y);//this.transform.position + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
-                    Debug.Log(object_position);
+                    Vector3 object_position = this.transform.position + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
+                    Vector2 real_pos = parse_localposition_to_map(new Vector2(object_position.x, object_position.z), grid_size_x, grid_size_y);
+
+                    occupied_grids_spawn[(int)real_pos.x, (int)real_pos.y] = false;
+
+                    //Debug.Log(object_position + " " + grid_hor + " " + grid_vert);
                     Vector3 temp_position = new Vector3();
                     Vector2 temp_goal_position = new Vector2();
 
@@ -838,22 +852,22 @@ public class SetupSupermarket : MonoBehaviour
             Debug.Log("Position " + i + ": " + parse_localposition_to_map(goal_positions_2d[i], grid_size_x, grid_size_y));
         }*/
 
-        List<Vector2> shortest_path = calculate_a_star(goal_positions_2d[0], Agent, Goal, grid_size_x, grid_size_y, occupiedGrids);
+        List<Vector2> shortest_path = calculate_a_star(goal_positions_2d[0], Agent, Goal, grid_size_x - 1, grid_size_y - 1, occupied_grids_spawn);
 
 
-        /*for (int i = 0; i < shortest_path.Count; i++)
+        for (int i = 1; i < shortest_path.Count - 1; i++)
         {
             Vector3 waypoint_pos = new Vector3(shortest_path[i].x, this.transform.position.y + 1.25f, shortest_path[i].y);
             Quaternion waypoint_rotation = Quaternion.Euler(0, 0, 0);
             GameObject waypoint_obj = Instantiate(waypoint, waypoint_pos, waypoint_rotation, this.transform);
             waypoint_objects.Add(waypoint_obj);
-        }*/
+        }
 
-        for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+        /*for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
             for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
             {
-                if (occupiedGrids[grid_hor,grid_vert] == false)
+                if (occupied_grids_spawn[grid_hor,grid_vert] == false)
                 {
                     Vector2 localpos_item = parse_map_to_localposition(new Vector2(grid_hor, grid_vert), grid_size_x, grid_size_y);
                     Vector3 item_pos = new Vector3(localpos_item.x, this.transform.position.y + 1.25f, localpos_item.y);
@@ -862,7 +876,7 @@ public class SetupSupermarket : MonoBehaviour
                     waypoint_objects.Add(waypoint_obj);
                 }
             }
-        }
+        }*/
     }
 
 

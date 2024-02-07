@@ -320,6 +320,18 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3800787646805460534, guid: a25a820932850d2499553f9a3a048a2b, type: 3}
+      propertyPath: waypoint
+      value: 
+      objectReference: {fileID: 8046157479276514286, guid: c17727f4c5b263a44a4776cd91494f60, type: 3}
+    - target: {fileID: 3800787646805460534, guid: a25a820932850d2499553f9a3a048a2b, type: 3}
+      propertyPath: max_ground_size
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3800787646805460534, guid: a25a820932850d2499553f9a3a048a2b, type: 3}
+      propertyPath: min_ground_size
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 5519532963650692164, guid: a25a820932850d2499553f9a3a048a2b, type: 3}
       propertyPath: m_RootOrder
       value: 2
