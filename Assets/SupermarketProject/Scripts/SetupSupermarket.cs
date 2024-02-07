@@ -815,7 +815,9 @@ public class SetupSupermarket : MonoBehaviour
         ////////// Agent Position //////////
         agent_starting_position = calculate_agent_starting_position(entrance_position, entrance_size);
         GridTile Agent = new GridTile();
-        Vector2 agent_pos = parse_localposition_to_map(new Vector2(Agent.X, Agent.Y), grid_size_x, grid_size_y);
+        Vector2 agent_pos = parse_localposition_to_map(new Vector2(agent_starting_position.x, agent_starting_position.y), grid_size_x, grid_size_y);
+        Debug.Log("Agent Local Pos: " + agent_pos);
+        Debug.Log("Agent Map Pos: " + agent_pos);
         Agent.X = (int)agent_pos.x;
         Agent.Y = (int)agent_pos.y;
         Vector3 agent_spawn_pos = new Vector3(agent_starting_position.x, this.transform.position.y + 1.5f, agent_starting_position.y);
@@ -826,6 +828,8 @@ public class SetupSupermarket : MonoBehaviour
         //temporary for the goal as well
         GridTile Goal = new GridTile();
         Vector2 goal_pos = parse_localposition_to_map(goal_positions_2d[0], grid_size_x, grid_size_y);
+        Debug.Log("Goal Local Pos: " + goal_positions_2d[0]);
+        Debug.Log("Goal Map Pos: " + goal_pos);
         Goal.X = (int)goal_pos.x;
         Goal.Y = (int)goal_pos.y;
         Vector3 goal_spawn_pos = new Vector3(goal_positions_2d[0].x, this.transform.position.y +  1.5f, goal_positions_2d[0].y);
@@ -874,7 +878,8 @@ public class SetupSupermarket : MonoBehaviour
                     {
                         //Debug.Log("Current Tile x: " + tile.X + " y: " + tile.Y);
                         var test = new Vector2(tile.X, tile.Y);
-                        shortest_path.Add(test);
+                        var test_local = parse_map_to_localposition(test, grid_size_x, grid_size_y);
+                        shortest_path.Add(test_local);
                         //Debug.Log("localposition: " + parse_map_to_localposition(test, grid_size_x, grid_size_y));
 
                         tile = tile.Parent;
