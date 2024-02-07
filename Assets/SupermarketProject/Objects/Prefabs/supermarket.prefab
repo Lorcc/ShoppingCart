@@ -48,12 +48,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d6d8be9cc23bb54cb6399cd0b7695b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  main_camera: {fileID: 0}
-  min_ground_size: 15
-  max_ground_size: 16
+  min_ground_size: 16
+  max_ground_size: 17
   min_entrance_size: 6
   max_entrance_size: 7
-  number_of_items_to_purchase: 5
+  number_of_items_to_purchase: 1
   agent: {fileID: 4744068095808736469}
   goal: {fileID: 3800787646201735146}
   shelf_pref: {fileID: 3262721733602614305, guid: e21166cdf7d83954e872c748f46972a8, type: 3}
@@ -98,7 +97,7 @@ GameObject:
   - component: {fileID: 3800787646201735145}
   m_Layer: 0
   m_Name: Goal
-  m_TagString: Untagged
+  m_TagString: Goal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,8 +110,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3800787646201735146}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 1.5, z: 2}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5519532963650692164}
@@ -349,9 +348,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Basic_Agent
       objectReference: {fileID: 0}
+    - target: {fileID: 8846715240356650792, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
+      propertyPath: m_DetectableTags.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8846715240356650792, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
+      propertyPath: m_DetectableTags.Array.data[0]
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 8945414667138045126, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
       propertyPath: MaxStep
-      value: 15000
+      value: 9000
       objectReference: {fileID: 0}
     - target: {fileID: 8945414667138045126, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
       propertyPath: agent_camera
