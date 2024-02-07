@@ -42,7 +42,7 @@ public class MoveToGoalAgent : Agent
         sensor.AddObservation(transform.localPosition); // plus 3 Vector3
         sensor.AddObservation(targetTransform.localPosition); // plus 3 Vector3
         sensor.AddObservation(transform.localRotation); // plus 4 Quaternion
-        sensor.AddObservation(vector_distance.magnitude); // plus 3 float
+        sensor.AddObservation(vector_distance.magnitude); // plus 1 float
     }
     public override void OnActionReceived(ActionBuffers actions)
     {

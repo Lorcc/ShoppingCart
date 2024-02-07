@@ -29,6 +29,7 @@ public class SetupSupermarket : MonoBehaviour
 
     [SerializeField] private GameObject agent;
     [SerializeField] private GameObject goal;
+    [SerializeField] private GameObject waypoint;
 
     [SerializeField] private GameObject shelf_pref;
     [SerializeField] private GameObject entrance_pref;
@@ -64,6 +65,7 @@ public class SetupSupermarket : MonoBehaviour
     private List<GameObject> shelve_tiles = new List<GameObject>();
     private List<GameObject> checkout_objects = new List<GameObject>();
     private List<GameObject> static_obstacles = new List<GameObject>();
+    private List<GameObject> waypoint_objects = new List<GameObject>();
 
     // List with the positions for A*
     private List<Vector2> goal_positions_2d = new List<Vector2>();
@@ -205,6 +207,11 @@ public class SetupSupermarket : MonoBehaviour
         foreach (GameObject obstacle in static_obstacles)
         {
             Destroy(obstacle);
+        }
+        //Clear waypoints
+        foreach (GameObject waypoint in waypoint_objects)
+        {
+            Destroy(waypoint);
         }
         
         // Generate ground surface
@@ -830,8 +837,23 @@ public class SetupSupermarket : MonoBehaviour
             Debug.Log("Position " + i + ": " + parse_localposition_to_map(goal_positions_2d[i], grid_size_x, grid_size_y));
         }*/
 
-        ////////// Ausführung A* //////////
-        if (goal_positions_2d[0] != null)
+        List<Vector2> shortest_path = calculate_a_star(goal_positions_2d[0], Agent, Goal, grid_size_x, grid_size_y, occupiedGrids);
+
+        Debug.Log(shortest_path.Count);
+        for(int i = 0; i < shortest_path.Count; i++)
+        {
+            Vector3 waypoint_pos = new Vector3(shortest_path[i].x, this.transform.position.y + 1.25f, shortest_path[i].y); 
+            Quaternion waypoint_rotation = Quaternion.Euler(0, 0, 0);
+            GameObject waypoint_obj = Instantiate(waypoint, waypoint_pos, waypoint_rotation, this.transform);
+            waypoint_objects.Add(waypoint_obj);
+        }
+    }
+
+    ////////// Ausführung A* //////////
+    private List<Vector2> calculate_a_star(Vector2 goal_position, GridTile Agent, GridTile Goal, int grid_size_x, int grid_size_y, bool[,] occupiedGrids)
+    {
+        List<Vector2> shortest_path = new List<Vector2>();
+        if (goal_position != null)
         {
             //Debug.Log("Goal starting position: " + Goal.X + " " + Goal.Y);
             //A* algorithm to check if both agents can reach each other
@@ -847,16 +869,18 @@ public class SetupSupermarket : MonoBehaviour
 
                 if (checkTile.X == Goal.X && checkTile.Y == Goal.Y)
                 {
-                    var tile = checkTile; 
+                    var tile = checkTile;
                     while (true)
                     {
                         //Debug.Log("Current Tile x: " + tile.X + " y: " + tile.Y);
                         var test = new Vector2(tile.X, tile.Y);
+                        shortest_path.Add(test);
                         //Debug.Log("localposition: " + parse_map_to_localposition(test, grid_size_x, grid_size_y));
+
                         tile = tile.Parent;
                         if (tile == null)
                         {
-                            return;
+                            return shortest_path;
                         }
                     }
                 }
@@ -888,9 +912,15 @@ public class SetupSupermarket : MonoBehaviour
             }
             //Restart Arena Setup
             print("No Path Found! Recalculate Map: " + this.name);
+            //TODO change
+            return shortest_path;
+        }
+        else
+        {
+            //TODO change
+            return shortest_path;
         }
     }
-        
 
     public Vector2 calculate_goal_position_horizontal(Vector3 shelve_position, Vector3 p_item_position)
     {
