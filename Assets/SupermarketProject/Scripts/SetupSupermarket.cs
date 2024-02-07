@@ -173,7 +173,7 @@ public class SetupSupermarket : MonoBehaviour
             Debug.LogError("Minimum entrance_size should be at least 6 meters.");
             Application.Quit();
         }
-        else if (max_entrance_size > min_ground_size/2)
+        else if (max_entrance_size > min_ground_size / 2)
         {
             Debug.LogError("Entrance size should not exceed halve the minimum ground size.");
             Application.Quit();
@@ -213,7 +213,7 @@ public class SetupSupermarket : MonoBehaviour
         {
             Destroy(waypoint);
         }
-        
+
         // Generate ground surface
         int grid_size_x = Random.Range(min_ground_size, max_ground_size);
         int grid_size_y = Random.Range(min_ground_size, max_ground_size);
@@ -350,7 +350,7 @@ public class SetupSupermarket : MonoBehaviour
         {
             for (int grid_vert = 0; grid_vert < occupied_beverages_grid.GetLength(1); grid_vert++)
             {
-                if (grid_hor == 0 || grid_hor == 1 ||  occupied_beverages_grid.GetLength(0) - CHECKOUT_SIZE <= grid_hor)
+                if (grid_hor == 0 || grid_hor == 1 || occupied_beverages_grid.GetLength(0) - CHECKOUT_SIZE <= grid_hor)
                     occupied_beverages_grid[grid_hor, grid_vert] = true;
                 if (grid_vert == 0 || grid_vert == occupied_beverages_grid.GetLength(1) - 2 || grid_vert == occupied_beverages_grid.GetLength(1) - 1)
                     occupied_beverages_grid[grid_hor, grid_vert] = true;
@@ -545,8 +545,9 @@ public class SetupSupermarket : MonoBehaviour
 
                     float object_offset = 0.5f;
                     Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
-                    Vector3 object_position = this.transform.position + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
-
+                    Vector2 testing_parse = parse_map_to_localposition(new Vector2(grid_hor, grid_vert), grid_size_x, grid_size_y);
+                    Vector3 object_position = this.transform.position + new Vector3(testing_parse.x, 0.75f, testing_parse.y);//this.transform.position + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
+                    Debug.Log(object_position);
                     Vector3 temp_position = new Vector3();
                     Vector2 temp_goal_position = new Vector2();
 
@@ -705,9 +706,9 @@ public class SetupSupermarket : MonoBehaviour
         ////////// Spawn Static Obstacles //////////
         bool[,] occupied_grid_static_obstacles = new bool[grid_size_x, grid_size_y];
         int number_of_occupied_checkout_fields = 0;
-        for(int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+        for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
-            for(int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+            for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
             {
                 if (grid_hor >= grid_size_x - entrance_size[0] - CHECKOUT_SIZE && grid_vert >= grid_size_y - entrance_size[2] - 2)
                 {
@@ -797,7 +798,7 @@ public class SetupSupermarket : MonoBehaviour
                         }
                         temp_number_of_obstacles--;
                     }
-                    number_of_possible_obstacle_fields--;    
+                    number_of_possible_obstacle_fields--;
                 }
             }
         }
@@ -816,8 +817,6 @@ public class SetupSupermarket : MonoBehaviour
         agent_starting_position = calculate_agent_starting_position(entrance_position, entrance_size);
         GridTile Agent = new GridTile();
         Vector2 agent_pos = parse_localposition_to_map(new Vector2(agent_starting_position.x, agent_starting_position.y), grid_size_x, grid_size_y);
-        Debug.Log("Agent Local Pos: " + agent_pos);
-        Debug.Log("Agent Map Pos: " + agent_pos);
         Agent.X = (int)agent_pos.x;
         Agent.Y = (int)agent_pos.y;
         Vector3 agent_spawn_pos = new Vector3(agent_starting_position.x, this.transform.position.y + 1.5f, agent_starting_position.y);
@@ -828,11 +827,9 @@ public class SetupSupermarket : MonoBehaviour
         //temporary for the goal as well
         GridTile Goal = new GridTile();
         Vector2 goal_pos = parse_localposition_to_map(goal_positions_2d[0], grid_size_x, grid_size_y);
-        Debug.Log("Goal Local Pos: " + goal_positions_2d[0]);
-        Debug.Log("Goal Map Pos: " + goal_pos);
         Goal.X = (int)goal_pos.x;
         Goal.Y = (int)goal_pos.y;
-        Vector3 goal_spawn_pos = new Vector3(goal_positions_2d[0].x, this.transform.position.y +  1.5f, goal_positions_2d[0].y);
+        Vector3 goal_spawn_pos = new Vector3(goal_positions_2d[0].x, this.transform.position.y + 1.5f, goal_positions_2d[0].y);
         goal.GetComponent<Goal>().reposition(goal_spawn_pos);
 
         /*for (int i = 0; i < goal_positions_2d.Count; i++)
@@ -843,15 +840,32 @@ public class SetupSupermarket : MonoBehaviour
 
         List<Vector2> shortest_path = calculate_a_star(goal_positions_2d[0], Agent, Goal, grid_size_x, grid_size_y, occupiedGrids);
 
-        Debug.Log(shortest_path.Count);
-        for(int i = 0; i < shortest_path.Count; i++)
+
+        /*for (int i = 0; i < shortest_path.Count; i++)
         {
-            Vector3 waypoint_pos = new Vector3(shortest_path[i].x, this.transform.position.y + 1.25f, shortest_path[i].y); 
+            Vector3 waypoint_pos = new Vector3(shortest_path[i].x, this.transform.position.y + 1.25f, shortest_path[i].y);
             Quaternion waypoint_rotation = Quaternion.Euler(0, 0, 0);
             GameObject waypoint_obj = Instantiate(waypoint, waypoint_pos, waypoint_rotation, this.transform);
             waypoint_objects.Add(waypoint_obj);
+        }*/
+
+        for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+        {
+            for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+            {
+                if (occupiedGrids[grid_hor,grid_vert] == false)
+                {
+                    Vector2 localpos_item = parse_map_to_localposition(new Vector2(grid_hor, grid_vert), grid_size_x, grid_size_y);
+                    Vector3 item_pos = new Vector3(localpos_item.x, this.transform.position.y + 1.25f, localpos_item.y);
+                    Quaternion waypoint_rotation = Quaternion.Euler(0, 0, 0);
+                    GameObject waypoint_obj = Instantiate(waypoint, item_pos, waypoint_rotation, this.transform);
+                    waypoint_objects.Add(waypoint_obj);
+                }
+            }
         }
     }
+
+
 
     ////////// Ausführung A* //////////
     private List<Vector2> calculate_a_star(Vector2 goal_position, GridTile Agent, GridTile Goal, int grid_size_x, int grid_size_y, bool[,] occupiedGrids)
