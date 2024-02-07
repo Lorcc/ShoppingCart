@@ -9,8 +9,8 @@ public class MoveToGoalAgent : Agent
 {
     [SerializeField] private Transform targetTransform;
     [SerializeField] private GameObject agent_camera;
-    private float agent_cameraspeed = 100f; //100f
-    private float agent_movespeed_force = 1500f; // 1500f
+    private float agent_cameraspeed = 50f;
+    private float agent_movespeed_force = 750f; 
     //private float agent_movespeed_velocity = 150f;
     private float ground_drag = 5f;
 
@@ -20,23 +20,12 @@ public class MoveToGoalAgent : Agent
 
     private float collision_reward = 0f;
 
-    private bool is_heuristic = false;
+    private bool is_collided = false;
 
     private void Start()
     {
         agent_rigidbody = GetComponent<Rigidbody>();
         agent_rigidbody.freezeRotation = true;
-
-        switch (Unity.MLAgents.Policies.BehaviorType.HeuristicOnly.ToString())
-        {
-            case "HeuristicOnly":
-                is_heuristic = true;
-                break;
-            case "InferenceOnly":
-                break;
-            default:
-                break;
-        }
     }
 
     public override void OnEpisodeBegin()
@@ -48,26 +37,21 @@ public class MoveToGoalAgent : Agent
     {
         var local_velocity = transform.InverseTransformDirection(agent_rigidbody.velocity);
         var vector_distance = targetTransform.localPosition - transform.localPosition;
-        sensor.AddObservation(local_velocity.x);
-        sensor.AddObservation(local_velocity.z);
-        //Debug.Log(localVelocity.magnitude);
-        sensor.AddObservation(transform.localPosition);
-        sensor.AddObservation(targetTransform.localPosition);
-        sensor.AddObservation(vector_distance.magnitude);
-        //Debug.Log(vector_distance.magnitude);
-        //sensor.AddObservation(transform.localRotation);
+        sensor.AddObservation(local_velocity.x); // plus 1 float
+        sensor.AddObservation(local_velocity.z); // plus 1 float
+        sensor.AddObservation(transform.localPosition); // plus 3 Vector3
+        sensor.AddObservation(targetTransform.localPosition); // plus 3 Vector3
+        sensor.AddObservation(transform.localRotation); // plus 4 Quaternion
+        sensor.AddObservation(vector_distance.magnitude); // plus 3 float
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
+        Vector3 vector_distance = targetTransform.localPosition - transform.localPosition;
         float movement_x = actions.ContinuousActions[1];
         float rotation_y = actions.ContinuousActions[0];
 
-        // to get values between -0,5 until 0,5
-        if (is_heuristic == false)
-        {
-            movement_x -= 0.5f;
-            rotation_y -= 0.5f;
-        }
+        //Set very slow movement to zero
+        if(movement_x < 0.05 && movement_x > -0.05) movement_x = 0f;
 
         //backwards speed is roughly 1/3 the speed the agent is driving forward
         if (movement_x < 0)
@@ -90,14 +74,17 @@ public class MoveToGoalAgent : Agent
 
         agent_rigidbody.drag = ground_drag;
 
-        AddReward(-0.0025f);
+        //TODO change to be more consistant
+        //right now if size of the map increases the negative reward will also increase
+        //so get the current gridsize
+        AddReward(-0.005f * vector_distance.magnitude * 0.1f);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
-        continuousActions[0] = Input.GetAxisRaw("Horizontal") * 0.5f;
-        continuousActions[1] = Input.GetAxisRaw("Vertical") * 0.5f;
+        continuousActions[0] = Input.GetAxisRaw("Horizontal");
+        continuousActions[1] = Input.GetAxisRaw("Vertical");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -109,9 +96,33 @@ public class MoveToGoalAgent : Agent
         }
         else
         {
-            collision_reward -= 0.5f;
+            //collision_reward -= 0.5f;
             //Debug.Log(collision_reward);
             AddReward(-0.5f);
+            is_collided = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.TryGetComponent<Goal>(out Goal component))
+        {
+
+        }
+        else
+        {
+            is_collided = false;
+        }
+    }
+
+    //gets called every 0.02 sec so 50 times per second
+    private void FixedUpdate()
+    {
+        if (is_collided)
+        {
+            collision_reward -= 0.005f;
+            AddReward(-0.005f);
+            //Debug.Log(collision_reward);
         }
     }
 }
