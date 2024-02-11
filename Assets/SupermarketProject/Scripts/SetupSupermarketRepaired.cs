@@ -81,6 +81,8 @@ public class SetupSupermarketRepaired : MonoBehaviour
         beverages_area.transform.localScale = beverages_size;
         beverages_area.GetComponent<ground_scaling>().scale_Texture(beverages_size);
         beverages_area.transform.position = this.transform.position + new Vector3((beverages_size[0] / 2.0f - grid_size_x / 2.0f), ground_area_position_y, (-grid_size_z / 2.0f + beverages_size[2] / 2.0f));
+
+        this.GetComponent<SetupSupermarketInterior>().setup_Supermarket_Interior(grid_size_x, grid_size_z,entrance_size,durablefoods_size,fruits_size,beverages_size);
     }
     // Start is called before the first frame update
     void Start()
