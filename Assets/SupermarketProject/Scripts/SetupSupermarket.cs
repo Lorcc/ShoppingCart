@@ -522,6 +522,42 @@ public class SetupSupermarket : MonoBehaviour
         }
 
 
+        ////////// Visualisation Bool Array //////////
+        string text = "";
+        /*for(int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+        {
+            for(int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+            {
+                if (occupiedGrids[grid_hor, grid_vert] == false)
+                {
+                    text +="0 ";
+                }
+                else
+                {
+                    text +="1 ";
+                }
+            }
+            Debug.Log(text + "\n");
+            text = "";
+        }*/
+        for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+        {
+            for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+            {
+                if (occupiedGrids[grid_hor, grid_vert] == false)
+                    {
+                        text +="0 ";
+                    }
+                    else
+                    {
+                        text +="1 ";
+                    }
+            }
+            Debug.Log(text + "\n");
+            text = "";
+        }
+
+
         //get number of spawned shelves in the inner Part
         int number_of_shelves = 0;
         for (int i = 0; i < grid_size_x; i++)
@@ -553,7 +589,7 @@ public class SetupSupermarket : MonoBehaviour
                         }
                         temp_number_of_shelves--;
                     }
-
+                    Debug.Log(grid_hor + " " + grid_vert);
                     float object_offset = 0.5f;
                     Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
                     Vector3 object_position = this.transform.position + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
@@ -852,7 +888,7 @@ public class SetupSupermarket : MonoBehaviour
             Debug.Log("Position " + i + ": " + parse_localposition_to_map(goal_positions_2d[i], grid_size_x, grid_size_y));
         }*/
 
-        List<Vector2> shortest_path = calculate_a_star(goal_positions_2d[0], Agent, Goal, grid_size_x - 1, grid_size_y - 1, occupied_grids_spawn);
+        /*List<Vector2> shortest_path = calculate_a_star(goal_positions_2d[0], Agent, Goal, grid_size_x - 1, grid_size_y - 1, occupied_grids_spawn);
 
 
         for (int i = 1; i < shortest_path.Count - 1; i++)
@@ -861,7 +897,7 @@ public class SetupSupermarket : MonoBehaviour
             Quaternion waypoint_rotation = Quaternion.Euler(0, 0, 0);
             GameObject waypoint_obj = Instantiate(waypoint, waypoint_pos, waypoint_rotation, this.transform);
             waypoint_objects.Add(waypoint_obj);
-        }
+        }*/
 
         /*for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
