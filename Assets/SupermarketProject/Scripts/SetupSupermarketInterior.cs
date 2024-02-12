@@ -125,6 +125,7 @@ public class SetupSupermarketInterior : MonoBehaviour
 
 
         //////////2D Grid Calculation For Shelves//////////
+        float object_position_y = 0.25f;
         bool[,] occupied_grids = new bool[grid_size_z, grid_size_x];
 
         //Grid which needs to be blocked and checked if it's free
@@ -250,9 +251,9 @@ public class SetupSupermarketInterior : MonoBehaviour
 
         ////////// Visualisation Bool Array //////////
         string text = "";
-        for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+        for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
         {
-            for (int grid_vert = 0; grid_vert < grid_size_z; grid_vert++)
+            for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
             {
                 if (occupied_grids[grid_hor, grid_vert] == false)
                 {
@@ -266,6 +267,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             Debug.Log(text + "\n");
             text = "";
         }
+        Debug.Log("Gridsize_X: " + grid_size_x + "Gridsize_Z: " + grid_size_z);
 
 
         //get number of spawned shelves in the inner Part
@@ -281,9 +283,9 @@ public class SetupSupermarketInterior : MonoBehaviour
 
         //***Spawn Shelves***//
         int temp_number_of_items = number_of_items_to_purchase;
-        for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+        for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
         {
-            for (int grid_vert = 0; grid_vert < grid_size_z; grid_vert++)
+            for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
             {
                 if (occupied_grids[grid_hor, grid_vert] == false)
                 {
@@ -302,7 +304,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                     //Debug.Log(grid_hor + " " + grid_vert);
                     float object_offset = 0.5f;
                     Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
-                    Vector3 object_position = this.transform.position + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_z / 2.0f) - grid_vert - object_offset);
+                    Vector3 object_position = this.transform.position + new Vector3((grid_vert - (grid_size_x / 2.0f) + object_offset), object_position_y, (grid_size_z / 2.0f) - grid_hor - object_offset);
                     //Vector2 real_pos = parse_localposition_to_map(new Vector2(object_position.x, object_position.z), grid_size_x, grid_size_y);
 
                     //occupied_grids_spawn[(int)real_pos.x, (int)real_pos.y] = false;
@@ -317,7 +319,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                         if (durablefood_area.orientation == "horizontal")
                         {
                             Section obj = Section.Durable;
-                            object_rotation = Quaternion.Euler(0, 90, 0);
+                            object_rotation = Quaternion.Euler(0, 0, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
                             //new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
                             shelve_tiles.Add(new_object);
@@ -333,7 +335,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                         else
                         {
                             Section obj = Section.Durable;
-                            object_rotation = Quaternion.Euler(0, 0, 0);
+                            object_rotation = Quaternion.Euler(0, 90, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
                             //new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
                             shelve_tiles.Add(new_object);
@@ -353,7 +355,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                         if (fruit_area.orientation == "horizontal")
                         {
                             Section obj = Section.Fruit;
-                            object_rotation = Quaternion.Euler(0, 90, 0);
+                            object_rotation = Quaternion.Euler(0, 0, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
                             //new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
                             shelve_tiles.Add(new_object);
@@ -368,7 +370,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                         else
                         {
                             Section obj = Section.Fruit;
-                            object_rotation = Quaternion.Euler(0, 0, 0);
+                            object_rotation = Quaternion.Euler(0, 90, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
                             //new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
                             shelve_tiles.Add(new_object);
@@ -387,7 +389,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                         if (beverage_area.orientation == "horizontal")
                         {
                             Section obj = Section.Drinks;
-                            object_rotation = Quaternion.Euler(0, 90, 0);
+                            object_rotation = Quaternion.Euler(0, 0, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
                             //new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
                             shelve_tiles.Add(new_object);
@@ -402,7 +404,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                         else
                         {
                             Section obj = Section.Drinks;
-                            object_rotation = Quaternion.Euler(0, 0, 0);
+                            object_rotation = Quaternion.Euler(0, 90, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
                             //new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
                             shelve_tiles.Add(new_object);
