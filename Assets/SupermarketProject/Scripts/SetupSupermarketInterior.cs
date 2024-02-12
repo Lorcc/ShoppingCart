@@ -114,15 +114,15 @@ public class SetupSupermarketInterior : MonoBehaviour
         }
         else
         {
-            if(horizontal_shelve_orientation_durablefood_area) 
+            if (horizontal_shelve_orientation_durablefood_area) 
                 durablefood_area = new Area(new Vector3Int((int)durablefoods_size[0], (int)durablefoods_size[1], (int)durablefoods_size[2]),"horizontal");
             else
                 durablefood_area = new Area(new Vector3Int((int)durablefoods_size[0], (int)durablefoods_size[1], (int)durablefoods_size[2]), "vertical");
-            if(horizontal_shelve_orientation_fruits_area)
+            if (horizontal_shelve_orientation_fruits_area)
                 fruit_area = new Area(new Vector3Int((int)fruits_size[0], (int)fruits_size[1], (int)fruits_size[2]), "horizontal");
             else
                 fruit_area = new Area(new Vector3Int((int)fruits_size[0], (int)fruits_size[1], (int)fruits_size[2]), "vertical");
-            if(horizontal_shelve_orientation_beverages_area)
+            if (horizontal_shelve_orientation_beverages_area)
                 beverage_area = new Area(new Vector3Int((int)beverages_size[0], (int)beverages_size[1], (int)beverages_size[2]),"horizontal");
             else
                 beverage_area = new Area(new Vector3Int((int)beverages_size[0], (int)beverages_size[1], (int)beverages_size[2]), "vertical");
@@ -131,6 +131,8 @@ public class SetupSupermarketInterior : MonoBehaviour
 
         ////////// 2D Grid Calculation For Shelves //////////
         float object_position_y = 0.25f;
+        //Grid which will have all the inner shelve positions, could be seen as a top view map
+        //true means no shelve and false means there should be a shelve
         bool[,] occupied_grids = new bool[grid_size_z, grid_size_x];
 
         //Grid which needs to be blocked and checked if it's free
@@ -407,9 +409,9 @@ public class SetupSupermarketInterior : MonoBehaviour
         }
         int temp_number_of_shelves = number_of_shelves;
 
-        ///// Spawn Shelves /////
+        ///// Spawn Inner Shelves /////
         int temp_number_of_items = number_of_items_to_purchase;
-        for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
+        for(int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
         {
             for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
             {
@@ -543,6 +545,49 @@ public class SetupSupermarketInterior : MonoBehaviour
                     }
                 }
             }
+        }
+
+        ///// Spawn Outer Shelves /////
+        //TODO add these to the regular spawning so that there is a posibility to spawn purchaseable items there
+        //Generate northern outer shelves
+        for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
+        {
+            float offset_x = 0.5f;
+            float offset_z = 0.25f;
+            Vector3 shelve_position = this.transform.position + new Vector3((grid_vert - (grid_size_x / 2.0f) + offset_x), object_position_y, (grid_size_z / 2.0f) + offset_z);
+            Quaternion shelve_rotation = Quaternion.Euler(0, -90, 0);
+            GameObject shelve = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
+            shelve_tiles.Add(shelve);
+        }
+        //Generate southern outer shelves
+        for (int grid_vert = 0; grid_vert < grid_size_x - entrance_size[0]; grid_vert++)
+        {
+            float offset_x = 0.5f;
+            float offset_z = 0.25f;
+            Vector3 shelve_position = this.transform.position + new Vector3((grid_vert - (grid_size_x / 2.0f) + offset_x), object_position_y, (-grid_size_z / 2.0f) - offset_z);
+            Quaternion shelve_rotation = Quaternion.Euler(0, 90, 0);
+            GameObject shelve = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
+            shelve_tiles.Add(shelve);
+        }
+        //Generate western outer shelves
+        for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
+        {
+            float offset_x = 0.25f;
+            float offset_z = 0.5f;
+            Vector3 shelve_position = this.transform.position + new Vector3((-(grid_size_x / 2.0f) - offset_x), object_position_y, grid_hor - (grid_size_z / 2.0f) + offset_z);
+            Quaternion shelve_rotation = Quaternion.Euler(0, 180, 0);
+            GameObject shelve = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
+            shelve_tiles.Add(shelve);
+        }
+        //Generate eastern outer shelves
+        for (int grid_hor = (int)entrance_size[2]; grid_hor < grid_size_z; grid_hor++)
+        {
+            float offset_x = 0.25f;
+            float offset_z = 0.5f;
+            Vector3 shelve_position = this.transform.position + new Vector3(((grid_size_x / 2.0f) + offset_x), object_position_y, grid_hor - (grid_size_z / 2.0f) + offset_z);
+            Quaternion shelve_rotation = Quaternion.Euler(0, 0, 0);
+            GameObject shelve = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
+            shelve_tiles.Add(shelve);
         }
     }
 
