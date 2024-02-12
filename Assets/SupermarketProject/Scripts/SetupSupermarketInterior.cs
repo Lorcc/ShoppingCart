@@ -22,6 +22,8 @@ public class SetupSupermarketInterior : MonoBehaviour
     [SerializeField] private GameObject goal;
     [SerializeField] private GameObject waypoint;
 
+    SetupEntrance setup_entrance;
+
     private List<GameObject> shelve_tiles = new List<GameObject>();
     private List<GameObject> static_obstacles = new List<GameObject>();
     private List<GameObject> waypoint_objects = new List<GameObject>();
@@ -589,6 +591,10 @@ public class SetupSupermarketInterior : MonoBehaviour
             GameObject shelve = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
             shelve_tiles.Add(shelve);
         }
+
+
+        ////////// Spawn Entrance Fence //////////
+        setup_entrance.setup_entrance(grid_size_x, grid_size_z, entrance_size);
     }
 
 
@@ -614,14 +620,14 @@ public class SetupSupermarketInterior : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        // Gets entrance script
+        setup_entrance = this.transform.GetComponent<SetupEntrance>();
     }
 
-    // Update is called once per frame
-    void Update()
+    // Start is called before the first frame update
+    void Start()
     {
         
     }

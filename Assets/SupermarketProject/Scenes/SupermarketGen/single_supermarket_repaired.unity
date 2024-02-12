@@ -433,3 +433,17 @@ MonoBehaviour:
   agent: {fileID: 0}
   goal: {fileID: 0}
   waypoint: {fileID: 0}
+--- !u!114 &2005754619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2005754615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19eb8c7b27233a43a98b2104d9ce705, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fence_tile: {fileID: 8338949753139154336, guid: 0a04445fa6e7c474b8d0d09bddc079c1, type: 3}
+  fence_doubleentrance_tile: {fileID: 3732486507125587177, guid: 4958c6fdbfb6a2446b355eafc9cf1e31, type: 3}
