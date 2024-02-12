@@ -11,10 +11,10 @@ using System.IO;
 public class SetupSupermarketRepaired : MonoBehaviour
 {
     [SerializeField] private bool fixed_ground_size = true;
-    [SerializeField][Range(16, 50)] private int x_ground_size = 20;
-    [SerializeField][Range(16, 50)] private int z_ground_size = 30;
-    [SerializeField][Range(16, 50)] private int min_ground_size = 20;
-    [SerializeField][Range(16, 50)] private int max_ground_size = 30;
+    [SerializeField] [Range(16, 50)] private int x_ground_size = 20;
+    [SerializeField] [Range(16, 50)] private int z_ground_size = 30;
+    [SerializeField] [Range(16, 50)] private int min_ground_size = 20;
+    [SerializeField] [Range(16, 50)] private int max_ground_size = 30;
     [SerializeField] private bool fixed_entrance_size = true;
     [SerializeField] [Range(6, 20)] private int x_entrance_size = 6;
     [SerializeField] [Range(6, 20)] private int z_entrance_size = 6;
@@ -24,9 +24,11 @@ public class SetupSupermarketRepaired : MonoBehaviour
     private List<GameObject> ground_tiles = new List<GameObject>();
 
 
-
     public void setup_Supermarket()
     {
+        ///// Test if Input Values are Correct ///// 
+        check_Input();
+
         int grid_size_x;
         int grid_size_z;
         int entrance_size_x;
@@ -82,9 +84,69 @@ public class SetupSupermarketRepaired : MonoBehaviour
 
         GetComponent<SetupSupermarketInterior>().setup_Supermarket_Interior(grid_size_x, grid_size_z,entrance_size,durablefoods_size,fruits_size,beverages_size);
     }
+    public void check_Input()
+    {
+        if (fixed_ground_size)
+        {
+            if(fixed_entrance_size)
+            {
+                if(x_entrance_size > x_ground_size / 2 || z_entrance_size > z_ground_size / 2)
+                {
+                    Debug.LogError("Entrance size should not exceed halve the ground size.");
+                    Application.Quit();
+                }
+            }
+            else
+            {
+                if (min_entrance_size > max_entrance_size)
+                {
+                    Debug.LogError("Maximum entrance size should be bigger or the same as minimum entrance size.");
+                    Application.Quit();
+                }
+                else if (max_entrance_size > x_ground_size / 2 || max_entrance_size > z_entrance_size / 2)
+                {
+                    Debug.LogError("Maximum entrance size should not exceed halve theground size.");
+                    Application.Quit();
+                }
+            }
+        }
+        else
+        {
+            if (min_ground_size > max_ground_size)
+            {
+                Debug.LogError("Minimum ground size should not be bigger or the same as maximum ground size.");
+                Application.Quit();
+            }
+
+            if (fixed_entrance_size)
+            {
+                if (x_entrance_size > min_ground_size / 2 || z_entrance_size > min_ground_size / 2)
+                {
+                    Debug.LogError("Entrance size should not exceed halve the ground size.");
+                    Application.Quit();
+                }
+            }
+            else
+            { 
+                if (min_entrance_size > max_entrance_size)
+                {
+                    Debug.LogError("Maximum entrance size should be bigger or the same as minimum entrance size.");
+                    Application.Quit();
+                }
+                else if (max_entrance_size > min_ground_size / 2)
+                {
+                    Debug.LogError("Entrance size should not exceed halve the minimum ground size.");
+                    Application.Quit();
+                }
+            }
+        }
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
+        
         setup_Supermarket();
     }
 
