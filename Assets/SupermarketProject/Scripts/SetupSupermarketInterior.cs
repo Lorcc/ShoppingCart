@@ -149,7 +149,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                     occupied_durablefood_grid[grid_hor, grid_vert] = true;
                 if (grid_vert == 0 || grid_vert == 1 || grid_vert == occupied_durablefood_grid.GetLength(1) - 1)
                     occupied_durablefood_grid[grid_hor, grid_vert] = true;
-                /*if (durablefood_area.orientation == "horizontal")
+                if (durablefood_area.orientation == "horizontal")
                 {
                     to_filled_grid = horizontal_shelve;
                     if (occupied_durablefood_grid[grid_hor, grid_vert] == false)
@@ -161,19 +161,19 @@ public class SetupSupermarketInterior : MonoBehaviour
                         }
                         else
                         {
-                            for (int x_local = 0; x_local < to_filled_grid.GetLength(0); x_local++)
+                            for (int z_local = 0; z_local < to_filled_grid.GetLength(0); z_local++)
                             {
-                                for (int y_local = 0; y_local < to_filled_grid.GetLength(1); y_local++)
+                                for (int x_local = 0; x_local < to_filled_grid.GetLength(1); x_local++)
                                 {
-                                    if (to_filled_grid[x_local, y_local] == true)
+                                    if (to_filled_grid[z_local, x_local] == true)
                                     {
-                                        occupied_durablefood_grid[grid_hor + y_local, grid_vert + x_local] = true;
+                                        occupied_durablefood_grid[grid_hor + z_local, grid_vert + x_local] = true;
                                     }
                                 }
                             }
                         }
                         // create walkthroughs inbetween shelves
-                        if (grid_hor == (int)occupied_durablefood_grid.GetLength(0) / 2 || grid_hor == (int)occupied_durablefood_grid.GetLength(0) / 2 + 1)
+                        if (grid_vert == (int)occupied_durablefood_grid.GetLength(1) / 2 || grid_vert == (int)occupied_durablefood_grid.GetLength(1) / 2 + 1)
                         {
                             occupied_durablefood_grid[grid_hor, grid_vert] = true;
                         }
@@ -190,24 +190,24 @@ public class SetupSupermarketInterior : MonoBehaviour
                         }
                         else
                         {
-                            for (int x_local = 0; x_local < to_filled_grid.GetLength(0); x_local++)
+                            for (int z_local = 0; z_local < to_filled_grid.GetLength(0); z_local++)
                             {
-                                for (int y_local = 0; y_local < to_filled_grid.GetLength(1); y_local++)
+                                for (int x_local = 0; x_local < to_filled_grid.GetLength(1); x_local++)
                                 {
-                                    if (to_filled_grid[x_local, y_local] == true)
+                                    if (to_filled_grid[z_local, x_local] == true)
                                     {
-                                        occupied_durablefood_grid[grid_hor + y_local, grid_vert + x_local] = true;
+                                        occupied_durablefood_grid[grid_hor + z_local, grid_vert + x_local] = true;
                                     }
                                 }
                             }
                         }
                         // create walkthroughs inbetween shelves
-                        if (grid_vert == (int)occupied_durablefood_grid.GetLength(1) / 2 || grid_vert == (int)occupied_durablefood_grid.GetLength(1) / 2 + 1)
+                        if (grid_hor == (int)occupied_durablefood_grid.GetLength(0) / 2 || grid_hor == (int)occupied_durablefood_grid.GetLength(0) / 2 + 1)
                         {
                             occupied_durablefood_grid[grid_hor, grid_vert] = true;
                         }
                     }
-                }*/
+                }
             }
         }
         
@@ -314,6 +314,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                 }*/
             }
         }
+
         ////////// Merge Area Grids into Main Occupied Grid //////////
         for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
         {
