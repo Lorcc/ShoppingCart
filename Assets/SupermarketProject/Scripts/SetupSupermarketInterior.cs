@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class SetupSupermarketInterior : MonoBehaviour
 {
+    private const int CHECKOUT_SIZE = 7;
+
     [SerializeField] private bool random_shelve_orientation = true;
     [SerializeField] private bool horizontal_shelve_orientation_durablefood_area = true;
     [SerializeField] private bool horizontal_shelve_orientation_fruits_area = true;
@@ -124,7 +126,7 @@ public class SetupSupermarketInterior : MonoBehaviour
         }
 
 
-        //////////2D Grid Calculation For Shelves//////////
+        ////////// 2D Grid Calculation For Shelves //////////
         float object_position_y = 0.25f;
         bool[,] occupied_grids = new bool[grid_size_z, grid_size_x];
 
@@ -137,7 +139,80 @@ public class SetupSupermarketInterior : MonoBehaviour
         bool[,] occupied_fruits_grid = new bool[(int)fruits_size[2], (int)fruits_size[0]];
         bool[,] occupied_beverages_grid = new bool[(int)beverages_size[2], (int)beverages_size[0]];
 
-        // Take out at least one field around the edge of the field and 2 to the north, east and west
+        ///// Durablefood Area /////
+        // Take out at least one field around the edge of the field and 2 to the north and west
+        for (int grid_hor = 0; grid_hor < occupied_durablefood_grid.GetLength(0); grid_hor++)
+        {
+            for (int grid_vert = 0; grid_vert < occupied_durablefood_grid.GetLength(1); grid_vert++)
+            {
+                if (grid_hor == 0 || grid_hor == 1 || grid_hor == occupied_durablefood_grid.GetLength(0) - 1)
+                    occupied_durablefood_grid[grid_hor, grid_vert] = true;
+                if (grid_vert == 0 || grid_vert == 1 || grid_vert == occupied_durablefood_grid.GetLength(1) - 1)
+                    occupied_durablefood_grid[grid_hor, grid_vert] = true;
+                /*if (durablefood_area.orientation == "horizontal")
+                {
+                    to_filled_grid = horizontal_shelve;
+                    if (occupied_durablefood_grid[grid_hor, grid_vert] == false)
+                    {
+
+                        if ((occupied_durablefood_grid.GetLength(1) % 3 == 1) && (grid_vert == occupied_durablefood_grid.GetLength(1) - 2))
+                        {
+                            // empty so that there is false in this row without using the horizontal_shelve which would break the thing
+                        }
+                        else
+                        {
+                            for (int x_local = 0; x_local < to_filled_grid.GetLength(0); x_local++)
+                            {
+                                for (int y_local = 0; y_local < to_filled_grid.GetLength(1); y_local++)
+                                {
+                                    if (to_filled_grid[x_local, y_local] == true)
+                                    {
+                                        occupied_durablefood_grid[grid_hor + y_local, grid_vert + x_local] = true;
+                                    }
+                                }
+                            }
+                        }
+                        // create walkthroughs inbetween shelves
+                        if (grid_hor == (int)occupied_durablefood_grid.GetLength(0) / 2 || grid_hor == (int)occupied_durablefood_grid.GetLength(0) / 2 + 1)
+                        {
+                            occupied_durablefood_grid[grid_hor, grid_vert] = true;
+                        }
+                    }
+                }
+                else if (durablefood_area.orientation == "vertical")
+                {
+                    to_filled_grid = vertical_shelve;
+                    if (occupied_durablefood_grid[grid_hor, grid_vert] == false)
+                    {
+                        if ((occupied_durablefood_grid.GetLength(0) % 3 == 1) && (grid_hor == occupied_durablefood_grid.GetLength(0) - 2))
+                        {
+                            //pass
+                        }
+                        else
+                        {
+                            for (int x_local = 0; x_local < to_filled_grid.GetLength(0); x_local++)
+                            {
+                                for (int y_local = 0; y_local < to_filled_grid.GetLength(1); y_local++)
+                                {
+                                    if (to_filled_grid[x_local, y_local] == true)
+                                    {
+                                        occupied_durablefood_grid[grid_hor + y_local, grid_vert + x_local] = true;
+                                    }
+                                }
+                            }
+                        }
+                        // create walkthroughs inbetween shelves
+                        if (grid_vert == (int)occupied_durablefood_grid.GetLength(1) / 2 || grid_vert == (int)occupied_durablefood_grid.GetLength(1) / 2 + 1)
+                        {
+                            occupied_durablefood_grid[grid_hor, grid_vert] = true;
+                        }
+                    }
+                }*/
+            }
+        }
+        
+        ///// Fruits Area /////
+        // Take out at least one field around the edge of the field and 2 to the north, east and south
         for (int grid_hor = 0; grid_hor < occupied_fruits_grid.GetLength(0); grid_hor++)
         {
             for (int grid_vert = 0; grid_vert < occupied_fruits_grid.GetLength(1); grid_vert++)
@@ -157,19 +232,12 @@ public class SetupSupermarketInterior : MonoBehaviour
                             {
                                 if (to_filled_grid[z_local, x_local] == true)
                                 {
-                                    //inverted because of array notation y --> 0,1,2
-                                    //  0 1 2 y
-                                    //0 0 0 0
-                                    //1 1 0 0
-                                    //2 1 0 0
-                                    //x
                                     occupied_fruits_grid[grid_hor + z_local, grid_vert + x_local] = true;
                                 }
                             }
                         }
                     }
                 }
-
                 else if (fruit_area.orientation == "vertical")
                 {
                     if (occupied_fruits_grid[grid_hor, grid_vert] == false)
@@ -188,15 +256,65 @@ public class SetupSupermarketInterior : MonoBehaviour
                     }
                     // create walkthroughs inbetween shelves at the same place as durablefood one
                     if (grid_hor == (int)occupied_durablefood_grid.GetLength(0) / 2  || grid_hor == (int)occupied_durablefood_grid.GetLength(0) / 2 + 1 )
-                    {
-                        Debug.Log("Moin");
+                    { 
                         occupied_fruits_grid[grid_hor, grid_vert] = true;
                     }
                 }
             }
         }
+        ///// Beverages Area /////
+        // Take out at least one field around the edge of the field and 2 to the north and east
+        for (int grid_hor = 0; grid_hor < occupied_beverages_grid.GetLength(0); grid_hor++)
+        {
+            for (int grid_vert = 0; grid_vert < occupied_beverages_grid.GetLength(1); grid_vert++)
+            {
+                if (grid_hor == 0 || grid_hor == occupied_beverages_grid.GetLength(0) - 2 || grid_hor == occupied_beverages_grid.GetLength(0) - 1)
+                    occupied_beverages_grid[grid_hor, grid_vert] = true;
+                if (grid_vert == 0 ||grid_vert == 1|| occupied_beverages_grid.GetLength(1) - CHECKOUT_SIZE <= grid_vert)
+                    occupied_beverages_grid[grid_hor, grid_vert] = true;
+                /*if (beverage_area.orientation == "horizontal")
+                {
+                    if (occupied_beverages_grid[grid_hor, grid_vert] == false)
+                    {
+                        to_filled_grid = horizontal_shelve;
+                        for (int x_local = 0; x_local < to_filled_grid.GetLength(0); x_local++)
+                        {
+                            for (int y_local = 0; y_local < to_filled_grid.GetLength(1); y_local++)
+                            {
+                                if (to_filled_grid[x_local, y_local] == true)
+                                {
+                                    occupied_beverages_grid[grid_hor + y_local, grid_vert + x_local] = true;
+                                }
+                            }
+                        }
+                    }
+                    // create walkthroughs inbetween shelves at the same place as durablefood one
+                    if (grid_hor == (int)occupied_durablefood_grid.GetLength(0) / 2 || grid_hor == (int)occupied_durablefood_grid.GetLength(0) / 2 + 1)
+                    {
+                        occupied_beverages_grid[grid_hor, grid_vert] = true;
+                    }
+                }
 
-        // Take out fields
+                else if (beverage_area.orientation == "vertical")
+                {
+                    if (occupied_beverages_grid[grid_hor, grid_vert] == false)
+                    {
+                        to_filled_grid = vertical_shelve;
+                        for (int x_local = 0; x_local < to_filled_grid.GetLength(0); x_local++)
+                        {
+                            for (int y_local = 0; y_local < to_filled_grid.GetLength(1); y_local++)
+                            {
+                                if (to_filled_grid[x_local, y_local] == true)
+                                {
+                                    occupied_beverages_grid[grid_hor + y_local, grid_vert + x_local] = true;
+                                }
+                            }
+                        }
+                    }
+                }*/
+            }
+        }
+        ////////// Merge Area Grids into Main Occupied Grid //////////
         for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
         {
             for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
@@ -205,37 +323,14 @@ public class SetupSupermarketInterior : MonoBehaviour
                 //take out occupied durablefood fields
                 if (grid_hor == 0 && grid_vert == 0)
                 {
-                    for (int x_local = 0; x_local < occupied_durablefood_grid.GetLength(0); x_local++)
+                    for (int z_local = 0; z_local < occupied_durablefood_grid.GetLength(0); z_local++)
                     {
-                        for (int y_local = 0; y_local < occupied_durablefood_grid.GetLength(1); y_local++)
+                        for (int x_local = 0; x_local < occupied_durablefood_grid.GetLength(1); x_local++)
                         {
-                            occupied_grids[grid_hor + x_local, grid_vert + y_local] = occupied_durablefood_grid[x_local, y_local];
+                            occupied_grids[grid_hor + z_local, grid_vert + x_local] = occupied_durablefood_grid[z_local, x_local];
                         }
                     }
                 }
-                //take out occupied beverages fields
-                /*if (grid_hor == 0 && grid_vert == grid_size_x - beverages_size[2])
-                {
-                    for (int x_local = 0; x_local < occupied_beverages_grid.GetLength(0); x_local++)
-                    {
-                        for (int y_local = 0; y_local < occupied_beverages_grid.GetLength(1); y_local++)
-                        {
-                            occupied_grids[grid_hor + x_local, grid_vert + y_local] = occupied_beverages_grid[x_local, y_local];
-                        }
-                    }
-                }*/
-                //take out occupied fruit fields
-                //this is the beverage position
-                /*if (grid_hor == grid_size_z - fruits_size[2] && grid_vert == 0)
-                {
-                    for (int z_local = 0; z_local < occupied_fruits_grid.GetLength(0); z_local++)
-                    {
-                        for (int x_local = 0; x_local < occupied_fruits_grid.GetLength(1); x_local++)
-                        {
-                            occupied_grids[grid_hor + z_local, grid_vert + x_local] = occupied_fruits_grid[z_local, x_local];
-                        }
-                    }
-                }*/
                 //take out occupied fruit fields
                 if (grid_hor == 0 && grid_vert == grid_size_x - fruits_size[0])
                 {
@@ -247,17 +342,28 @@ public class SetupSupermarketInterior : MonoBehaviour
                         }
                     }
                 }
-                //take out entrance fields
-                /*if (grid_hor == grid_size_z - entrance_size[0] && grid_vert == grid_size_x - entrance_size[2])
+                //take out occupied beverages fields
+                if (grid_hor == grid_size_z - beverages_size[2] && grid_vert == 0)
                 {
-                    for (int x_local = 0; x_local < occupied_entrance.GetLength(0); x_local++)
+                    for (int z_local = 0; z_local < occupied_beverages_grid.GetLength(0); z_local++)
                     {
-                        for (int y_local = 0; y_local < occupied_entrance.GetLength(1); y_local++)
+                        for (int x_local = 0; x_local < occupied_beverages_grid.GetLength(1); x_local++)
                         {
-                            occupied_grids[grid_hor + x_local, grid_vert + y_local] = true;
+                            occupied_grids[grid_hor + z_local, grid_vert + x_local] = occupied_beverages_grid[z_local, x_local];
                         }
                     }
-                }*/
+                }
+                //take out entrance fields
+                if (grid_hor == grid_size_z - entrance_size[2] && grid_vert == grid_size_x - entrance_size[0])
+                {
+                    for (int z_local = 0; z_local < occupied_entrance.GetLength(0); z_local++)
+                    {
+                        for (int x_local = 0; x_local < occupied_entrance.GetLength(1); x_local++)
+                        {
+                            occupied_grids[grid_hor + z_local, grid_vert + x_local] = true;
+                        }
+                    }
+                }
             }
         }
 
@@ -326,7 +432,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                     Vector2 temp_goal_position = new Vector2();
 
                     //durablefood area
-                    if (grid_hor < durablefood_area.area_size[0] && grid_vert < durablefood_area.area_size[2])
+                    if (grid_hor < durablefoods_size[2] && grid_vert < durablefoods_size[0])
                     {
                         if (durablefood_area.orientation == "horizontal")
                         {
