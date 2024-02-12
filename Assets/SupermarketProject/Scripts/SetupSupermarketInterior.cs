@@ -155,7 +155,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                     if (occupied_durablefood_grid[grid_hor, grid_vert] == false)
                     {
 
-                        if ((occupied_durablefood_grid.GetLength(1) % 3 == 1) && (grid_vert == occupied_durablefood_grid.GetLength(1) - 2))
+                        if ((occupied_durablefood_grid.GetLength(0) % 3 == 1) && (grid_hor == occupied_durablefood_grid.GetLength(0) - 2))
                         {
                             // empty so that there is false in this row without using the horizontal_shelve which would break the thing
                         }
@@ -184,7 +184,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                     to_filled_grid = vertical_shelve;
                     if (occupied_durablefood_grid[grid_hor, grid_vert] == false)
                     {
-                        if ((occupied_durablefood_grid.GetLength(0) % 3 == 1) && (grid_hor == occupied_durablefood_grid.GetLength(0) - 2))
+                        if ((occupied_durablefood_grid.GetLength(1) % 3 == 1) && (grid_vert == occupied_durablefood_grid.GetLength(1) - 2))
                         {
                             //pass
                         }

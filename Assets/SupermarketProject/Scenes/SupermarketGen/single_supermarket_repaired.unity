@@ -131,12 +131,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: x_ground_size
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: z_ground_size
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: max_ground_size
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: min_ground_size
-      value: 20
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: x_entrance_size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: z_entrance_size
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: fixed_ground_size
@@ -144,11 +160,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: max_entrance_size
-      value: 6
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: min_entrance_size
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: fixed_entrance_size
@@ -403,10 +419,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6a4d2caf9258d245b1f30c5cb0466eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  random_shelve_orientation: 0
-  horizontal_shelve_orientation_durablefood_area: 1
-  horizontal_shelve_orientation_fruits_area: 1
-  horizontal_shelve_orientation_beverages_area: 1
+  random_shelve_orientation: 1
+  horizontal_shelve_orientation_durablefood_area: 0
+  horizontal_shelve_orientation_fruits_area: 0
+  horizontal_shelve_orientation_beverages_area: 0
   number_of_items_to_purchase: 1
   shelve_wall_tile: []
   available_shelves:
