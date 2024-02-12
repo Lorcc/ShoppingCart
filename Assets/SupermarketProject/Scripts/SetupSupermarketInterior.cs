@@ -98,7 +98,10 @@ public class SetupSupermarketInterior : MonoBehaviour
                                             Vector3 fruits_size, 
                                             Vector3 beverages_size)
     {
-        //////////Shelve Orientation//////////
+        ///// Reset Previous Values /////
+        reset_Object_Lists();
+
+        ////////// Shelve Orientation //////////
         Area durablefood_area;
         Area fruit_area;
         Area beverage_area;
@@ -540,6 +543,29 @@ public class SetupSupermarketInterior : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+
+    public void reset_Object_Lists()
+    {
+        //***Empty Goal List***//
+        goal_positions_2d.Clear();
+
+        //Clear shelve tiles
+        foreach (GameObject shelve in shelve_tiles)
+        {
+            Destroy(shelve);
+        }
+        //Clear obstacle objects
+        foreach (GameObject obstacle in static_obstacles)
+        {
+            Destroy(obstacle);
+        }
+        //Clear waypoints
+        foreach (GameObject waypoint in waypoint_objects)
+        {
+            Destroy(waypoint);
         }
     }
 
