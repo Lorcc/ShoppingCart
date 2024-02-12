@@ -854,13 +854,7 @@ public class SetupSupermarket : MonoBehaviour
         }
 
         ////////// Spawn Entrance Fence //////////
-        setup_entrance.setup_entrance(grid_size_x, grid_size_y, entrance_size);
-
-        ////////// Checkout Spawn //////////
-        Vector3 first_checkout_spawn_position = calculate_first_checkout_position(entrance_position, entrance_size);
-        Quaternion checkout_rotation = Quaternion.Euler(0, 0, 0);
-        GameObject first_checkout = Instantiate(checkout, first_checkout_spawn_position, checkout_rotation, this.transform);
-        checkout_objects.Add(first_checkout);
+        setup_entrance.setup_entrance(grid_size_x, grid_size_y, entrance_size, entrance_position);
 
 
         ////////// Agent Position //////////
@@ -1119,16 +1113,6 @@ public class SetupSupermarket : MonoBehaviour
         agent_pos.x = entrance_position.x + entrance_scale.x / 2.0f - 1.5f;
         agent_pos.y = entrance_position.z + entrance_scale.z / 2.0f + 0.7f;
         return agent_pos;
-    }
-
-    //hard coded checkout position for first checkout closest to the wall, because we want room for the robot to bring the items to their checkout in the corner
-    public Vector3 calculate_first_checkout_position(Vector3 entrance_position, Vector3 entrance_scale)
-    {
-        Vector3 checkout_pos = new Vector2();
-        checkout_pos.x = entrance_position.x - entrance_scale.x/2.0f - 2.5f;
-        checkout_pos.y = 0.8f + this.transform.position.y;
-        checkout_pos.z = entrance_position.z - entrance_scale.z/2.0f + 3.5f;
-        return checkout_pos;
     }
 
     private void Awake()

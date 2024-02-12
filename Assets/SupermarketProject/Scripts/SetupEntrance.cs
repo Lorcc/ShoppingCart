@@ -6,20 +6,29 @@ public class SetupEntrance : MonoBehaviour
 {
     [SerializeField] private GameObject fence_tile;
     [SerializeField] private GameObject fence_doubleentrance_tile;
+    [SerializeField] private GameObject checkout;
 
     private List<GameObject> fence_tiles = new List<GameObject>();
+    private List<GameObject> checkout_objects = new List<GameObject>();
     private const float OFFSET_X = 0.5f;
     private const float OFFSET_Z = 0.0f;
     private const int CHECKOUT_SIZE = 6;
 
-    public void setup_entrance(int grid_size_x, int grid_size_z, Vector3 entrance_size)
+    public void setup_entrance(int grid_size_x, int grid_size_z, Vector3 entrance_size, Vector3 entrance_position)
     {
+        ///// Fence Spawn /////
         float object_position_y = 0.25f;
-        //Clear ground tiles
+        //Clear fence tiles
         foreach (GameObject fence_tile in fence_tiles)
         {
             Destroy(fence_tile);
         }
+        //Clear checkout tiles
+        foreach (GameObject checkout_tile in checkout_objects)
+        {
+            Destroy(checkout_tile);
+        }
+
         //Spawn entrance fences horizontal(from left to right or west to east)
         int x_entr_start = (int)grid_size_x - (int)entrance_size.x;
         int x_entr = x_entr_start;
@@ -78,6 +87,13 @@ public class SetupEntrance : MonoBehaviour
             fence_tiles.Add(fence);
             z_entr--;
         }
+
+        ///// Checkout Spawn /////
+        //hard coded checkout position for first checkout closest to the wall, because we want room for the robot to bring the items to their checkout in the corner
+        Vector3 first_checkout_spawn_position = new Vector3(entrance_position.x - entrance_size[0] / 2.0f - 2.5f, this.transform.position.y + object_position_y, entrance_position.z - entrance_size.z / 2.0f + 3.5f);
+        Quaternion checkout_rotation = Quaternion.Euler(0, 0, 0);
+        GameObject first_checkout = Instantiate(checkout, first_checkout_spawn_position, checkout_rotation, this.transform);
+        checkout_objects.Add(first_checkout);
     }
 
 }

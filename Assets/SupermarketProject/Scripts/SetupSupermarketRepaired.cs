@@ -62,7 +62,8 @@ public class SetupSupermarketRepaired : MonoBehaviour
         Vector3 entrance_size = new Vector3(entrance_size_x, 0.5f, entrance_size_z);
         entrance_area.transform.localScale = entrance_size;
         entrance_area.GetComponent<ground_scaling>().scale_Texture(entrance_size);
-        entrance_area.transform.position = this.transform.position + new Vector3((grid_size_x / 2.0f - entrance_size[0] / 2.0f), ground_area_position_y, (-grid_size_z / 2.0f + entrance_size[2] / 2.0f));
+        Vector3 entrance_position = this.transform.position + new Vector3((grid_size_x / 2.0f - entrance_size[0] / 2.0f), ground_area_position_y, (-grid_size_z / 2.0f + entrance_size[2] / 2.0f));
+        entrance_area.transform.position = entrance_position;
 
         GameObject durablefoods_area = this.transform.Find("ground_durable_food").gameObject;
         Vector3 durablefoods_size = new Vector3(grid_size_x - entrance_size[0], 0.5f, grid_size_z - entrance_size[2]);
@@ -82,7 +83,7 @@ public class SetupSupermarketRepaired : MonoBehaviour
         beverages_area.GetComponent<ground_scaling>().scale_Texture(beverages_size);
         beverages_area.transform.position = this.transform.position + new Vector3((beverages_size[0] / 2.0f - grid_size_x / 2.0f), ground_area_position_y, (-grid_size_z / 2.0f + beverages_size[2] / 2.0f));
 
-        GetComponent<SetupSupermarketInterior>().setup_Supermarket_Interior(grid_size_x, grid_size_z,entrance_size,durablefoods_size,fruits_size,beverages_size);
+        GetComponent<SetupSupermarketInterior>().setup_Supermarket_Interior(grid_size_x, grid_size_z,entrance_size,durablefoods_size,fruits_size,beverages_size, entrance_position);
     }
     public void check_Input()
     {

@@ -320,6 +320,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3800787646805460533, guid: a25a820932850d2499553f9a3a048a2b, type: 3}
+      propertyPath: checkout
+      value: 
+      objectReference: {fileID: 1455025287242494113, guid: e9c33155bf9a21c4c84b1eee1c9ac7ce, type: 3}
     - target: {fileID: 3800787646805460534, guid: a25a820932850d2499553f9a3a048a2b, type: 3}
       propertyPath: waypoint
       value: 

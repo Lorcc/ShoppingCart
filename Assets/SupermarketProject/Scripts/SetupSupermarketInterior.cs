@@ -98,7 +98,8 @@ public class SetupSupermarketInterior : MonoBehaviour
                                             Vector3 entrance_size, 
                                             Vector3 durablefoods_size, 
                                             Vector3 fruits_size, 
-                                            Vector3 beverages_size)
+                                            Vector3 beverages_size,
+                                            Vector3 entrance_position)
     {
         ///// Reset Previous Values /////
         reset_Object_Lists();
@@ -594,7 +595,7 @@ public class SetupSupermarketInterior : MonoBehaviour
 
 
         ////////// Spawn Entrance Fence //////////
-        setup_entrance.setup_entrance(grid_size_x, grid_size_z, entrance_size);
+        setup_entrance.setup_entrance(grid_size_x, grid_size_z, entrance_size, entrance_position);
     }
 
 
