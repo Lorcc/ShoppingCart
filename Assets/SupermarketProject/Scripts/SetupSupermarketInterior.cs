@@ -1,6 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.MLAgents;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using System.Linq;
+using System.IO;
 
 public class SetupSupermarketInterior : MonoBehaviour
 {
@@ -94,6 +100,43 @@ public class SetupSupermarketInterior : MonoBehaviour
             return possible_orientations[random_index];
         }
     }
+
+    // A* Class
+    class GridTile
+    {
+        public int X { get; set; }
+        public int Z { get; set; }
+        public int Cost { get; set; }
+        public float Distance { get; set; }
+        public float CostDistance => Cost + Distance;
+        public GridTile Parent { get; set; }
+        //The distance is essentially the estimated distance, ignoring walls to our target. 
+        //So how many tiles left and right, up and down, ignoring walls, to get there.
+        public void set_Distance(int targetX, int targetY)
+        {
+            this.Distance = Mathf.Abs(targetX - X) + Mathf.Abs(targetY - Z);
+        }
+    }
+
+    private static List<GridTile> GetWalkableTiles(bool[,] occupiedGrids, GridTile currentTile, GridTile targetTile, int grid_size_x, int grid_size_z)
+    {
+        var possibleTiles = new List<GridTile>()
+        {
+            new GridTile { X = currentTile.X, Z = currentTile.Z - 1, Parent = currentTile, Cost = currentTile.Cost + 1 },
+            new GridTile { X = currentTile.X, Z = currentTile.Z + 1, Parent = currentTile, Cost = currentTile.Cost + 1 },
+            new GridTile { X = currentTile.X - 1, Z = currentTile.Z, Parent = currentTile, Cost = currentTile.Cost + 1 },
+            new GridTile { X = currentTile.X + 1, Z = currentTile.Z, Parent = currentTile, Cost = currentTile.Cost + 1 },
+        };
+        possibleTiles.ForEach(tile => tile.set_Distance(targetTile.X, targetTile.Z));
+        var maxX = grid_size_x - 1;
+        var maxZ = grid_size_z - 1;
+        return possibleTiles
+            .Where(tile => tile.X >= 0 && tile.X <= maxX)
+            .Where(tile => tile.Z >= 0 && tile.X <= maxZ)
+            .Where(tile => occupiedGrids[tile.X, tile.Z] == true || targetTile.X == tile.X && targetTile.Z == tile.Z)
+            .ToList();
+    }
+
 
     public void setup_Supermarket_Interior( int grid_size_x, 
                                             int grid_size_z, 
@@ -399,7 +442,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             Debug.Log(text + "\n");
             text = "";
         }
-        Debug.Log("Gridsize_X: " + grid_size_x + "Gridsize_Z: " + grid_size_z);*/
+        Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);*/
 
 
         ////////// Spawning Shelves //////////
@@ -714,7 +757,9 @@ public class SetupSupermarketInterior : MonoBehaviour
         Vector3 goal_spawn_pos = new Vector3(goal_localpositions_2d[0].x, this.transform.position.y + goal_position_y, goal_localpositions_2d[0].y);
         goal.GetComponent<Goal>().reposition(goal_spawn_pos);
         Debug.Log(goal_spawn_pos);
-        Debug.Log(goal_map_position_2d[0]);
+        Debug.Log("Real Map Position: " + goal_map_position_2d[0]);
+        Debug.Log("Calculated Map Position: " + parse_Localposition_To_Map(goal_spawn_pos, grid_size_x, grid_size_z));
+        Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);
     }
 
 
@@ -785,6 +830,90 @@ public class SetupSupermarketInterior : MonoBehaviour
         return goal_pos;
     }
 
+    public Vector2Int parse_Localposition_To_Map(Vector3 local_position, int grid_size_x, int grid_size_z)
+    {
+        //Vector3 object_position = this.transform.position + new Vector3((grid_vert - (grid_size_x / 2.0f) + object_offset), object_position_y, (grid_size_z / 2.0f) - grid_hor - object_offset);
+
+        float x_half_map_size = (float)(grid_size_x - 1.0f) / 2.0f;
+        float z_half_map_size = (float)(grid_size_z - 1.0f) / 2.0f;
+        Vector2Int parsed_value = new Vector2Int();
+
+        if (local_position.x <= 0)
+        {
+            // for cartesian coordinate system 3.quadrant (-,-)
+            if (local_position.z < 0)
+            {
+                parsed_value.x = (int)(z_half_map_size + Mathf.Abs(local_position.z));
+                parsed_value.y = (int)(x_half_map_size - Mathf.Abs(local_position.x));
+            }
+            // for cartesian coordinate system 2.quadrant (-,+)
+            else
+            {
+                parsed_value.x = (int)(z_half_map_size - Mathf.Abs(local_position.z));
+                parsed_value.y = (int)(x_half_map_size - Mathf.Abs(local_position.x));
+            }
+        }
+        else if (local_position.x > 0)
+        {
+            // for cartesian coordinate system 4.quadrant (+,-)
+            if (local_position.z < 0)
+            {
+                parsed_value.x = (int)(z_half_map_size + Mathf.Abs(local_position.z));
+                parsed_value.y = (int)(x_half_map_size + Mathf.Abs(local_position.x));
+            }
+            // for cartesian coordinate system 1.quadrant (+,+)
+            else
+            {
+                parsed_value.x = (int)(z_half_map_size - Mathf.Abs(local_position.z));
+                parsed_value.y = (int)(x_half_map_size + Mathf.Abs(local_position.x));
+            }
+        }
+        return parsed_value;
+    }
+
+    public Vector2 parse_map_to_localposition(Vector2 map_position, int grid_size_x, int grid_size_y)
+    {
+        if (map_position.x < 0 || map_position.y < 0)
+        {
+            Debug.LogError("Wrong function used. Vector2(0f,0f) is given");
+            return new Vector2(0f, 0f);
+        }
+        float x_half_map_size = (float)(grid_size_x - 1.0f) / 2.0f;
+        float y_half_map_size = (float)(grid_size_y - 1.0f) / 2.0f;
+        Vector2 parsed_value = new Vector2();
+
+        if (map_position.y <= x_half_map_size)
+        {
+            // for cartesian coordinate system 2.quadrant (-,+)
+            if (map_position.x < y_half_map_size)
+            {
+                parsed_value.x = -x_half_map_size + map_position.y;
+                parsed_value.y = y_half_map_size - map_position.x;
+            }
+            // for cartesian coordinate system 3.quadrant (-,-)
+            else
+            {
+                parsed_value.x = -x_half_map_size + map_position.y;
+                parsed_value.y = y_half_map_size - map_position.x;
+            }
+        }
+        else if (map_position.y > x_half_map_size)
+        {
+            // for cartesian coordinate system 1.quadrant (+,+)
+            if (map_position.x < y_half_map_size)
+            {
+                parsed_value.x = map_position.y - x_half_map_size;
+                parsed_value.y = y_half_map_size - map_position.x;
+            }
+            // for cartesian coordinate system 4.quadrant (+,-)
+            else
+            {
+                parsed_value.x = map_position.y - x_half_map_size;
+                parsed_value.y = y_half_map_size - map_position.x;
+            }
+        }
+        return parsed_value;
+    }
     private void Awake()
     {
         // Gets entrance script

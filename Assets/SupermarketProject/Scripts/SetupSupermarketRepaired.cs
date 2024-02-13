@@ -1,12 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.MLAgents;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-using System.Linq;
-using System.IO;
 
 public class SetupSupermarketRepaired : MonoBehaviour
 {
