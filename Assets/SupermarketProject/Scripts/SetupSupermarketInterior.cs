@@ -756,10 +756,13 @@ public class SetupSupermarketInterior : MonoBehaviour
         float goal_position_y = 0.75f;
         Vector3 goal_spawn_pos = new Vector3(goal_localpositions_2d[0].x, this.transform.position.y + goal_position_y, goal_localpositions_2d[0].y);
         goal.GetComponent<Goal>().reposition(goal_spawn_pos);
+        Vector2Int goal_map_position = parse_Localposition_To_Map(goal_spawn_pos, grid_size_x, grid_size_z);
         Debug.Log(goal_spawn_pos);
+        Debug.Log("Calculated Local Position: " + parse_Map_To_Localposition(goal_map_position, grid_size_x, grid_size_z));
         Debug.Log("Real Map Position: " + goal_map_position_2d[0]);
-        Debug.Log("Calculated Map Position: " + parse_Localposition_To_Map(goal_spawn_pos, grid_size_x, grid_size_z));
+        Debug.Log("Calculated Map Position: " + goal_map_position);
         Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);
+
     }
 
 
@@ -871,7 +874,7 @@ public class SetupSupermarketInterior : MonoBehaviour
         return parsed_value;
     }
 
-    public Vector2 parse_map_to_localposition(Vector2 map_position, int grid_size_x, int grid_size_y)
+    public Vector2 parse_Map_To_Localposition(Vector2Int map_position, int grid_size_x, int grid_size_z)
     {
         if (map_position.x < 0 || map_position.y < 0)
         {
@@ -879,37 +882,37 @@ public class SetupSupermarketInterior : MonoBehaviour
             return new Vector2(0f, 0f);
         }
         float x_half_map_size = (float)(grid_size_x - 1.0f) / 2.0f;
-        float y_half_map_size = (float)(grid_size_y - 1.0f) / 2.0f;
+        float z_half_map_size = (float)(grid_size_z - 1.0f) / 2.0f;
         Vector2 parsed_value = new Vector2();
 
         if (map_position.y <= x_half_map_size)
         {
             // for cartesian coordinate system 2.quadrant (-,+)
-            if (map_position.x < y_half_map_size)
+            if (map_position.x < z_half_map_size)
             {
                 parsed_value.x = -x_half_map_size + map_position.y;
-                parsed_value.y = y_half_map_size - map_position.x;
+                parsed_value.y = z_half_map_size - map_position.x;
             }
             // for cartesian coordinate system 3.quadrant (-,-)
             else
             {
                 parsed_value.x = -x_half_map_size + map_position.y;
-                parsed_value.y = y_half_map_size - map_position.x;
+                parsed_value.y = z_half_map_size - map_position.x;
             }
         }
         else if (map_position.y > x_half_map_size)
         {
             // for cartesian coordinate system 1.quadrant (+,+)
-            if (map_position.x < y_half_map_size)
+            if (map_position.x < z_half_map_size)
             {
                 parsed_value.x = map_position.y - x_half_map_size;
-                parsed_value.y = y_half_map_size - map_position.x;
+                parsed_value.y = z_half_map_size - map_position.x;
             }
             // for cartesian coordinate system 4.quadrant (+,-)
             else
             {
                 parsed_value.x = map_position.y - x_half_map_size;
-                parsed_value.y = y_half_map_size - map_position.x;
+                parsed_value.y = z_half_map_size - map_position.x;
             }
         }
         return parsed_value;
