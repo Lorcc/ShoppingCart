@@ -854,7 +854,7 @@ public class SetupSupermarket : MonoBehaviour
         }
 
         ////////// Spawn Entrance Fence //////////
-        setup_entrance.setup_entrance(grid_size_x, grid_size_y, entrance_size, entrance_position);
+        setup_entrance.setup_Entrance(grid_size_x, grid_size_y, entrance_size, entrance_position);
 
 
         ////////// Agent Position //////////

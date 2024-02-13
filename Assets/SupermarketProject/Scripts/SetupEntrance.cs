@@ -14,7 +14,7 @@ public class SetupEntrance : MonoBehaviour
     private const float OFFSET_Z = 0.0f;
     private const int CHECKOUT_SIZE = 6;
 
-    public void setup_entrance(int grid_size_x, int grid_size_z, Vector3 entrance_size, Vector3 entrance_position)
+    public void setup_Entrance(int grid_size_x, int grid_size_z, Vector3 entrance_size, Vector3 entrance_position)
     {
         ///// Fence Spawn /////
         float object_position_y = 0.25f;

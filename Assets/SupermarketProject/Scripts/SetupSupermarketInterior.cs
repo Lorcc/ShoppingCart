@@ -30,7 +30,8 @@ public class SetupSupermarketInterior : MonoBehaviour
     private List<GameObject> waypoint_objects = new List<GameObject>();
 
     // List with the positions for A*
-    private List<Vector2> goal_positions_2d = new List<Vector2>();
+    private List<Vector2> goal_localpositions_2d = new List<Vector2>();
+    private List<Vector2Int> goal_map_position_2d = new List<Vector2Int>();
     private Vector2 agent_starting_position = new Vector2();
     enum Section { Fruit, Durable, Drinks }
 
@@ -439,8 +440,8 @@ public class SetupSupermarketInterior : MonoBehaviour
                     Vector3 object_position = this.transform.position + new Vector3((grid_vert - (grid_size_x / 2.0f) + object_offset), object_position_y, (grid_size_z / 2.0f) - grid_hor - object_offset);
 
                     //Debug.Log(object_position + " " + grid_hor + " " + grid_vert);
-                    Vector3 temp_position = new Vector3();
-                    Vector2 temp_goal_position = new Vector2();
+                    Vector3 temp_position;
+                    Vector2 temp_goal_position;
 
                     //Durablefood Area
                     if (grid_hor < durablefoods_size[2] && grid_vert < durablefoods_size[0])
@@ -457,8 +458,9 @@ public class SetupSupermarketInterior : MonoBehaviour
                                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
 
                                 //Calculation
-                                //temp_goal_position = calculate_goal_position_horizontal(object_position, temp_position);
-                                //goal_positions_2d.Add(temp_goal_position);
+                                temp_goal_position = calculate_Goal_Position_Horizontal(object_position, temp_position);
+                                goal_localpositions_2d.Add(temp_goal_position);
+                                goal_map_position_2d.Add(new Vector2Int(grid_hor, grid_vert));
                             }
                         }
                         else
@@ -473,8 +475,9 @@ public class SetupSupermarketInterior : MonoBehaviour
                                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
 
                                 //Calculation
-                                //temp_goal_position = calculate_goal_position_vertical(object_position, temp_position);
-                                //goal_positions_2d.Add(temp_goal_position);
+                                temp_goal_position = calculate_Goal_Position_Vertical(object_position, temp_position);
+                                goal_localpositions_2d.Add(temp_goal_position);
+                                goal_map_position_2d.Add(new Vector2Int(grid_hor, grid_vert));
                             }
                         }
                     }
@@ -492,8 +495,9 @@ public class SetupSupermarketInterior : MonoBehaviour
                             {
                                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
                                 //Calculation
-                                //temp_goal_position = calculate_goal_position_horizontal(object_position, temp_position);
-                                //goal_positions_2d.Add(temp_goal_position);
+                                temp_goal_position = calculate_Goal_Position_Horizontal(object_position, temp_position);
+                                goal_localpositions_2d.Add(temp_goal_position);
+                                goal_map_position_2d.Add(new Vector2Int(grid_hor, grid_vert));
                             }
                         }
                         else
@@ -507,8 +511,9 @@ public class SetupSupermarketInterior : MonoBehaviour
                             {
                                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
                                 //Calculation
-                                //temp_goal_position = calculate_goal_position_vertical(object_position, temp_position);
-                                //goal_positions_2d.Add(temp_goal_position);
+                                temp_goal_position = calculate_Goal_Position_Vertical(object_position, temp_position);
+                                goal_localpositions_2d.Add(temp_goal_position);
+                                goal_map_position_2d.Add(new Vector2Int(grid_hor, grid_vert));
                             }
                         }
                     }
@@ -526,8 +531,9 @@ public class SetupSupermarketInterior : MonoBehaviour
                             {
                                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
                                 //Calculation
-                                //temp_goal_position = calculate_goal_position_horizontal(object_position, temp_position);
-                                //goal_positions_2d.Add(temp_goal_position);
+                                temp_goal_position = calculate_Goal_Position_Horizontal(object_position, temp_position);
+                                goal_localpositions_2d.Add(temp_goal_position);
+                                goal_map_position_2d.Add(new Vector2Int(grid_hor, grid_vert));
                             }
                         }
                         else
@@ -541,8 +547,9 @@ public class SetupSupermarketInterior : MonoBehaviour
                             {
                                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
                                 //Calculation
-                                //temp_goal_position = calculate_goal_position_vertical(object_position, temp_position);
-                                //goal_positions_2d.Add(temp_goal_position);
+                                temp_goal_position = calculate_Goal_Position_Vertical(object_position, temp_position);
+                                goal_localpositions_2d.Add(temp_goal_position);
+                                goal_map_position_2d.Add(new Vector2Int(grid_hor, grid_vert));
                             }
                         }
                     }
@@ -595,7 +602,7 @@ public class SetupSupermarketInterior : MonoBehaviour
 
 
         ////////// Spawn Entrance Fence //////////
-        setup_entrance.setup_entrance(grid_size_x, grid_size_z, entrance_size, entrance_position);
+        setup_entrance.setup_Entrance(grid_size_x, grid_size_z, entrance_size, entrance_position);
 
 
         ////////// Spawn Static Obstacles //////////
@@ -701,13 +708,20 @@ public class SetupSupermarketInterior : MonoBehaviour
                 }
             }
         }
+
+        ////////// Goal Position //////////
+        float goal_position_y = 0.75f;
+        Vector3 goal_spawn_pos = new Vector3(goal_localpositions_2d[0].x, this.transform.position.y + goal_position_y, goal_localpositions_2d[0].y);
+        goal.GetComponent<Goal>().reposition(goal_spawn_pos);
+        Debug.Log(goal_spawn_pos);
+        Debug.Log(goal_map_position_2d[0]);
     }
 
 
     public void reset_Object_Lists()
     {
         //***Empty Goal List***//
-        goal_positions_2d.Clear();
+        goal_localpositions_2d.Clear();
 
         //Clear shelve tiles
         foreach (GameObject shelve in shelve_tiles)
@@ -724,6 +738,51 @@ public class SetupSupermarketInterior : MonoBehaviour
         {
             Destroy(waypoint);
         }
+    }
+
+    /// <summary>
+    /// Calculate position of the goal if shelve is horizontal
+    /// </summary>
+    /// <param name="shelve_position"></param>
+    /// <param name="p_item_position"></param>
+    /// <returns></returns>
+    public Vector2 calculate_Goal_Position_Horizontal(Vector3 shelve_position, Vector3 p_item_position)
+    {
+        Vector2 goal_pos = new Vector2();
+        goal_pos.x = shelve_position.x;
+
+        if (p_item_position.x < 0)
+        {
+            goal_pos.y = shelve_position.z + 1;
+        }
+        else
+        {
+            goal_pos.y = shelve_position.z - 1;
+        }
+        return goal_pos;
+    }
+
+
+    /// <summary>
+    /// Calculate position of the goal if shelve is vertical
+    /// </summary>
+    /// <param name="shelve_position"></param>
+    /// <param name="p_item_position"></param>
+    /// <returns></returns>
+    public Vector2 calculate_Goal_Position_Vertical(Vector3 shelve_position, Vector3 p_item_position)
+    {
+        Vector2 goal_pos = new Vector2();
+        goal_pos.y = shelve_position.z;
+
+        if (p_item_position.x < 0)
+        {
+            goal_pos.x = shelve_position.x - 1;
+        }
+        else
+        {
+            goal_pos.x = shelve_position.x + 1;
+        }
+        return goal_pos;
     }
 
     private void Awake()
