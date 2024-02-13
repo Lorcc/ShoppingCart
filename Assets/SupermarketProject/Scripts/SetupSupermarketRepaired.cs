@@ -79,6 +79,7 @@ public class SetupSupermarketRepaired : MonoBehaviour
 
         GetComponent<SetupSupermarketInterior>().setup_Supermarket_Interior(grid_size_x, grid_size_z,entrance_size,durablefoods_size,fruits_size,beverages_size, entrance_position);
     }
+
     public void check_Input()
     {
         if (fixed_ground_size)

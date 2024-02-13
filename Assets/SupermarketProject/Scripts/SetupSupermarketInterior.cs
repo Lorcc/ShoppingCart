@@ -765,6 +765,10 @@ public class SetupSupermarketInterior : MonoBehaviour
         ////////// Goal Position //////////
         float goal_position_y = 0.75f;
         Vector3 goal_spawn_pos = new Vector3(goal_localpositions_2d[0].x, this.transform.position.y + goal_position_y, goal_localpositions_2d[0].y);
+        Vector2Int goal_map_position = parse_Localposition_To_Map(goal_spawn_pos, grid_size_x, grid_size_z);
+        GridTile Goal = new GridTile();
+        Goal.X = goal_map_position.x;
+        Goal.Z = goal_map_position.y;
         goal.GetComponent<Goal>().reposition(goal_spawn_pos);
         /*Vector2Int goal_map_position = parse_Localposition_To_Map(goal_spawn_pos, grid_size_x, grid_size_z);
         Debug.Log(goal_spawn_pos);
@@ -773,6 +777,16 @@ public class SetupSupermarketInterior : MonoBehaviour
         Debug.Log("Calculated Map Position: " + goal_map_position);
         Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);*/
 
+        ////////// Application A* //////////
+        List<Vector2> shortest_path = calculate_a_star(goal_map_position_2d[0], Agent, Goal, grid_size_x, grid_size_z, occupied_grid);
+
+        for (int i = 1; i < shortest_path.Count - 1; i++)
+        {
+            Vector3 waypoint_pos = new Vector3(shortest_path[i].x, this.transform.position.y + 0.75f, shortest_path[i].y);
+            Quaternion waypoint_rotation = Quaternion.Euler(0, 0, 0);
+            GameObject waypoint_obj = Instantiate(waypoint, waypoint_pos, waypoint_rotation, this.transform);
+            waypoint_objects.Add(waypoint_obj);
+        }
     }
 
 
@@ -929,6 +943,79 @@ public class SetupSupermarketInterior : MonoBehaviour
     }
 
 
+    ////////// Ausführung A* //////////
+    private List<Vector2> calculate_a_star(Vector2 goal_position, GridTile Agent, GridTile Goal, int grid_size_x, int grid_size_z, bool[,] occupiedGrids)
+    {
+        List<Vector2> shortest_path = new List<Vector2>();
+        if (goal_position != null)
+        {
+            //Debug.Log("Goal starting position: " + Goal.X + " " + Goal.Y);
+            //A* algorithm to check if both agents can reach each other
+            //https://dotnetcoretutorials.com/2020/07/25/a-search-pathfinding-algorithm-in-c/
+            Agent.set_Distance(Goal.X, Goal.Z);
+            List<GridTile> activeTiles = new List<GridTile>();
+            activeTiles.Add(Agent);
+            List<GridTile> visitedTiles = new List<GridTile>();
+
+            while (activeTiles.Any())
+            {
+                var checkTile = activeTiles.OrderBy(x => x.CostDistance).First();
+
+                if (checkTile.X == Goal.X && checkTile.Z == Goal.Z)
+                {
+                    var tile = checkTile;
+                    while (true)
+                    {
+                        //Debug.Log("Current Tile x: " + tile.X + " y: " + tile.Y);
+                        var test = new Vector2Int(tile.X, tile.Z);
+                        var test_local = parse_Map_To_Localposition(test, grid_size_x, grid_size_z);
+                        shortest_path.Add(test_local);
+                        //Debug.Log("localposition: " + parse_map_to_localposition(test, grid_size_x, grid_size_y));
+
+                        tile = tile.Parent;
+                        if (tile == null)
+                        {
+                            return shortest_path;
+                        }
+                    }
+                }
+
+                visitedTiles.Add(checkTile);
+                activeTiles.Remove(checkTile);
+                var walkableTiles = GetWalkableTiles(occupiedGrids, checkTile, Goal, grid_size_x, grid_size_z);
+                foreach (var walkableTile in walkableTiles)
+                {
+                    //We have already visited this tile so we don't need to do so again!
+                    if (visitedTiles.Any(x => x.X == walkableTile.X && x.Z == walkableTile.Z))
+                        continue;
+                    //It's already in the active list, but that's OK, maybe this new tile has a better value (e.g. We might zigzag earlier but this is now straighter). 
+                    if (activeTiles.Any(x => x.X == walkableTile.X && x.Z == walkableTile.Z))
+                    {
+                        var existingTile = activeTiles.First(x => x.X == walkableTile.X && x.Z == walkableTile.Z);
+                        if (existingTile.CostDistance > checkTile.CostDistance)
+                        {
+                            activeTiles.Remove(existingTile);
+                            activeTiles.Add(walkableTile);
+                        }
+                    }
+                    else
+                    {
+                        //We've never seen this tile before so add it to the list. 
+                        activeTiles.Add(walkableTile);
+                    }
+                }
+            }
+            //Restart Arena Setup
+            print("No Path Found! Recalculate Map: " + this.name);
+            //TODO change
+            return shortest_path;
+        }
+        else
+        {
+            //TODO change
+            return shortest_path;
+        }
+    }
 
     private void Awake()
     {
