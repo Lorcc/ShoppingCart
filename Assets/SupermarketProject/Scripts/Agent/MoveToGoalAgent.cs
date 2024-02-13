@@ -31,7 +31,7 @@ public class MoveToGoalAgent : Agent
     public override void OnEpisodeBegin()
     {
         collision_reward = 0f;
-        this.GetComponentInParent<SetupSupermarket>().setup_Supermarket();
+        this.GetComponentInParent<SetupSupermarketRepaired>().setup_Supermarket();
     }
     public override void CollectObservations(VectorSensor sensor)
     {

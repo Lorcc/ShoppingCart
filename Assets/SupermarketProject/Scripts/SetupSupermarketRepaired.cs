@@ -142,12 +142,6 @@ public class SetupSupermarketRepaired : MonoBehaviour
     void Start()
     {
         
-        setup_Supermarket();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        //setup_Supermarket();
     }
 }

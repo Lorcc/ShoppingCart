@@ -38,7 +38,7 @@ public class SetupSupermarketInterior : MonoBehaviour
     // List with the positions for A*
     private List<Vector2> goal_localpositions_2d = new List<Vector2>();
     private List<Vector2Int> goal_map_position_2d = new List<Vector2Int>();
-    private Vector2 agent_starting_position = new Vector2();
+    
     enum Section { Fruit, Durable, Drinks }
 
 
@@ -425,8 +425,8 @@ public class SetupSupermarketInterior : MonoBehaviour
 
 
         ////////// Visualisation Bool Array //////////
-        string text = "";
-        /*for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
+        /*string text = "";
+        for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
         {
             for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
             {
@@ -752,16 +752,26 @@ public class SetupSupermarketInterior : MonoBehaviour
             }
         }
 
+
+        ////////// Agent Position //////////
+        float agent_position_y = 0.75f;
+        Vector3 agent_starting_localposition = new Vector3(entrance_position.x + entrance_size.x / 2.0f - 1.5f, this.transform.position.y + agent_position_y, entrance_position.z + entrance_size.z / 2.0f + 0.7f);
+        GridTile Agent = new GridTile();
+        Vector2Int agent_map_pos = parse_Localposition_To_Map(agent_starting_localposition, grid_size_x, grid_size_z);
+        Agent.X = agent_map_pos.x;
+        Agent.Z = agent_map_pos.y;
+        agent.GetComponent<AgentReposition>().reposition(agent_starting_localposition);
+
         ////////// Goal Position //////////
         float goal_position_y = 0.75f;
         Vector3 goal_spawn_pos = new Vector3(goal_localpositions_2d[0].x, this.transform.position.y + goal_position_y, goal_localpositions_2d[0].y);
         goal.GetComponent<Goal>().reposition(goal_spawn_pos);
-        Vector2Int goal_map_position = parse_Localposition_To_Map(goal_spawn_pos, grid_size_x, grid_size_z);
+        /*Vector2Int goal_map_position = parse_Localposition_To_Map(goal_spawn_pos, grid_size_x, grid_size_z);
         Debug.Log(goal_spawn_pos);
         Debug.Log("Calculated Local Position: " + parse_Map_To_Localposition(goal_map_position, grid_size_x, grid_size_z));
         Debug.Log("Real Map Position: " + goal_map_position_2d[0]);
         Debug.Log("Calculated Map Position: " + goal_map_position);
-        Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);
+        Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);*/
 
     }
 
@@ -917,6 +927,9 @@ public class SetupSupermarketInterior : MonoBehaviour
         }
         return parsed_value;
     }
+
+
+
     private void Awake()
     {
         // Gets entrance script
