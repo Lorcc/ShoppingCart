@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 75
+  controlID: 91
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -120,14 +120,14 @@ MonoBehaviour:
     y: 456
     width: 1215
     height: 491
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 17}
+  m_MinSize: {x: 231, y: 271}
+  m_MaxSize: {x: 10001, y: 10021}
+  m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
   - {fileID: 17}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -223,7 +223,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 81
+  controlID: 44
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 82
+  controlID: 45
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -346,23 +346,23 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/SupermarketProject/Objects/Prefabs/shelves
+    - Assets/SupermarketProject/Scenes/SupermarketGen
     m_Globs: []
     m_OriginalText: 
     m_FilterByTypeIntersection: 0
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/SupermarketProject/Objects/Prefabs/shelves
+  - Assets/SupermarketProject/Scenes/SupermarketGen
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\Marc\Documents\Unity\ShoppingCart
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 754}
-    m_SelectedIDs: 16680000
-    m_LastClickedID: 26646
-    m_ExpandedIDs: 00000000326700003467000036670000386700003a6700003c6700003e67000040670000426700004467000046670000486700004a6700004c6700004e670000506700005267000054670000566700005867000000ca9a3b
+    scrollPos: {x: 0, y: 786}
+    m_SelectedIDs: 386d0000
+    m_LastClickedID: 27960
+    m_ExpandedIDs: 000000004a6300004c6300004e63000050630000526300005463000056630000586300005a6300005c6300005e63000060630000626300006463000066630000686300006a6300006c6300006e6300007063000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -390,7 +390,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000326700003467000036670000386700003a6700003c6700003e67000040670000426700004467000046670000486700004a6700004c6700004e6700005067000052670000546700005667000058670000
+    m_ExpandedIDs: 000000004a6300004c6300004e63000050630000526300005463000056630000586300005a6300005c6300005e63000060630000626300006463000066630000686300006a6300006c6300006e63000070630000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -421,18 +421,18 @@ MonoBehaviour:
     m_ExpandedInstanceIDs: c6230000c2940000e06500000468000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: single_supermarket_repaired
+      m_OriginalName: single_supermarket_repaired
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 27716
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 5}
     m_CreateAssetUtility:
@@ -520,9 +520,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: 446c0000
       m_LastClickedID: 0
-      m_ExpandedIDs: ba6afdffbc6afdff3cbcfeff8abdfeff8cbdfeff38c4feff4ac4feff4cc4fefff2cefeff04cffeff06cffeff9aaaffff9caaffff56b9ffff76b9ffff88b9ffff8ab9ffff9adbffff9cdbffff96f1ffff40f2ffff30fbffff
+      m_ExpandedIDs: c4a98fff7e3296ff709597ff729597ff529a9afff069a3ffe46aa3ffa06ca3ff806da3ff826fa3ff766fa7ff086da8ff9e7ca9ffe418b2ffd019b2ff2834f2ff0e35f2ff6a41faffac41faff7a8afaffb68bfaff528dfaff0c33fbfffea4fcffb23ffdff4066fdff3067fdff66cbfdff76cbfdff86cbfdff96cbfdffa8cbfdff3c8afeff56bdffff32fbffff4e6200009a740000729a0000d09b000032a5000052a80000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -805,9 +805,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 1.2068243, y: -2.6344566, z: 22.720297}
+    m_Target: {x: 4.5074687, y: 1.630892, z: -5.418973}
     speed: 2
-    m_Value: {x: 1.2068243, y: -2.6344566, z: 22.720297}
+    m_Value: {x: 4.5074687, y: 1.630892, z: -5.418973}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -854,13 +854,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.121925965, y: -0.11722488, z: 0.014603273, w: 0.9855754}
+    m_Target: {x: 0.18528305, y: -0.57226986, z: 0.13469295, w: 0.78754485}
     speed: 2
-    m_Value: {x: 0.12043666, y: -0.11723614, z: 0.014426063, w: 0.9856687}
+    m_Value: {x: 0.19104545, y: -0.5585465, z: 0.13412043, w: 0.7959518}
   m_Size:
-    m_Target: 20.349493
+    m_Target: 2.7494724
     speed: 2
-    m_Value: 20.349493
+    m_Value: 2.7494724
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -989,7 +989,7 @@ MonoBehaviour:
       y: 21
       width: 920
       height: 414
-    m_Scale: {x: 1.75, y: 1.75}
+    m_Scale: {x: 1, y: 1}
     m_Translation: {x: 460, y: 207}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -997,10 +997,10 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -262.85715
-      y: -118.28571
-      width: 525.7143
-      height: 236.57143
+      x: -460
+      y: -207
+      width: 920
+      height: 414
     m_MinimalGUI: 1
   m_defaultScale: 1
   m_LastWindowPixelSize: {x: 920, y: 435}

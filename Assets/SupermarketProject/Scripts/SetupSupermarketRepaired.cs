@@ -26,7 +26,7 @@ public class SetupSupermarketRepaired : MonoBehaviour
 
     public void setup_Supermarket()
     {
-        ///// Test if Input Values are Correct ///// 
+        ///// Test if Input Values are Viable ///// 
         check_Input();
 
         int grid_size_x;

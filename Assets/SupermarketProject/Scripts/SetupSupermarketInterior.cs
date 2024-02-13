@@ -12,11 +12,12 @@ public class SetupSupermarketInterior : MonoBehaviour
     [SerializeField] private bool horizontal_shelve_orientation_beverages_area = true;
 
     [SerializeField] [Tooltip(" ")] [Range(1,15)] private int number_of_items_to_purchase = 1;
+
+    [SerializeField] [Range(0, 15)] private int number_of_static_obstacles = 1;
+    [SerializeField] private GameObject[] available_static_obstacles;
+
     [SerializeField] private GameObject[] shelve_wall_tile;
     [SerializeField] private GameObject[] available_shelves;
-
-    [SerializeField] private int number_of_static_obstacles = 1;
-    [SerializeField] private GameObject[] available_static_obstacles;
 
     [SerializeField] private GameObject agent;
     [SerializeField] private GameObject goal;
@@ -136,7 +137,7 @@ public class SetupSupermarketInterior : MonoBehaviour
         float object_position_y = 0.25f;
         //Grid which will have all the inner shelve positions, could be seen as a top view map
         //true means no shelve and false means there should be a shelve
-        bool[,] occupied_grids = new bool[grid_size_z, grid_size_x];
+        bool[,] occupied_grid = new bool[grid_size_z, grid_size_x];
 
         //Grid which needs to be blocked and checked if it's free
         bool[,] to_filled_grid = new bool[horizontal_shelve.GetLength(1), horizontal_shelve.GetLength(0)];
@@ -338,7 +339,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                     {
                         for (int x_local = 0; x_local < occupied_durablefood_grid.GetLength(1); x_local++)
                         {
-                            occupied_grids[grid_hor + z_local, grid_vert + x_local] = occupied_durablefood_grid[z_local, x_local];
+                            occupied_grid[grid_hor + z_local, grid_vert + x_local] = occupied_durablefood_grid[z_local, x_local];
                         }
                     }
                 }
@@ -349,7 +350,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                     {
                         for (int x_local = 0; x_local < occupied_fruits_grid.GetLength(1); x_local++)
                         {
-                            occupied_grids[grid_hor + z_local, grid_vert + x_local] = occupied_fruits_grid[z_local, x_local];
+                            occupied_grid[grid_hor + z_local, grid_vert + x_local] = occupied_fruits_grid[z_local, x_local];
                         }
                     }
                 }
@@ -360,7 +361,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                     {
                         for (int x_local = 0; x_local < occupied_beverages_grid.GetLength(1); x_local++)
                         {
-                            occupied_grids[grid_hor + z_local, grid_vert + x_local] = occupied_beverages_grid[z_local, x_local];
+                            occupied_grid[grid_hor + z_local, grid_vert + x_local] = occupied_beverages_grid[z_local, x_local];
                         }
                     }
                 }
@@ -371,7 +372,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                     {
                         for (int x_local = 0; x_local < occupied_entrance.GetLength(1); x_local++)
                         {
-                            occupied_grids[grid_hor + z_local, grid_vert + x_local] = true;
+                            occupied_grid[grid_hor + z_local, grid_vert + x_local] = true;
                         }
                     }
                 }
@@ -381,11 +382,11 @@ public class SetupSupermarketInterior : MonoBehaviour
 
         ////////// Visualisation Bool Array //////////
         string text = "";
-        for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
+        /*for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
         {
             for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
             {
-                if (occupied_grids[grid_hor, grid_vert] == false)
+                if (occupied_grid[grid_hor, grid_vert] == false)
                 {
                     text += "0 ";
                 }
@@ -397,7 +398,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             Debug.Log(text + "\n");
             text = "";
         }
-        Debug.Log("Gridsize_X: " + grid_size_x + "Gridsize_Z: " + grid_size_z);
+        Debug.Log("Gridsize_X: " + grid_size_x + "Gridsize_Z: " + grid_size_z);*/
 
 
         ////////// Spawning Shelves //////////
@@ -407,7 +408,7 @@ public class SetupSupermarketInterior : MonoBehaviour
         {
             for (int k = 0; k < grid_size_x; k++)
             {
-                if (occupied_grids[i, k] == false) number_of_shelves++;
+                if (occupied_grid[i, k] == false) number_of_shelves++;
             }
         }
         int temp_number_of_shelves = number_of_shelves;
@@ -418,7 +419,7 @@ public class SetupSupermarketInterior : MonoBehaviour
         {
             for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
             {
-                if (occupied_grids[grid_hor, grid_vert] == false)
+                if (occupied_grid[grid_hor, grid_vert] == false)
                 {
                     bool spawn_food_to_purchase = false;
                     if (temp_number_of_items > 0)
@@ -441,7 +442,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                     Vector3 temp_position = new Vector3();
                     Vector2 temp_goal_position = new Vector2();
 
-                    //durablefood area
+                    //Durablefood Area
                     if (grid_hor < durablefoods_size[2] && grid_vert < durablefoods_size[0])
                     {
                         if (durablefood_area.orientation == "horizontal")
@@ -477,8 +478,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                             }
                         }
                     }
-                    //fruit area now beverage
-                    //else if (grid_hor >= grid_size_x - fruit_area.area_size[0] && grid_vert < fruit_area.area_size[2])
+                    //Fruit Area 
                     else if (grid_hor < fruits_size[2] && grid_vert >= grid_size_x - fruits_size[0])
                     {
                         if (fruit_area.orientation == "horizontal")
@@ -512,7 +512,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                             }
                         }
                     }
-                    // beverages area now Fruits area
+                    //Beverages Area 
                     else if (grid_hor >= grid_size_z - beverages_size[2] && grid_vert < beverages_size[0])
                     {
                         if (beverage_area.orientation == "horizontal")
@@ -596,6 +596,111 @@ public class SetupSupermarketInterior : MonoBehaviour
 
         ////////// Spawn Entrance Fence //////////
         setup_entrance.setup_entrance(grid_size_x, grid_size_z, entrance_size, entrance_position);
+
+
+        ////////// Spawn Static Obstacles //////////
+        //Create a grid where false values are positions where obstacles can spawn
+        //for that invert the occupied_grid array and also take out the entrance and checkout fields
+        bool[,] occupied_grid_static_obstacles = new bool[grid_size_z, grid_size_x];
+        int number_of_occupied_checkout_entrance_fields = 0;
+        for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
+        {
+            for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
+            {
+                if(grid_vert >= grid_size_x - entrance_size[0] - CHECKOUT_SIZE && grid_hor >= grid_size_z - entrance_size[2] - 2)
+                {
+                    occupied_grid_static_obstacles[grid_hor, grid_vert] = true;
+                    number_of_occupied_checkout_entrance_fields++;
+                }
+                else
+                {
+                    occupied_grid_static_obstacles[grid_hor, grid_vert] = !occupied_grid[grid_hor, grid_vert];
+                }
+            }
+        }
+
+        int number_of_possible_obstacle_fields = grid_size_x * grid_size_z - number_of_shelves - number_of_occupied_checkout_entrance_fields;
+        int temp_number_of_obstacles = number_of_static_obstacles;
+        for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
+        {
+            for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
+            {
+                //Guard Clause
+                if (temp_number_of_obstacles <= 0)
+                {
+                    break;
+                }
+                if (occupied_grid_static_obstacles[grid_hor, grid_vert] == false)
+                {
+                    float random_number = Random.Range(0.0f, 1.0f);
+                    if (random_number < ((float)temp_number_of_obstacles / (float)number_of_possible_obstacle_fields))
+                    {
+                        float object_offset = 0.5f;
+                        int random_item = Random.Range(0, available_static_obstacles.Length);
+                        int random_rotation = Random.Range(0, 2);
+
+                        Vector3 object_rotation_vertical = new Vector3(0, 0, 0);
+                        Vector3 object_rotation_horizontal = new Vector3(0, 90, 0);
+                        if (random_rotation == 1)
+                        {
+                            object_rotation_vertical.y = 180;
+                            object_rotation_horizontal.y = 270;
+                        }
+
+                        Quaternion object_rotation = Quaternion.Euler(object_rotation_vertical);
+                        Vector3 object_position = this.transform.position + new Vector3((grid_vert - (grid_size_x / 2.0f) + object_offset), object_position_y, (grid_size_z / 2.0f) - grid_hor - object_offset);
+
+                        //Durablefood Area
+                        if (grid_hor < durablefoods_size[2] && grid_vert < durablefoods_size[0])
+                        {
+                            if (durablefood_area.orientation == "horizontal")
+                            {
+                                object_rotation = Quaternion.Euler(object_rotation_horizontal);
+                                GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
+                                static_obstacles.Add(new_object);
+                            }
+                            else
+                            {
+                                GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
+                                static_obstacles.Add(new_object);
+                            }
+                        }
+                        //Fruits Area
+                        else if (grid_hor < fruits_size[2] && grid_vert >= grid_size_x - fruits_size[0])
+                        {
+                            if (fruit_area.orientation == "horizontal")
+                            {
+                                object_rotation = Quaternion.Euler(object_rotation_horizontal);
+                                GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
+                                static_obstacles.Add(new_object);
+                            }
+                            else
+                            {
+                                GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
+                                static_obstacles.Add(new_object);
+                            }
+                        }
+                        //Beverages Area 
+                        else if (grid_hor >= grid_size_z - beverages_size[2] && grid_vert < beverages_size[0])
+                        {
+                            if (beverage_area.orientation == "horizontal")
+                            {
+                                object_rotation = Quaternion.Euler(object_rotation_horizontal);
+                                GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
+                                static_obstacles.Add(new_object);
+                            }
+                            else
+                            {
+                                GameObject new_object = Instantiate(available_static_obstacles[random_item], object_position, object_rotation, this.transform);
+                                static_obstacles.Add(new_object);
+                            }
+                        }
+                        temp_number_of_obstacles--;
+                    }
+                    number_of_possible_obstacle_fields--;
+                }
+            }
+        }
     }
 
 
