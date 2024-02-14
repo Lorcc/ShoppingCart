@@ -31,7 +31,7 @@ public class MoveToGoalAgent : Agent
     public override void OnEpisodeBegin()
     {
         collision_reward = 0f;
-        this.GetComponentInParent<SetupSupermarket>().setup_Supermarket();
+        this.GetComponentInParent<SetupSupermarketRepaired>().setup_Supermarket();
     }
     public override void CollectObservations(VectorSensor sensor)
     {
@@ -42,7 +42,7 @@ public class MoveToGoalAgent : Agent
         sensor.AddObservation(transform.localPosition); // plus 3 Vector3
         sensor.AddObservation(targetTransform.localPosition); // plus 3 Vector3
         sensor.AddObservation(transform.localRotation); // plus 4 Quaternion
-        sensor.AddObservation(vector_distance.magnitude); // plus 3 float
+        sensor.AddObservation(vector_distance.magnitude); // plus 1 float
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
@@ -94,6 +94,12 @@ public class MoveToGoalAgent : Agent
             SetReward(1f);
             EndEpisode();
         }
+        else if(other.TryGetComponent<Waypoint>(out Waypoint waypoint))
+        {
+            //collision_reward += 0.2f;
+            //Debug.Log(collision_reward);
+            AddReward(0.2f);
+        }
         else
         {
             //collision_reward -= 0.5f;
@@ -106,6 +112,10 @@ public class MoveToGoalAgent : Agent
     private void OnTriggerExit(Collider other)
     {
         if(other.TryGetComponent<Goal>(out Goal component))
+        {
+
+        }
+        else if(other.TryGetComponent<Waypoint>(out Waypoint waypoint))
         {
 
         }

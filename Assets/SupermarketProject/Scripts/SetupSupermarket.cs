@@ -29,6 +29,7 @@ public class SetupSupermarket : MonoBehaviour
 
     [SerializeField] private GameObject agent;
     [SerializeField] private GameObject goal;
+    [SerializeField] private GameObject waypoint;
 
     [SerializeField] private GameObject shelf_pref;
     [SerializeField] private GameObject entrance_pref;
@@ -64,6 +65,7 @@ public class SetupSupermarket : MonoBehaviour
     private List<GameObject> shelve_tiles = new List<GameObject>();
     private List<GameObject> checkout_objects = new List<GameObject>();
     private List<GameObject> static_obstacles = new List<GameObject>();
+    private List<GameObject> waypoint_objects = new List<GameObject>();
 
     // List with the positions for A*
     private List<Vector2> goal_positions_2d = new List<Vector2>();
@@ -171,7 +173,7 @@ public class SetupSupermarket : MonoBehaviour
             Debug.LogError("Minimum entrance_size should be at least 6 meters.");
             Application.Quit();
         }
-        else if (max_entrance_size > min_ground_size/2)
+        else if (max_entrance_size > min_ground_size / 2)
         {
             Debug.LogError("Entrance size should not exceed halve the minimum ground size.");
             Application.Quit();
@@ -206,7 +208,12 @@ public class SetupSupermarket : MonoBehaviour
         {
             Destroy(obstacle);
         }
-        
+        //Clear waypoints
+        foreach (GameObject waypoint in waypoint_objects)
+        {
+            Destroy(waypoint);
+        }
+
         // Generate ground surface
         int grid_size_x = Random.Range(min_ground_size, max_ground_size);
         int grid_size_y = Random.Range(min_ground_size, max_ground_size);
@@ -258,6 +265,17 @@ public class SetupSupermarket : MonoBehaviour
 
 
         bool[,] occupiedGrids = new bool[grid_size_x, grid_size_y];
+
+        bool[,] occupied_grids_spawn = new bool[grid_size_x, grid_size_y];
+
+        // initialize occupied_grids_spawn with only true values
+        for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+        {
+            for(int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+            {
+                occupied_grids_spawn[grid_hor, grid_vert] = true;
+            }
+        }
 
         // Grid which needs to be blocked and checked if it's free
         bool[,] toFilledGrid = new bool[horizontal_shelve.GetLength(0), horizontal_shelve.GetLength(1)];
@@ -343,7 +361,7 @@ public class SetupSupermarket : MonoBehaviour
         {
             for (int grid_vert = 0; grid_vert < occupied_beverages_grid.GetLength(1); grid_vert++)
             {
-                if (grid_hor == 0 || grid_hor == 1 ||  occupied_beverages_grid.GetLength(0) - CHECKOUT_SIZE <= grid_hor)
+                if (grid_hor == 0 || grid_hor == 1 || occupied_beverages_grid.GetLength(0) - CHECKOUT_SIZE <= grid_hor)
                     occupied_beverages_grid[grid_hor, grid_vert] = true;
                 if (grid_vert == 0 || grid_vert == occupied_beverages_grid.GetLength(1) - 2 || grid_vert == occupied_beverages_grid.GetLength(1) - 1)
                     occupied_beverages_grid[grid_hor, grid_vert] = true;
@@ -504,6 +522,42 @@ public class SetupSupermarket : MonoBehaviour
         }
 
 
+        ////////// Visualisation Bool Array //////////
+        string text = "";
+        /*for(int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+        {
+            for(int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+            {
+                if (occupiedGrids[grid_hor, grid_vert] == false)
+                {
+                    text +="0 ";
+                }
+                else
+                {
+                    text +="1 ";
+                }
+            }
+            Debug.Log(text + "\n");
+            text = "";
+        }*/
+        for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+        {
+            for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+            {
+                if (occupiedGrids[grid_hor, grid_vert] == false)
+                    {
+                        text +="0 ";
+                    }
+                    else
+                    {
+                        text +="1 ";
+                    }
+            }
+            Debug.Log(text + "\n");
+            text = "";
+        }
+
+
         //get number of spawned shelves in the inner Part
         int number_of_shelves = 0;
         for (int i = 0; i < grid_size_x; i++)
@@ -535,11 +589,15 @@ public class SetupSupermarket : MonoBehaviour
                         }
                         temp_number_of_shelves--;
                     }
-
+                    Debug.Log(grid_hor + " " + grid_vert);
                     float object_offset = 0.5f;
                     Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
                     Vector3 object_position = this.transform.position + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
+                    Vector2 real_pos = parse_localposition_to_map(new Vector2(object_position.x, object_position.z), grid_size_x, grid_size_y);
 
+                    occupied_grids_spawn[(int)real_pos.x, (int)real_pos.y] = false;
+
+                    //Debug.Log(object_position + " " + grid_hor + " " + grid_vert);
                     Vector3 temp_position = new Vector3();
                     Vector2 temp_goal_position = new Vector2();
 
@@ -698,9 +756,9 @@ public class SetupSupermarket : MonoBehaviour
         ////////// Spawn Static Obstacles //////////
         bool[,] occupied_grid_static_obstacles = new bool[grid_size_x, grid_size_y];
         int number_of_occupied_checkout_fields = 0;
-        for(int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+        for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
-            for(int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+            for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
             {
                 if (grid_hor >= grid_size_x - entrance_size[0] - CHECKOUT_SIZE && grid_vert >= grid_size_y - entrance_size[2] - 2)
                 {
@@ -790,25 +848,19 @@ public class SetupSupermarket : MonoBehaviour
                         }
                         temp_number_of_obstacles--;
                     }
-                    number_of_possible_obstacle_fields--;    
+                    number_of_possible_obstacle_fields--;
                 }
             }
         }
 
         ////////// Spawn Entrance Fence //////////
-        setup_entrance.setup_entrance(grid_size_x, grid_size_y, entrance_size);
-
-        ////////// Checkout Spawn //////////
-        Vector3 first_checkout_spawn_position = calculate_first_checkout_position(entrance_position, entrance_size);
-        Quaternion checkout_rotation = Quaternion.Euler(0, 0, 0);
-        GameObject first_checkout = Instantiate(checkout, first_checkout_spawn_position, checkout_rotation, this.transform);
-        checkout_objects.Add(first_checkout);
+        setup_entrance.setup_Entrance(grid_size_x, grid_size_y, entrance_size, entrance_position);
 
 
         ////////// Agent Position //////////
         agent_starting_position = calculate_agent_starting_position(entrance_position, entrance_size);
         GridTile Agent = new GridTile();
-        Vector2 agent_pos = parse_localposition_to_map(new Vector2(Agent.X, Agent.Y), grid_size_x, grid_size_y);
+        Vector2 agent_pos = parse_localposition_to_map(new Vector2(agent_starting_position.x, agent_starting_position.y), grid_size_x, grid_size_y);
         Agent.X = (int)agent_pos.x;
         Agent.Y = (int)agent_pos.y;
         Vector3 agent_spawn_pos = new Vector3(agent_starting_position.x, this.transform.position.y + 1.5f, agent_starting_position.y);
@@ -821,7 +873,7 @@ public class SetupSupermarket : MonoBehaviour
         Vector2 goal_pos = parse_localposition_to_map(goal_positions_2d[0], grid_size_x, grid_size_y);
         Goal.X = (int)goal_pos.x;
         Goal.Y = (int)goal_pos.y;
-        Vector3 goal_spawn_pos = new Vector3(goal_positions_2d[0].x, this.transform.position.y +  1.5f, goal_positions_2d[0].y);
+        Vector3 goal_spawn_pos = new Vector3(goal_positions_2d[0].x, this.transform.position.y + 1.5f, goal_positions_2d[0].y);
         goal.GetComponent<Goal>().reposition(goal_spawn_pos);
 
         /*for (int i = 0; i < goal_positions_2d.Count; i++)
@@ -830,8 +882,40 @@ public class SetupSupermarket : MonoBehaviour
             Debug.Log("Position " + i + ": " + parse_localposition_to_map(goal_positions_2d[i], grid_size_x, grid_size_y));
         }*/
 
-        ////////// Ausführung A* //////////
-        if (goal_positions_2d[0] != null)
+        /*List<Vector2> shortest_path = calculate_a_star(goal_positions_2d[0], Agent, Goal, grid_size_x - 1, grid_size_y - 1, occupied_grids_spawn);
+
+
+        for (int i = 1; i < shortest_path.Count - 1; i++)
+        {
+            Vector3 waypoint_pos = new Vector3(shortest_path[i].x, this.transform.position.y + 1.25f, shortest_path[i].y);
+            Quaternion waypoint_rotation = Quaternion.Euler(0, 0, 0);
+            GameObject waypoint_obj = Instantiate(waypoint, waypoint_pos, waypoint_rotation, this.transform);
+            waypoint_objects.Add(waypoint_obj);
+        }*/
+
+        /*for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+        {
+            for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+            {
+                if (occupied_grids_spawn[grid_hor,grid_vert] == false)
+                {
+                    Vector2 localpos_item = parse_map_to_localposition(new Vector2(grid_hor, grid_vert), grid_size_x, grid_size_y);
+                    Vector3 item_pos = new Vector3(localpos_item.x, this.transform.position.y + 1.25f, localpos_item.y);
+                    Quaternion waypoint_rotation = Quaternion.Euler(0, 0, 0);
+                    GameObject waypoint_obj = Instantiate(waypoint, item_pos, waypoint_rotation, this.transform);
+                    waypoint_objects.Add(waypoint_obj);
+                }
+            }
+        }*/
+    }
+
+
+
+    ////////// Ausführung A* //////////
+    private List<Vector2> calculate_a_star(Vector2 goal_position, GridTile Agent, GridTile Goal, int grid_size_x, int grid_size_y, bool[,] occupiedGrids)
+    {
+        List<Vector2> shortest_path = new List<Vector2>();
+        if (goal_position != null)
         {
             //Debug.Log("Goal starting position: " + Goal.X + " " + Goal.Y);
             //A* algorithm to check if both agents can reach each other
@@ -847,16 +931,19 @@ public class SetupSupermarket : MonoBehaviour
 
                 if (checkTile.X == Goal.X && checkTile.Y == Goal.Y)
                 {
-                    var tile = checkTile; 
+                    var tile = checkTile;
                     while (true)
                     {
                         //Debug.Log("Current Tile x: " + tile.X + " y: " + tile.Y);
                         var test = new Vector2(tile.X, tile.Y);
+                        var test_local = parse_map_to_localposition(test, grid_size_x, grid_size_y);
+                        shortest_path.Add(test_local);
                         //Debug.Log("localposition: " + parse_map_to_localposition(test, grid_size_x, grid_size_y));
+
                         tile = tile.Parent;
                         if (tile == null)
                         {
-                            return;
+                            return shortest_path;
                         }
                     }
                 }
@@ -888,9 +975,15 @@ public class SetupSupermarket : MonoBehaviour
             }
             //Restart Arena Setup
             print("No Path Found! Recalculate Map: " + this.name);
+            //TODO change
+            return shortest_path;
+        }
+        else
+        {
+            //TODO change
+            return shortest_path;
         }
     }
-        
 
     public Vector2 calculate_goal_position_horizontal(Vector3 shelve_position, Vector3 p_item_position)
     {
@@ -1020,16 +1113,6 @@ public class SetupSupermarket : MonoBehaviour
         agent_pos.x = entrance_position.x + entrance_scale.x / 2.0f - 1.5f;
         agent_pos.y = entrance_position.z + entrance_scale.z / 2.0f + 0.7f;
         return agent_pos;
-    }
-
-    //hard coded checkout position for first checkout closest to the wall, because we want room for the robot to bring the items to their checkout in the corner
-    public Vector3 calculate_first_checkout_position(Vector3 entrance_position, Vector3 entrance_scale)
-    {
-        Vector3 checkout_pos = new Vector2();
-        checkout_pos.x = entrance_position.x - entrance_scale.x/2.0f - 2.5f;
-        checkout_pos.y = 0.8f + this.transform.position.y;
-        checkout_pos.z = entrance_position.z - entrance_scale.z/2.0f + 3.5f;
-        return checkout_pos;
     }
 
     private void Awake()
