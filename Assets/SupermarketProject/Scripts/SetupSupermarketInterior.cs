@@ -112,9 +112,10 @@ public class SetupSupermarketInterior : MonoBehaviour
         public GridTile Parent { get; set; }
         //The distance is essentially the estimated distance, ignoring walls to our target. 
         //So how many tiles left and right, up and down, ignoring walls, to get there.
-        public void set_Distance(int targetX, int targetY)
+        public void set_Distance(int targetX, int targetZ)
         {
-            this.Distance = Mathf.Abs(targetX - X) + Mathf.Abs(targetY - Z);
+            //this.Distance = Mathf.Abs(targetX - X) + Mathf.Abs(targetZ - Z);
+            this.Distance = Mathf.Sqrt(Mathf.Pow(targetX - X, 2) + Mathf.Pow(targetZ - Z, 2));
         }
     }
 
@@ -127,9 +128,24 @@ public class SetupSupermarketInterior : MonoBehaviour
             new GridTile { X = currentTile.X - 1, Z = currentTile.Z, Parent = currentTile, Cost = currentTile.Cost + 1 },
             new GridTile { X = currentTile.X + 1, Z = currentTile.Z, Parent = currentTile, Cost = currentTile.Cost + 1 },
         };
+
         possibleTiles.ForEach(tile => tile.set_Distance(targetTile.X, targetTile.Z));
-        var maxX = grid_size_x - 1;
-        var maxZ = grid_size_z - 1;
+        possibleTiles.ForEach(tile => Debug.Log(tile.X + " " + tile.Z));
+        var maxX = grid_size_z - 1;
+        var maxZ = grid_size_x - 1;
+
+        var test = new List<int>();
+        Debug.Log("X:" + maxX + " Z: " + maxZ);
+        for(int i = 0; i < possibleTiles.Count; i++)
+        {
+            if (possibleTiles[i].X < 0 || possibleTiles[i].X > maxX || possibleTiles[i].Z < 0 || possibleTiles[i].Z > maxZ)
+            {
+                Debug.Log("To Big or to Small X: " + possibleTiles[i].X + " Z:" + possibleTiles[i].Z);
+                possibleTiles.RemoveAt(i);
+            }
+        }
+        possibleTiles.ForEach(tile => Debug.Log(tile.X + " " + tile.Z));
+        //possibleTiles.Remove(possibleTiles.Where(tile => tile.X >= 0 && tile.X <= maxX));
         return possibleTiles
             .Where(tile => tile.X >= 0 && tile.X <= maxX)
             .Where(tile => tile.Z >= 0 && tile.X <= maxZ)
@@ -758,24 +774,23 @@ public class SetupSupermarketInterior : MonoBehaviour
         Vector3 agent_starting_localposition = new Vector3(entrance_position.x + entrance_size.x / 2.0f - 1.5f, this.transform.position.y + agent_position_y, entrance_position.z + entrance_size.z / 2.0f + 0.7f);
         GridTile Agent = new GridTile();
         Vector2Int agent_map_pos = parse_Localposition_To_Map(agent_starting_localposition, grid_size_x, grid_size_z);
+        Debug.Log("Agent Starting Pos: " + agent_map_pos);
         Agent.X = agent_map_pos.x;
         Agent.Z = agent_map_pos.y;
         agent.GetComponent<AgentReposition>().reposition(agent_starting_localposition);
 
+
         ////////// Goal Position //////////
         float goal_position_y = 0.75f;
-        Vector3 goal_spawn_pos = new Vector3(goal_localpositions_2d[0].x, this.transform.position.y + goal_position_y, goal_localpositions_2d[0].y);
+        //Vector3 goal_spawn_pos = new Vector3(goal_localpositions_2d[0].x, this.transform.position.y + goal_position_y, goal_localpositions_2d[0].y);
+        Vector3 goal_spawn_pos = new Vector3(-8f,0.75f,-8.5f);
         Vector2Int goal_map_position = parse_Localposition_To_Map(goal_spawn_pos, grid_size_x, grid_size_z);
+        Debug.Log(goal_map_position);
         GridTile Goal = new GridTile();
         Goal.X = goal_map_position.x;
         Goal.Z = goal_map_position.y;
         goal.GetComponent<Goal>().reposition(goal_spawn_pos);
-        /*Vector2Int goal_map_position = parse_Localposition_To_Map(goal_spawn_pos, grid_size_x, grid_size_z);
-        Debug.Log(goal_spawn_pos);
-        Debug.Log("Calculated Local Position: " + parse_Map_To_Localposition(goal_map_position, grid_size_x, grid_size_z));
-        Debug.Log("Real Map Position: " + goal_map_position_2d[0]);
-        Debug.Log("Calculated Map Position: " + goal_map_position);
-        Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);*/
+
 
         ////////// Application A* //////////
         List<Vector2> shortest_path = calculate_a_star(goal_map_position_2d[0], Agent, Goal, grid_size_x, grid_size_z, occupied_grid);
@@ -982,6 +997,7 @@ public class SetupSupermarketInterior : MonoBehaviour
 
                 visitedTiles.Add(checkTile);
                 activeTiles.Remove(checkTile);
+                Debug.Log("Hello");
                 var walkableTiles = GetWalkableTiles(occupiedGrids, checkTile, Goal, grid_size_x, grid_size_z);
                 foreach (var walkableTile in walkableTiles)
                 {
