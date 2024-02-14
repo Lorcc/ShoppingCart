@@ -131,11 +131,11 @@ public class SetupSupermarketInterior : MonoBehaviour
 
         possibleTiles.ForEach(tile => tile.set_Distance(targetTile.X, targetTile.Z));
         possibleTiles.ForEach(tile => Debug.Log(tile.X + " " + tile.Z));
-        var maxX = grid_size_z - 1;
-        var maxZ = grid_size_x - 1;
+        var maxX = grid_size_x - 1;
+        var maxZ = grid_size_z - 1;
 
         var test = new List<int>();
-        Debug.Log("X:" + maxX + " Z: " + maxZ);
+        //Debug.Log("X:" + maxX + " Z: " + maxZ);
         for(int i = 0; i < possibleTiles.Count; i++)
         {
             if (possibleTiles[i].X < 0 || possibleTiles[i].X > maxX || possibleTiles[i].Z < 0 || possibleTiles[i].Z > maxZ)
@@ -144,12 +144,11 @@ public class SetupSupermarketInterior : MonoBehaviour
                 possibleTiles.RemoveAt(i);
             }
         }
-        possibleTiles.ForEach(tile => Debug.Log(tile.X + " " + tile.Z));
-        //possibleTiles.Remove(possibleTiles.Where(tile => tile.X >= 0 && tile.X <= maxX));
+        //possibleTiles.ForEach(tile => Debug.Log(tile.X + " " + tile.Z));
         return possibleTiles
             .Where(tile => tile.X >= 0 && tile.X <= maxX)
-            .Where(tile => tile.Z >= 0 && tile.X <= maxZ)
-            .Where(tile => occupiedGrids[tile.X, tile.Z] == true || targetTile.X == tile.X && targetTile.Z == tile.Z)
+            .Where(tile => tile.Z >= 0 && tile.Z <= maxZ)
+            .Where(tile => occupiedGrids[tile.Z, tile.X] == true || targetTile.X == tile.X && targetTile.Z == tile.Z)
             .ToList();
     }
 
@@ -441,7 +440,7 @@ public class SetupSupermarketInterior : MonoBehaviour
 
 
         ////////// Visualisation Bool Array //////////
-        /*string text = "";
+        string text = "";
         for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
         {
             for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
@@ -458,7 +457,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             Debug.Log(text + "\n");
             text = "";
         }
-        Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);*/
+        Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);
 
 
         ////////// Spawning Shelves //////////
@@ -775,20 +774,20 @@ public class SetupSupermarketInterior : MonoBehaviour
         GridTile Agent = new GridTile();
         Vector2Int agent_map_pos = parse_Localposition_To_Map(agent_starting_localposition, grid_size_x, grid_size_z);
         Debug.Log("Agent Starting Pos: " + agent_map_pos);
-        Agent.X = agent_map_pos.x;
-        Agent.Z = agent_map_pos.y;
+        Agent.X = agent_map_pos.y;
+        Agent.Z = agent_map_pos.x;
         agent.GetComponent<AgentReposition>().reposition(agent_starting_localposition);
 
 
         ////////// Goal Position //////////
         float goal_position_y = 0.75f;
-        //Vector3 goal_spawn_pos = new Vector3(goal_localpositions_2d[0].x, this.transform.position.y + goal_position_y, goal_localpositions_2d[0].y);
-        Vector3 goal_spawn_pos = new Vector3(-8f,0.75f,-8.5f);
+        Vector3 goal_spawn_pos = new Vector3(goal_localpositions_2d[0].x, this.transform.position.y + goal_position_y, goal_localpositions_2d[0].y);
+        //Vector3 goal_spawn_pos = new Vector3(-8.5f,0.75f,14f);
         Vector2Int goal_map_position = parse_Localposition_To_Map(goal_spawn_pos, grid_size_x, grid_size_z);
         Debug.Log(goal_map_position);
         GridTile Goal = new GridTile();
-        Goal.X = goal_map_position.x;
-        Goal.Z = goal_map_position.y;
+        Goal.X = goal_map_position.y;
+        Goal.Z = goal_map_position.x;
         goal.GetComponent<Goal>().reposition(goal_spawn_pos);
 
 
@@ -982,7 +981,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                     while (true)
                     {
                         //Debug.Log("Current Tile x: " + tile.X + " y: " + tile.Y);
-                        var test = new Vector2Int(tile.X, tile.Z);
+                        var test = new Vector2Int(tile.Z, tile.X);
                         var test_local = parse_Map_To_Localposition(test, grid_size_x, grid_size_z);
                         shortest_path.Add(test_local);
                         //Debug.Log("localposition: " + parse_map_to_localposition(test, grid_size_x, grid_size_y));
@@ -999,6 +998,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                 activeTiles.Remove(checkTile);
                 Debug.Log("Hello");
                 var walkableTiles = GetWalkableTiles(occupiedGrids, checkTile, Goal, grid_size_x, grid_size_z);
+                Debug.Log("WalkableTiles Number: " + walkableTiles.Count);
                 foreach (var walkableTile in walkableTiles)
                 {
                     //We have already visited this tile so we don't need to do so again!
