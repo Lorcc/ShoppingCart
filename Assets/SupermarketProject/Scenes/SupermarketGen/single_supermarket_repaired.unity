@@ -179,6 +179,10 @@ PrefabInstance:
       value: Basic_Agent
       objectReference: {fileID: 0}
     - target: {fileID: 8945414667138045126, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
+      propertyPath: MaxStep
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8945414667138045126, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
       propertyPath: agent_camera
       value: 
       objectReference: {fileID: 763379914}
@@ -197,11 +201,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: x_ground_size
-      value: 29
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: z_ground_size
-      value: 46
+      value: 37
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: max_ground_size
@@ -217,11 +221,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: z_entrance_size
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: fixed_ground_size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: max_entrance_size
@@ -233,7 +237,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: fixed_entrance_size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3121059538074601020, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: m_Name
@@ -528,9 +532,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6a4d2caf9258d245b1f30c5cb0466eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  random_shelve_orientation: 0
+  random_shelve_orientation: 1
   horizontal_shelve_orientation_durablefood_area: 0
-  horizontal_shelve_orientation_fruits_area: 1
+  horizontal_shelve_orientation_fruits_area: 0
   horizontal_shelve_orientation_beverages_area: 0
   number_of_items_to_purchase: 1
   number_of_static_obstacles: 2

@@ -41,8 +41,6 @@ public class SetupSupermarketInterior : MonoBehaviour
     
     enum Section { Fruit, Durable, Drinks }
 
-
-
     private bool[,] horizontal_shelve = new bool[3, 3]{
                                         {false, false, false},
                                         {true, false, false},
@@ -53,6 +51,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                                         {false,false,false},
                                         {false,false,false}
                                         };
+
 
     public class Area
     {
@@ -130,21 +129,16 @@ public class SetupSupermarketInterior : MonoBehaviour
         };
 
         possibleTiles.ForEach(tile => tile.set_Distance(targetTile.X, targetTile.Z));
-        possibleTiles.ForEach(tile => Debug.Log(tile.X + " " + tile.Z));
         var maxX = grid_size_x - 1;
         var maxZ = grid_size_z - 1;
-
-        var test = new List<int>();
-        //Debug.Log("X:" + maxX + " Z: " + maxZ);
         for(int i = 0; i < possibleTiles.Count; i++)
         {
             if (possibleTiles[i].X < 0 || possibleTiles[i].X > maxX || possibleTiles[i].Z < 0 || possibleTiles[i].Z > maxZ)
             {
-                Debug.Log("To Big or to Small X: " + possibleTiles[i].X + " Z:" + possibleTiles[i].Z);
                 possibleTiles.RemoveAt(i);
             }
         }
-        //possibleTiles.ForEach(tile => Debug.Log(tile.X + " " + tile.Z));
+
         return possibleTiles
             .Where(tile => tile.X >= 0 && tile.X <= maxX)
             .Where(tile => tile.Z >= 0 && tile.Z <= maxZ)
@@ -440,7 +434,7 @@ public class SetupSupermarketInterior : MonoBehaviour
 
 
         ////////// Visualisation Bool Array //////////
-        string text = "";
+        /*string text = "";
         for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
         {
             for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
@@ -457,7 +451,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             Debug.Log(text + "\n");
             text = "";
         }
-        Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);
+        Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);*/
 
 
         ////////// Spawning Shelves //////////
@@ -492,12 +486,9 @@ public class SetupSupermarketInterior : MonoBehaviour
                         }
                         temp_number_of_shelves--;
                     }
-                    //Debug.Log(grid_hor + " " + grid_vert);
                     float object_offset = 0.5f;
-                    Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
+                    Quaternion object_rotation; 
                     Vector3 object_position = this.transform.position + new Vector3((grid_vert - (grid_size_x / 2.0f) + object_offset), object_position_y, (grid_size_z / 2.0f) - grid_hor - object_offset);
-
-                    //Debug.Log(object_position + " " + grid_hor + " " + grid_vert);
                     Vector3 temp_position;
                     Vector2 temp_goal_position;
 
@@ -773,7 +764,7 @@ public class SetupSupermarketInterior : MonoBehaviour
         Vector3 agent_starting_localposition = new Vector3(entrance_position.x + entrance_size.x / 2.0f - 1.5f, this.transform.position.y + agent_position_y, entrance_position.z + entrance_size.z / 2.0f + 0.7f);
         GridTile Agent = new GridTile();
         Vector2Int agent_map_pos = parse_Localposition_To_Map(agent_starting_localposition, grid_size_x, grid_size_z);
-        Debug.Log("Agent Starting Pos: " + agent_map_pos);
+        //Debug.Log("Agent Starting Pos: " + agent_map_pos);
         Agent.X = agent_map_pos.y;
         Agent.Z = agent_map_pos.x;
         agent.GetComponent<AgentReposition>().reposition(agent_starting_localposition);
@@ -784,7 +775,6 @@ public class SetupSupermarketInterior : MonoBehaviour
         Vector3 goal_spawn_pos = new Vector3(goal_localpositions_2d[0].x, this.transform.position.y + goal_position_y, goal_localpositions_2d[0].y);
         //Vector3 goal_spawn_pos = new Vector3(-8.5f,0.75f,14f);
         Vector2Int goal_map_position = parse_Localposition_To_Map(goal_spawn_pos, grid_size_x, grid_size_z);
-        Debug.Log(goal_map_position);
         GridTile Goal = new GridTile();
         Goal.X = goal_map_position.y;
         Goal.Z = goal_map_position.x;
@@ -792,6 +782,40 @@ public class SetupSupermarketInterior : MonoBehaviour
 
 
         ////////// Application A* //////////
+        bool[,] occupied_grid_astar = occupied_grid;
+        int checkout_size_x = 7;
+        int checkout_size_z = 5;
+        bool[,] occupied_checkout = new bool[checkout_size_z, checkout_size_x];
+        for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
+        {
+            for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
+            {
+                //take out checkout fields
+                if (grid_vert == grid_size_x - entrance_size[0] - CHECKOUT_SIZE + 2 && grid_hor == grid_size_z - CHECKOUT_SIZE + 1)
+                {
+                    for (int z_local = 0; z_local < occupied_checkout.GetLength(0); z_local++)
+                    {
+                        for (int x_local = 0; x_local < occupied_checkout.GetLength(1); x_local++)
+                        {
+                            occupied_grid_astar[grid_hor + z_local, grid_vert + x_local] = false;
+                        }
+                    }
+                }
+
+                //take out entrance fields
+                if (grid_hor == grid_size_z - entrance_size[2] && grid_vert == grid_size_x - entrance_size[0])
+                {
+                    for (int z_local = 0; z_local < occupied_entrance.GetLength(0); z_local++)
+                    {
+                        for (int x_local = 0; x_local < occupied_entrance.GetLength(1); x_local++)
+                        {
+                            occupied_grid_astar[grid_hor + z_local, grid_vert + x_local] = false;
+                        }
+                    }
+                }
+            }
+        }
+
         List<Vector2> shortest_path = calculate_a_star(goal_map_position_2d[0], Agent, Goal, grid_size_x, grid_size_z, occupied_grid);
 
         for (int i = 1; i < shortest_path.Count - 1; i++)
@@ -957,7 +981,7 @@ public class SetupSupermarketInterior : MonoBehaviour
     }
 
 
-    ////////// Ausführung A* //////////
+    ////////// Function for A* Application //////////
     private List<Vector2> calculate_a_star(Vector2 goal_position, GridTile Agent, GridTile Goal, int grid_size_x, int grid_size_z, bool[,] occupiedGrids)
     {
         List<Vector2> shortest_path = new List<Vector2>();
@@ -980,11 +1004,9 @@ public class SetupSupermarketInterior : MonoBehaviour
                     var tile = checkTile;
                     while (true)
                     {
-                        //Debug.Log("Current Tile x: " + tile.X + " y: " + tile.Y);
                         var test = new Vector2Int(tile.Z, tile.X);
                         var test_local = parse_Map_To_Localposition(test, grid_size_x, grid_size_z);
                         shortest_path.Add(test_local);
-                        //Debug.Log("localposition: " + parse_map_to_localposition(test, grid_size_x, grid_size_y));
 
                         tile = tile.Parent;
                         if (tile == null)
@@ -996,9 +1018,7 @@ public class SetupSupermarketInterior : MonoBehaviour
 
                 visitedTiles.Add(checkTile);
                 activeTiles.Remove(checkTile);
-                Debug.Log("Hello");
                 var walkableTiles = GetWalkableTiles(occupiedGrids, checkTile, Goal, grid_size_x, grid_size_z);
-                Debug.Log("WalkableTiles Number: " + walkableTiles.Count);
                 foreach (var walkableTile in walkableTiles)
                 {
                     //We have already visited this tile so we don't need to do so again!
@@ -1037,11 +1057,5 @@ public class SetupSupermarketInterior : MonoBehaviour
     {
         // Gets entrance script
         setup_entrance = this.transform.GetComponent<SetupEntrance>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 }
