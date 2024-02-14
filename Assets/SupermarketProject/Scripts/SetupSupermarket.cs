@@ -522,6 +522,42 @@ public class SetupSupermarket : MonoBehaviour
         }
 
 
+        ////////// Visualisation Bool Array //////////
+        string text = "";
+        /*for(int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+        {
+            for(int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+            {
+                if (occupiedGrids[grid_hor, grid_vert] == false)
+                {
+                    text +="0 ";
+                }
+                else
+                {
+                    text +="1 ";
+                }
+            }
+            Debug.Log(text + "\n");
+            text = "";
+        }*/
+        for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
+        {
+            for (int grid_vert = 0; grid_vert < grid_size_y; grid_vert++)
+            {
+                if (occupiedGrids[grid_hor, grid_vert] == false)
+                    {
+                        text +="0 ";
+                    }
+                    else
+                    {
+                        text +="1 ";
+                    }
+            }
+            Debug.Log(text + "\n");
+            text = "";
+        }
+
+
         //get number of spawned shelves in the inner Part
         int number_of_shelves = 0;
         for (int i = 0; i < grid_size_x; i++)
@@ -553,7 +589,7 @@ public class SetupSupermarket : MonoBehaviour
                         }
                         temp_number_of_shelves--;
                     }
-
+                    Debug.Log(grid_hor + " " + grid_vert);
                     float object_offset = 0.5f;
                     Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
                     Vector3 object_position = this.transform.position + new Vector3((grid_hor - (grid_size_x / 2.0f) + object_offset), 0.75f, (grid_size_y / 2.0f) - grid_vert - object_offset);
@@ -818,13 +854,7 @@ public class SetupSupermarket : MonoBehaviour
         }
 
         ////////// Spawn Entrance Fence //////////
-        setup_entrance.setup_entrance(grid_size_x, grid_size_y, entrance_size);
-
-        ////////// Checkout Spawn //////////
-        Vector3 first_checkout_spawn_position = calculate_first_checkout_position(entrance_position, entrance_size);
-        Quaternion checkout_rotation = Quaternion.Euler(0, 0, 0);
-        GameObject first_checkout = Instantiate(checkout, first_checkout_spawn_position, checkout_rotation, this.transform);
-        checkout_objects.Add(first_checkout);
+        setup_entrance.setup_Entrance(grid_size_x, grid_size_y, entrance_size, entrance_position);
 
 
         ////////// Agent Position //////////
@@ -852,7 +882,7 @@ public class SetupSupermarket : MonoBehaviour
             Debug.Log("Position " + i + ": " + parse_localposition_to_map(goal_positions_2d[i], grid_size_x, grid_size_y));
         }*/
 
-        List<Vector2> shortest_path = calculate_a_star(goal_positions_2d[0], Agent, Goal, grid_size_x - 1, grid_size_y - 1, occupied_grids_spawn);
+        /*List<Vector2> shortest_path = calculate_a_star(goal_positions_2d[0], Agent, Goal, grid_size_x - 1, grid_size_y - 1, occupied_grids_spawn);
 
 
         for (int i = 1; i < shortest_path.Count - 1; i++)
@@ -861,7 +891,7 @@ public class SetupSupermarket : MonoBehaviour
             Quaternion waypoint_rotation = Quaternion.Euler(0, 0, 0);
             GameObject waypoint_obj = Instantiate(waypoint, waypoint_pos, waypoint_rotation, this.transform);
             waypoint_objects.Add(waypoint_obj);
-        }
+        }*/
 
         /*for (int grid_hor = 0; grid_hor < grid_size_x; grid_hor++)
         {
@@ -1083,16 +1113,6 @@ public class SetupSupermarket : MonoBehaviour
         agent_pos.x = entrance_position.x + entrance_scale.x / 2.0f - 1.5f;
         agent_pos.y = entrance_position.z + entrance_scale.z / 2.0f + 0.7f;
         return agent_pos;
-    }
-
-    //hard coded checkout position for first checkout closest to the wall, because we want room for the robot to bring the items to their checkout in the corner
-    public Vector3 calculate_first_checkout_position(Vector3 entrance_position, Vector3 entrance_scale)
-    {
-        Vector3 checkout_pos = new Vector2();
-        checkout_pos.x = entrance_position.x - entrance_scale.x/2.0f - 2.5f;
-        checkout_pos.y = 0.8f + this.transform.position.y;
-        checkout_pos.z = entrance_position.z - entrance_scale.z/2.0f + 3.5f;
-        return checkout_pos;
     }
 
     private void Awake()

@@ -31,7 +31,7 @@ public class MoveToGoalAgent : Agent
     public override void OnEpisodeBegin()
     {
         collision_reward = 0f;
-        this.GetComponentInParent<SetupSupermarket>().setup_Supermarket();
+        this.GetComponentInParent<SetupSupermarketRepaired>().setup_Supermarket();
     }
     public override void CollectObservations(VectorSensor sensor)
     {
@@ -96,8 +96,8 @@ public class MoveToGoalAgent : Agent
         }
         else if(other.TryGetComponent<Waypoint>(out Waypoint waypoint))
         {
-            collision_reward += 0.2f;
-            Debug.Log(collision_reward);
+            //collision_reward += 0.2f;
+            //Debug.Log(collision_reward);
             AddReward(0.2f);
         }
         else
