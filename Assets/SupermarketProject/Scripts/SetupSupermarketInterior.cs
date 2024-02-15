@@ -380,55 +380,47 @@ public class SetupSupermarketInterior : MonoBehaviour
 
 
         ////////// Merge Area Grids into Main Occupied Grid //////////
-        for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
-        {
-            for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
-            {
 
-                //take out occupied durablefood fields
-                if (grid_hor == 0 && grid_vert == 0)
-                {
-                    for (int z_local = 0; z_local < occupied_durablefood_grid.GetLength(0); z_local++)
-                    {
-                        for (int x_local = 0; x_local < occupied_durablefood_grid.GetLength(1); x_local++)
-                        {
-                            occupied_grid[grid_hor + z_local, grid_vert + x_local] = occupied_durablefood_grid[z_local, x_local];
-                        }
-                    }
-                }
-                //take out occupied fruit fields
-                if (grid_hor == 0 && grid_vert == grid_size_x - fruits_size[0])
-                {
-                    for (int z_local = 0; z_local < occupied_fruits_grid.GetLength(0); z_local++)
-                    {
-                        for (int x_local = 0; x_local < occupied_fruits_grid.GetLength(1); x_local++)
-                        {
-                            occupied_grid[grid_hor + z_local, grid_vert + x_local] = occupied_fruits_grid[z_local, x_local];
-                        }
-                    }
-                }
-                //take out occupied beverages fields
-                if (grid_hor == grid_size_z - beverages_size[2] && grid_vert == 0)
-                {
-                    for (int z_local = 0; z_local < occupied_beverages_grid.GetLength(0); z_local++)
-                    {
-                        for (int x_local = 0; x_local < occupied_beverages_grid.GetLength(1); x_local++)
-                        {
-                            occupied_grid[grid_hor + z_local, grid_vert + x_local] = occupied_beverages_grid[z_local, x_local];
-                        }
-                    }
-                }
-                //take out entrance fields
-                if (grid_hor == grid_size_z - entrance_size[2] && grid_vert == grid_size_x - entrance_size[0])
-                {
-                    for (int z_local = 0; z_local < occupied_entrance.GetLength(0); z_local++)
-                    {
-                        for (int x_local = 0; x_local < occupied_entrance.GetLength(1); x_local++)
-                        {
-                            occupied_grid[grid_hor + z_local, grid_vert + x_local] = true;
-                        }
-                    }
-                }
+        int grid_position_x = 0;
+        int grid_position_z = 0;
+        //take out occupied durablefood fields
+        for (int z_local = 0; z_local < occupied_durablefood_grid.GetLength(0); z_local++)
+        {
+            for (int x_local = 0; x_local < occupied_durablefood_grid.GetLength(1); x_local++)
+            {
+                occupied_grid[grid_position_z + z_local, grid_position_x + x_local] = occupied_durablefood_grid[z_local, x_local];
+            }
+        }
+
+        //take out occupied fruit fields
+        grid_position_x = grid_size_x - (int)fruits_size[0];
+        for (int z_local = 0; z_local < occupied_fruits_grid.GetLength(0); z_local++)
+        {
+            for (int x_local = 0; x_local < occupied_fruits_grid.GetLength(1); x_local++)
+            {
+                occupied_grid[grid_position_z + z_local, grid_position_x + x_local] = occupied_fruits_grid[z_local, x_local];
+            }
+        }
+
+        //take out occupied beverages fields
+        grid_position_x = 0;
+        grid_position_z = grid_size_z - (int)beverages_size[2];
+        for (int z_local = 0; z_local < occupied_beverages_grid.GetLength(0); z_local++)
+        {
+            for (int x_local = 0; x_local < occupied_beverages_grid.GetLength(1); x_local++)
+            {
+                occupied_grid[grid_position_z + z_local, grid_position_x + x_local] = occupied_beverages_grid[z_local, x_local];
+            }
+        }
+
+        //take out entrance fields
+        grid_position_x = grid_size_x - (int)entrance_size[0];
+        grid_position_z = grid_size_z - (int)entrance_size[2];
+        for (int z_local = 0; z_local < occupied_entrance.GetLength(0); z_local++)
+        {
+            for (int x_local = 0; x_local < occupied_entrance.GetLength(1); x_local++)
+            {
+                occupied_grid[grid_position_z + z_local, grid_position_x + x_local] = true;
             }
         }
 
@@ -786,36 +778,31 @@ public class SetupSupermarketInterior : MonoBehaviour
         int checkout_size_x = 7;
         int checkout_size_z = 5;
         bool[,] occupied_checkout = new bool[checkout_size_z, checkout_size_x];
-        for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
-        {
-            for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
-            {
-                //take out checkout fields
-                if (grid_vert == grid_size_x - entrance_size[0] - CHECKOUT_SIZE + 2 && grid_hor == grid_size_z - CHECKOUT_SIZE + 1)
-                {
-                    for (int z_local = 0; z_local < occupied_checkout.GetLength(0); z_local++)
-                    {
-                        for (int x_local = 0; x_local < occupied_checkout.GetLength(1); x_local++)
-                        {
-                            occupied_grid_astar[grid_hor + z_local, grid_vert + x_local] = false;
-                        }
-                    }
-                }
 
-                //take out entrance fields
-                if (grid_hor == grid_size_z - entrance_size[2] && grid_vert == grid_size_x - entrance_size[0])
-                {
-                    for (int z_local = 0; z_local < occupied_entrance.GetLength(0); z_local++)
-                    {
-                        for (int x_local = 0; x_local < occupied_entrance.GetLength(1); x_local++)
-                        {
-                            occupied_grid_astar[grid_hor + z_local, grid_vert + x_local] = false;
-                        }
-                    }
-                }
+        //take out checkout fields
+        grid_position_x = grid_size_x - (int)entrance_size[0] - CHECKOUT_SIZE + 2;
+        grid_position_z = grid_size_z - CHECKOUT_SIZE + 1;
+        for (int z_local = 0; z_local < occupied_checkout.GetLength(0); z_local++)
+        {
+            for (int x_local = 0; x_local < occupied_checkout.GetLength(1); x_local++)
+            {
+                occupied_grid_astar[grid_position_z + z_local, grid_position_x + x_local] = false;
             }
         }
 
+        //take out entrance fields
+        grid_position_x = grid_size_x - (int)entrance_size[0];
+        grid_position_z = grid_size_z - (int)entrance_size[2];
+        for (int z_local = 0; z_local < occupied_entrance.GetLength(0); z_local++)
+        {
+            for (int x_local = 0; x_local < occupied_entrance.GetLength(1); x_local++)
+            {
+                occupied_grid_astar[grid_position_z + z_local, grid_position_x + x_local] = false;
+            }
+        }
+        
+
+        Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);
         List<Vector2> shortest_path = calculate_a_star(goal_map_position_2d[0], Agent, Goal, grid_size_x, grid_size_z, occupied_grid);
 
         for (int i = 1; i < shortest_path.Count - 1; i++)
