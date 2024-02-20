@@ -4,6 +4,11 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using System.Linq;
+using System.IO;
 
 public class MoveToGoalAgent : Agent
 {
@@ -15,6 +20,9 @@ public class MoveToGoalAgent : Agent
     private float ground_drag = 5f;
 
     Vector3 movement_direction;
+
+    public List<Vector3> shortest_path = new List<Vector3>();
+    Vector3 current_waypoint;
 
     Rigidbody agent_rigidbody;
 
@@ -32,17 +40,21 @@ public class MoveToGoalAgent : Agent
     {
         collision_reward = 0f;
         this.GetComponentInParent<SetupSupermarketRepaired>().setup_Supermarket();
+        current_waypoint = shortest_path.Last();
+        Debug.Log(current_waypoint);
     }
     public override void CollectObservations(VectorSensor sensor)
     {
         var local_velocity = transform.InverseTransformDirection(agent_rigidbody.velocity);
         var vector_distance = targetTransform.localPosition - transform.localPosition;
+        var vector_distance_waypoint = current_waypoint - transform.localPosition;
         sensor.AddObservation(local_velocity.x); // plus 1 float
         sensor.AddObservation(local_velocity.z); // plus 1 float
         sensor.AddObservation(transform.localPosition); // plus 3 Vector3
         sensor.AddObservation(targetTransform.localPosition); // plus 3 Vector3
         sensor.AddObservation(transform.localRotation); // plus 4 Quaternion
         sensor.AddObservation(vector_distance.magnitude); // plus 1 float
+        sensor.AddObservation(vector_distance_waypoint.magnitude);
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
@@ -96,8 +108,8 @@ public class MoveToGoalAgent : Agent
         }
         else if(other.TryGetComponent<Waypoint>(out Waypoint waypoint))
         {
-            //collision_reward += 0.2f;
-            //Debug.Log(collision_reward);
+            current_waypoint = get_next_waypoint(shortest_path);
+            Debug.Log(current_waypoint);
             AddReward(0.2f);
         }
         else
@@ -134,5 +146,12 @@ public class MoveToGoalAgent : Agent
             AddReward(-0.005f);
             //Debug.Log(collision_reward);
         }
+    }
+
+    public Vector3 get_next_waypoint(List<Vector3> shortest_path)
+    {
+        shortest_path.RemoveAt(shortest_path.Count - 1);
+        Vector3 next_waypoint = shortest_path.Last();
+        return next_waypoint;
     }
 }

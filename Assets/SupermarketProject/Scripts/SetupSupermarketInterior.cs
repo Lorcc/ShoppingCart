@@ -38,6 +38,7 @@ public class SetupSupermarketInterior : MonoBehaviour
     // List with the positions for A*
     private List<Vector2> goal_localpositions_2d = new List<Vector2>();
     private List<Vector2Int> goal_map_position_2d = new List<Vector2Int>();
+    public List<Vector3> current_shortest_path = new List<Vector3>();
     
     enum Section { Fruit, Durable, Drinks }
 
@@ -808,10 +809,15 @@ public class SetupSupermarketInterior : MonoBehaviour
         for (int i = 1; i < shortest_path.Count - 1; i++)
         {
             Vector3 waypoint_pos = new Vector3(shortest_path[i].x, this.transform.position.y + 0.75f, shortest_path[i].y);
+            current_shortest_path.Add(waypoint_pos);
             Quaternion waypoint_rotation = Quaternion.Euler(0, 0, 0);
             GameObject waypoint_obj = Instantiate(waypoint, waypoint_pos, waypoint_rotation, this.transform);
             waypoint_objects.Add(waypoint_obj);
         }
+        //this.GetComponentInParent<SetupSupermarketInterior>().current_shortest_path;
+        this.GetComponentInChildren<MoveToGoalAgent>().shortest_path = current_shortest_path;
+
+
     }
 
 
@@ -969,6 +975,7 @@ public class SetupSupermarketInterior : MonoBehaviour
 
 
     ////////// Function for A* Application //////////
+    //Returns localposition not map position
     private List<Vector2> calculate_a_star(Vector2 goal_position, GridTile Agent, GridTile Goal, int grid_size_x, int grid_size_z, bool[,] occupiedGrids)
     {
         List<Vector2> shortest_path = new List<Vector2>();
@@ -1039,6 +1046,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             return shortest_path;
         }
     }
+
 
     private void Awake()
     {

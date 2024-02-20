@@ -174,6 +174,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3918704731879050294, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 8460377995368969055, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
       propertyPath: m_Name
       value: Basic_Agent
@@ -548,6 +552,7 @@ MonoBehaviour:
   agent: {fileID: 665110305}
   goal: {fileID: 932057377}
   waypoint: {fileID: 8046157479276514286, guid: c17727f4c5b263a44a4776cd91494f60, type: 3}
+  current_shortest_path: []
 --- !u!114 &2005754619
 MonoBehaviour:
   m_ObjectHideFlags: 0
