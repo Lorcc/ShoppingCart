@@ -41,7 +41,6 @@ public class MoveToGoalAgent : Agent
         collision_reward = 0f;
         this.GetComponentInParent<SetupSupermarketRepaired>().setup_Supermarket();
         current_waypoint = shortest_path.Last();
-        Debug.Log(current_waypoint);
     }
     public override void CollectObservations(VectorSensor sensor)
     {
@@ -108,8 +107,7 @@ public class MoveToGoalAgent : Agent
         }
         else if(other.TryGetComponent<Waypoint>(out Waypoint waypoint))
         {
-            current_waypoint = get_next_waypoint(shortest_path);
-            Debug.Log(current_waypoint);
+            current_waypoint = get_next_waypoint(shortest_path, waypoint.transform.localPosition);
             AddReward(0.2f);
         }
         else
@@ -148,10 +146,26 @@ public class MoveToGoalAgent : Agent
         }
     }
 
-    public Vector3 get_next_waypoint(List<Vector3> shortest_path)
+    public Vector3 get_next_waypoint(List<Vector3> shortest_path, Vector3 old_waypoint)
     {
-        shortest_path.RemoveAt(shortest_path.Count - 1);
-        Vector3 next_waypoint = shortest_path.Last();
+        Vector3 next_waypoint;
+        for (int i = 0; i < shortest_path.Count; i++)
+        {
+            if(shortest_path[i] == old_waypoint)
+            {
+                Debug.Log(i);
+                shortest_path.RemoveRange(i, shortest_path.Count - i);
+            }
+        }
+        if(shortest_path.Count == 0)
+        {
+            next_waypoint = targetTransform.localPosition;
+        }
+        else
+        {
+            next_waypoint = shortest_path.Last();
+        }
+        
         return next_waypoint;
     }
 }
