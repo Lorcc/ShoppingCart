@@ -53,8 +53,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fixed_ground_size: 1
-  x_ground_size: 20
-  z_ground_size: 20
+  x_ground_size: 17
+  z_ground_size: 17
   min_ground_size: 20
   max_ground_size: 20
   fixed_entrance_size: 1
@@ -553,11 +553,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3918704731879050294, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 14
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8460377995368969055, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
       propertyPath: m_Name
       value: Basic_Agent
+      objectReference: {fileID: 0}
+    - target: {fileID: 8945414667138045126, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
+      propertyPath: MaxStep
+      value: 9000
       objectReference: {fileID: 0}
     - target: {fileID: 8945414667138045126, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
       propertyPath: targetTransform

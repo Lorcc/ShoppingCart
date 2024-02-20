@@ -132,11 +132,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: x_ground_size
-      value: 20
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: z_ground_size
-      value: 20
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: max_ground_size
@@ -197,6 +197,14 @@ PrefabInstance:
     - target: {fileID: 3800787646201735149, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: m_LocalPosition.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4001514882075209650, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: DecisionPeriod
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: number_of_static_obstacles
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5519532963650692164, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: m_RootOrder

@@ -280,7 +280,7 @@ public class SetupSupermarketInterior : MonoBehaviour
         {
             for (int grid_vert = 0; grid_vert < occupied_fruits_grid.GetLength(1); grid_vert++)
             {
-                if (grid_hor == 0 || grid_hor == 1 || grid_hor == occupied_fruits_grid.GetLength(0) - 2 || grid_hor == occupied_fruits_grid.GetLength(0) - 1)
+                if (grid_hor == 0 || grid_hor == 1 || occupied_fruits_grid.GetLength(0) - 4 <= grid_hor)
                     occupied_fruits_grid[grid_hor, grid_vert] = true;
                 if (grid_vert == 0 || grid_vert == occupied_fruits_grid.GetLength(1) - 2 || grid_vert == occupied_fruits_grid.GetLength(1) - 1)
                     occupied_fruits_grid[grid_hor, grid_vert] = true;
@@ -656,7 +656,7 @@ public class SetupSupermarketInterior : MonoBehaviour
         {
             for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
             {
-                if(grid_vert >= grid_size_x - entrance_size[0] - CHECKOUT_SIZE && grid_hor >= grid_size_z - entrance_size[2] - 2)
+                if(grid_vert >= grid_size_x - entrance_size[0] - CHECKOUT_SIZE && grid_hor >= grid_size_z - entrance_size[2] - 3)
                 {
                     occupied_grid_static_obstacles[grid_hor, grid_vert] = true;
                     number_of_occupied_checkout_entrance_fields++;
@@ -754,7 +754,7 @@ public class SetupSupermarketInterior : MonoBehaviour
 
         ////////// Agent Position //////////
         float agent_position_y = 0.75f;
-        Vector3 agent_starting_localposition = new Vector3(entrance_position.x + entrance_size.x / 2.0f - 1.5f, this.transform.position.y + agent_position_y, entrance_position.z + entrance_size.z / 2.0f + 0.7f);
+        Vector3 agent_starting_localposition = new Vector3(entrance_position.x + entrance_size.x / 2.0f - 2.5f, this.transform.position.y + agent_position_y, entrance_position.z + entrance_size.z / 2.0f + 1.5f);
         GridTile Agent = new GridTile();
         Vector2Int agent_map_pos = parse_Localposition_To_Map(agent_starting_localposition, grid_size_x, grid_size_z);
         //Debug.Log("Agent Starting Pos: " + agent_map_pos);
