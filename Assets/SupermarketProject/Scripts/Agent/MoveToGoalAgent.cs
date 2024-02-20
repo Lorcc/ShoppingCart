@@ -17,15 +17,18 @@ public class MoveToGoalAgent : Agent
     private float agent_cameraspeed = 50f;
     private float agent_movespeed_force = 750f; 
     //private float agent_movespeed_velocity = 150f;
-    private float ground_drag = 5f;
-
+    private float ground_drag = 1f;
+    private float m_ForwardSpeed = 8f;
     Vector3 movement_direction;
+
 
     public List<Vector3> shortest_path = new List<Vector3>();
     Vector3 current_waypoint;
 
     Rigidbody agent_rigidbody;
 
+    //Reward
+    float m_Existential;
     private float collision_reward = 0f;
 
     private bool is_collided = false;
@@ -41,6 +44,7 @@ public class MoveToGoalAgent : Agent
         collision_reward = 0f;
         this.GetComponentInParent<SetupSupermarketRepaired>().setup_Supermarket();
         current_waypoint = shortest_path.Last();
+        m_Existential = 1f / MaxStep;
     }
     public override void CollectObservations(VectorSensor sensor)
     {
@@ -57,19 +61,57 @@ public class MoveToGoalAgent : Agent
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
+        //Existential penalty for the agent
+        AddReward(-m_Existential);
+        move_Agent_Discrete(actions.DiscreteActions);
+    }
+
+    /*public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
+        continuousActions[0] = Input.GetAxisRaw("Horizontal");
+        continuousActions[1] = Input.GetAxisRaw("Vertical");
+    }*/
+
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        var discreteActionsOut = actionsOut.DiscreteActions;
+        
+        //forward
+        if (Input.GetKey(KeyCode.W))
+        {
+            discreteActionsOut[0] = 1;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            discreteActionsOut[0] = 2;
+        }
+        //rotate
+        if (Input.GetKey(KeyCode.A))
+        {
+            discreteActionsOut[1] = 1;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            discreteActionsOut[1] = 2;
+        }
+    }
+
+    public void move_Action_Continuous(ActionSegment<float> act)
+    {
         Vector3 vector_distance = targetTransform.localPosition - transform.localPosition;
-        float movement_x = actions.ContinuousActions[1];
-        float rotation_y = actions.ContinuousActions[0];
+        float movement_x = act[1];
+        float rotation_y = act[0];
 
         //Set very slow movement to zero
-        if(movement_x < 0.05 && movement_x > -0.05) movement_x = 0f;
+        if (movement_x < 0.05 && movement_x > -0.05) movement_x = 0f;
 
         //backwards speed is roughly 1/3 the speed the agent is driving forward
         if (movement_x < 0)
         {
             movement_x *= 0.6f;
         }
-        
+
         Vector3 rotation_direction = new Vector3(0, rotation_y, 0);
         Quaternion delta_rotation = Quaternion.Euler(rotation_direction * Time.fixedDeltaTime * agent_cameraspeed);
         agent_rigidbody.MoveRotation(agent_rigidbody.rotation * delta_rotation);
@@ -89,14 +131,39 @@ public class MoveToGoalAgent : Agent
         //right now if size of the map increases the negative reward will also increase
         //so get the current gridsize
         //collision_reward -= 0.005f * vector_distance.magnitude * 0.1f;
-        AddReward(-0.005f * vector_distance.magnitude * 0.1f);
+        //sAddReward(-0.005f * vector_distance.magnitude * 0.1f);
     }
 
-    public override void Heuristic(in ActionBuffers actionsOut)
+    public void move_Agent_Discrete(ActionSegment<int> act)
     {
-        ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
-        continuousActions[0] = Input.GetAxisRaw("Horizontal");
-        continuousActions[1] = Input.GetAxisRaw("Vertical");
+        var dirToGo = Vector3.zero;
+        var rotateDir = Vector3.zero;
+
+        var forwardAxis = act[0];
+        var rotateAxis = act[1];
+
+        switch (forwardAxis)
+        {
+            case 1:
+                dirToGo = transform.forward * m_ForwardSpeed;
+                break;
+            case 2:
+                dirToGo = transform.forward * -m_ForwardSpeed;
+                break;
+        }
+        switch (rotateAxis)
+        {
+            case 1:
+                rotateDir = transform.up * -1f;
+                break;
+            case 2:
+                rotateDir = transform.up * 1f;
+                break;
+        }
+
+        transform.Rotate(rotateDir, Time.deltaTime * 40f);
+        agent_rigidbody.AddForce(dirToGo, ForceMode.Force);
+        agent_rigidbody.drag = ground_drag;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -170,4 +237,6 @@ public class MoveToGoalAgent : Agent
         
         return next_waypoint;
     }
+
+    
 }
