@@ -153,7 +153,6 @@ public class MoveToGoalAgent : Agent
         {
             if(shortest_path[i] == old_waypoint)
             {
-                Debug.Log(i);
                 shortest_path.RemoveRange(i, shortest_path.Count - i);
             }
         }

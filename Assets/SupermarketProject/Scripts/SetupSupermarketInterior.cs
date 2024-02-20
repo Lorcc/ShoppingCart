@@ -38,7 +38,7 @@ public class SetupSupermarketInterior : MonoBehaviour
     // List with the positions for A*
     private List<Vector2> goal_localpositions_2d = new List<Vector2>();
     private List<Vector2Int> goal_map_position_2d = new List<Vector2Int>();
-    public List<Vector3> current_shortest_path = new List<Vector3>();
+    [HideInInspector] public List<Vector3> current_shortest_path = new List<Vector3>();
     
     enum Section { Fruit, Durable, Drinks }
 

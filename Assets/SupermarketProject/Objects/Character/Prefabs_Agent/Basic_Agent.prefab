@@ -563,7 +563,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 13
+    VectorObservationSize: 14
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 2
@@ -596,9 +596,10 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 0
+  MaxStep: 6000
   targetTransform: {fileID: 0}
-  agent_camera: {fileID: 0}
+  agent_camera: {fileID: 1341628429422529564}
+  shortest_path: []
 --- !u!114 &7748667287056552563
 MonoBehaviour:
   m_ObjectHideFlags: 0
