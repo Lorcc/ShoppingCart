@@ -206,6 +206,10 @@ PrefabInstance:
       propertyPath: number_of_static_obstacles
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: shelve_wall_tile.Array.data[0]
+      value: 
+      objectReference: {fileID: 2644995143240122761, guid: b2d43801482085246a4788b0d5024fc7, type: 3}
     - target: {fileID: 5519532963650692164, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: m_RootOrder
       value: 2

@@ -63,7 +63,7 @@ public class MoveToGoalAgent : Agent
     {
         //Existential penalty for the agent
         collision_reward -= m_Existential;
-        Debug.Log(collision_reward);
+        //Debug.Log(collision_reward);
         AddReward(-m_Existential);
         move_Agent_Discrete(actions.DiscreteActions);
     }
@@ -179,7 +179,7 @@ public class MoveToGoalAgent : Agent
         {
             current_waypoint = get_next_waypoint(shortest_path, waypoint.transform.localPosition);
             collision_reward += 0.2f;
-            Debug.Log(collision_reward);
+            //Debug.Log(collision_reward);
             AddReward(0.2f);
         }
         else

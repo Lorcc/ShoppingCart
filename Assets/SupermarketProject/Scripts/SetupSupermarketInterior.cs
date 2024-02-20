@@ -448,7 +448,7 @@ public class SetupSupermarketInterior : MonoBehaviour
 
 
         ////////// Spawning Shelves //////////
-        ///// Calculate Number of Inner Shelves /////
+        // Calculate Number of Inner Shelves //
         int number_of_shelves = 0;
         for (int i = 0; i < grid_size_z; i++)
         {
@@ -457,10 +457,180 @@ public class SetupSupermarketInterior : MonoBehaviour
                 if (occupied_grid[i, k] == false) number_of_shelves++;
             }
         }
-        int temp_number_of_shelves = number_of_shelves;
+
+        // Calculate Number of Outer Shelves //
+        int number_of_outer_shelves = grid_size_x + grid_size_x - (int)entrance_size[0] + grid_size_z + grid_size_z - (int)entrance_size[2];
+        // Calculate Number of Shelves //
+        int temp_number_of_shelves = number_of_shelves + number_of_outer_shelves;
+
+
+        ///// Spawn Outer Shelves /////
+        //TODO add these to the regular spawning so that there is a posibility to spawn purchaseable items there
+        //Generate northern outer shelves
+        int temp_number_of_items = number_of_items_to_purchase;
+        for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
+        {
+            bool spawn_food_to_purchase = false;
+            if(temp_number_of_items > 0)
+            {
+                float random_number = Random.Range(0.0f, 1.0f);
+
+                if (random_number < ((float)temp_number_of_items / (float)temp_number_of_shelves))
+                {
+                    spawn_food_to_purchase = true;
+                    temp_number_of_items--;
+                }
+                temp_number_of_shelves--;
+            }
+            float offset_x = 0.5f;
+            float offset_z = 0.25f;
+            Vector3 shelve_position = this.transform.position + new Vector3((grid_vert - (grid_size_x / 2.0f) + offset_x), object_position_y, (grid_size_z / 2.0f) + offset_z);
+            Quaternion shelve_rotation = Quaternion.Euler(0, -90, 0);
+            Vector3 temp_position;
+            Vector3 temp_goal_position;
+            Vector2Int temp_goal_map_position;
+
+            Section obj = Section.Durable;
+            GameObject new_object = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
+            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
+            shelve_tiles.Add(new_object);
+            if (spawn_food_to_purchase == true)
+            {
+                temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
+
+                //Calculation
+                temp_goal_position = new Vector3(shelve_position.x,shelve_position.y, shelve_position.z - 0.75f);
+                goal_localpositions_2d.Add(new Vector2(temp_goal_position.x, temp_goal_position.z));
+                temp_goal_map_position = parse_Localposition_To_Map(temp_goal_position, grid_size_x, grid_size_z);
+                goal_map_position_2d.Add(temp_goal_map_position);
+            }
+        }
+        //Generate southern outer shelves
+        for (int grid_vert = 0; grid_vert < grid_size_x - entrance_size[0]; grid_vert++)
+        {
+            bool spawn_food_to_purchase = false;
+            if (temp_number_of_items > 0)
+            {
+                float random_number = Random.Range(0.0f, 1.0f);
+
+                if (random_number < ((float)temp_number_of_items / (float)temp_number_of_shelves))
+                {
+                    spawn_food_to_purchase = true;
+                    temp_number_of_items--;
+                }
+                temp_number_of_shelves--;
+            }
+
+            float offset_x = 0.5f;
+            float offset_z = 0.25f;
+            Vector3 shelve_position = this.transform.position + new Vector3((grid_vert - (grid_size_x / 2.0f) + offset_x), object_position_y, (-grid_size_z / 2.0f) - offset_z);
+            Quaternion shelve_rotation = Quaternion.Euler(0, 90, 0);
+            Vector3 temp_position;
+            Vector3 temp_goal_position;
+            Vector2Int temp_goal_map_position;
+            Section obj = Section.Drinks;
+            GameObject new_object = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
+            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
+            shelve_tiles.Add(new_object);
+
+            if (spawn_food_to_purchase == true)
+            {
+                temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
+
+                //Calculation
+                temp_goal_position = new Vector3(shelve_position.x, shelve_position.y, shelve_position.z + 0.75f);
+                goal_localpositions_2d.Add(new Vector2(temp_goal_position.x, temp_goal_position.z));
+                temp_goal_map_position = parse_Localposition_To_Map(temp_goal_position, grid_size_x, grid_size_z);
+                goal_map_position_2d.Add(temp_goal_map_position);
+            }
+        }
+        //Generate western outer shelves
+        for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
+        {
+            bool spawn_food_to_purchase = false;
+            if (temp_number_of_items > 0)
+            {
+                float random_number = Random.Range(0.0f, 1.0f);
+
+                if (random_number < ((float)temp_number_of_items / (float)temp_number_of_shelves))
+                {
+                    spawn_food_to_purchase = true;
+                    temp_number_of_items--;
+                }
+                temp_number_of_shelves--;
+            }
+
+            float offset_x = 0.25f;
+            float offset_z = 0.5f;
+            Vector3 shelve_position = this.transform.position + new Vector3((-(grid_size_x / 2.0f) - offset_x), object_position_y, grid_hor - (grid_size_z / 2.0f) + offset_z);
+            Quaternion shelve_rotation = Quaternion.Euler(0, 180, 0);
+            Vector3 temp_position;
+            Vector3 temp_goal_position;
+            Vector2Int temp_goal_map_position;
+
+            Section obj = Section.Durable;
+            if (grid_hor < grid_size_z - beverages_size[2] - 1f)
+            {
+                obj = Section.Drinks;
+            }
+
+
+            GameObject new_object = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
+            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
+            shelve_tiles.Add(new_object);
+
+            if (spawn_food_to_purchase == true)
+            {
+                temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
+
+                //Calculation
+                temp_goal_position = new Vector3(shelve_position.x + 0.75f, shelve_position.y, shelve_position.z);
+                goal_localpositions_2d.Add(new Vector2(temp_goal_position.x, temp_goal_position.z));
+                temp_goal_map_position = parse_Localposition_To_Map(temp_goal_position, grid_size_x, grid_size_z);
+                goal_map_position_2d.Add(temp_goal_map_position);
+            }
+        }
+        //Generate eastern outer shelves
+        for (int grid_hor = (int)entrance_size[2]; grid_hor < grid_size_z; grid_hor++)
+        {
+            bool spawn_food_to_purchase = false;
+            if (temp_number_of_items > 0)
+            {
+                float random_number = Random.Range(0.0f, 1.0f);
+
+                if (random_number < ((float)temp_number_of_items / (float)temp_number_of_shelves))
+                {
+                    spawn_food_to_purchase = true;
+                    temp_number_of_items--;
+                }
+                temp_number_of_shelves--;
+            }
+
+            float offset_x = 0.25f;
+            float offset_z = 0.5f;
+            Vector3 shelve_position = this.transform.position + new Vector3(((grid_size_x / 2.0f) + offset_x), object_position_y, grid_hor - (grid_size_z / 2.0f) + offset_z);
+            Quaternion shelve_rotation = Quaternion.Euler(0, 0, 0);
+            Vector3 temp_position;
+            Vector3 temp_goal_position;
+            Vector2Int temp_goal_map_position;
+            Section obj = Section.Fruit;
+            GameObject new_object = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
+            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
+            shelve_tiles.Add(new_object);
+
+            if (spawn_food_to_purchase == true)
+            {
+                temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
+
+                //Calculation
+                temp_goal_position = new Vector3(shelve_position.x - 0.75f, shelve_position.y, shelve_position.z);
+                goal_localpositions_2d.Add(new Vector2(temp_goal_position.x, temp_goal_position.z));
+                temp_goal_map_position = parse_Localposition_To_Map(temp_goal_position, grid_size_x, grid_size_z);
+                goal_map_position_2d.Add(temp_goal_map_position);
+            }
+        }
 
         ///// Spawn Inner Shelves /////
-        int temp_number_of_items = number_of_items_to_purchase;
         for(int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
         {
             for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
@@ -599,48 +769,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             }
         }
 
-        ///// Spawn Outer Shelves /////
-        //TODO add these to the regular spawning so that there is a posibility to spawn purchaseable items there
-        //Generate northern outer shelves
-        for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
-        {
-            float offset_x = 0.5f;
-            float offset_z = 0.25f;
-            Vector3 shelve_position = this.transform.position + new Vector3((grid_vert - (grid_size_x / 2.0f) + offset_x), object_position_y, (grid_size_z / 2.0f) + offset_z);
-            Quaternion shelve_rotation = Quaternion.Euler(0, -90, 0);
-            GameObject shelve = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
-            shelve_tiles.Add(shelve);
-        }
-        //Generate southern outer shelves
-        for (int grid_vert = 0; grid_vert < grid_size_x - entrance_size[0]; grid_vert++)
-        {
-            float offset_x = 0.5f;
-            float offset_z = 0.25f;
-            Vector3 shelve_position = this.transform.position + new Vector3((grid_vert - (grid_size_x / 2.0f) + offset_x), object_position_y, (-grid_size_z / 2.0f) - offset_z);
-            Quaternion shelve_rotation = Quaternion.Euler(0, 90, 0);
-            GameObject shelve = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
-            shelve_tiles.Add(shelve);
-        }
-        //Generate western outer shelves
-        for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
-        {
-            float offset_x = 0.25f;
-            float offset_z = 0.5f;
-            Vector3 shelve_position = this.transform.position + new Vector3((-(grid_size_x / 2.0f) - offset_x), object_position_y, grid_hor - (grid_size_z / 2.0f) + offset_z);
-            Quaternion shelve_rotation = Quaternion.Euler(0, 180, 0);
-            GameObject shelve = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
-            shelve_tiles.Add(shelve);
-        }
-        //Generate eastern outer shelves
-        for (int grid_hor = (int)entrance_size[2]; grid_hor < grid_size_z; grid_hor++)
-        {
-            float offset_x = 0.25f;
-            float offset_z = 0.5f;
-            Vector3 shelve_position = this.transform.position + new Vector3(((grid_size_x / 2.0f) + offset_x), object_position_y, grid_hor - (grid_size_z / 2.0f) + offset_z);
-            Quaternion shelve_rotation = Quaternion.Euler(0, 0, 0);
-            GameObject shelve = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
-            shelve_tiles.Add(shelve);
-        }
+        
 
 
         ////////// Spawn Entrance Fence //////////
