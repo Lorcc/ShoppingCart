@@ -44,7 +44,7 @@ public class MoveToGoalAgent : Agent
         collision_reward = 0f;
         this.GetComponentInParent<SetupSupermarketRepaired>().setup_Supermarket();
         current_waypoint = shortest_path.Last();
-        m_Existential = 1f / MaxStep;
+        m_Existential = 5f / MaxStep;
     }
     public override void CollectObservations(VectorSensor sensor)
     {
@@ -62,6 +62,8 @@ public class MoveToGoalAgent : Agent
     public override void OnActionReceived(ActionBuffers actions)
     {
         //Existential penalty for the agent
+        collision_reward -= m_Existential;
+        Debug.Log(collision_reward);
         AddReward(-m_Existential);
         move_Agent_Discrete(actions.DiscreteActions);
     }
@@ -182,8 +184,8 @@ public class MoveToGoalAgent : Agent
         }
         else
         {
-            collision_reward -= 0.5f;
-            AddReward(-0.5f);
+            collision_reward -= 0.2f;
+            AddReward(-0.2f);
             is_collided = true;
         }
     }
