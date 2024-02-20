@@ -63,7 +63,7 @@ public class MoveToGoalAgent : Agent
     {
         //Existential penalty for the agent
         collision_reward -= m_Existential;
-        Debug.Log(collision_reward);
+        //Debug.Log(collision_reward);
         AddReward(-m_Existential);
         move_Agent_Discrete(actions.DiscreteActions);
     }
@@ -178,9 +178,6 @@ public class MoveToGoalAgent : Agent
         else if(other.TryGetComponent<Waypoint>(out Waypoint waypoint))
         {
             current_waypoint = get_next_waypoint(shortest_path, waypoint.transform.localPosition);
-            collision_reward += 0.2f;
-            Debug.Log(collision_reward);
-            AddReward(0.2f);
         }
         else
         {
@@ -221,11 +218,13 @@ public class MoveToGoalAgent : Agent
     public Vector3 get_next_waypoint(List<Vector3> shortest_path, Vector3 old_waypoint)
     {
         Vector3 next_waypoint;
+        bool waypoint_ahead = false;
         for (int i = 0; i < shortest_path.Count; i++)
         {
             if(shortest_path[i] == old_waypoint)
             {
                 shortest_path.RemoveRange(i, shortest_path.Count - i);
+                waypoint_ahead = true;
             }
         }
         if(shortest_path.Count == 0)
@@ -236,7 +235,13 @@ public class MoveToGoalAgent : Agent
         {
             next_waypoint = shortest_path.Last();
         }
-        
+
+        if (waypoint_ahead)
+        {
+            collision_reward += 0.2f;
+            Debug.Log(collision_reward);
+            AddReward(0.2f);
+        }
         return next_waypoint;
     }
 
