@@ -5,10 +5,10 @@ using UnityEngine;
 public class SetupSupermarketRepaired : MonoBehaviour
 {
     [SerializeField] private bool fixed_ground_size = true;
-    [SerializeField] [Range(16, 50)] private int x_ground_size = 20;
-    [SerializeField] [Range(16, 50)] private int z_ground_size = 20;
-    [SerializeField] [Range(16, 50)] private int min_ground_size = 20;
-    [SerializeField] [Range(16, 50)] private int max_ground_size = 30;
+    [SerializeField] [Range(13, 50)] private int x_ground_size = 20;
+    [SerializeField] [Range(13, 50)] private int z_ground_size = 20;
+    [SerializeField] [Range(13, 50)] private int min_ground_size = 20;
+    [SerializeField] [Range(13, 50)] private int max_ground_size = 30;
     [SerializeField] private bool fixed_entrance_size = true;
     [SerializeField] [Range(6, 20)] private int x_entrance_size = 6;
     [SerializeField] [Range(6, 20)] private int z_entrance_size = 6;

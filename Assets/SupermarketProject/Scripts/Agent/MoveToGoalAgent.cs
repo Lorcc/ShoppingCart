@@ -150,7 +150,7 @@ public class MoveToGoalAgent : Agent
                 dirToGo = transform.forward * m_ForwardSpeed;
                 break;
             case 2:
-                dirToGo = transform.forward * -m_ForwardSpeed;
+                dirToGo = transform.forward * -m_ForwardSpeed * 0.8f;
                 break;
         }
         switch (rotateAxis)
