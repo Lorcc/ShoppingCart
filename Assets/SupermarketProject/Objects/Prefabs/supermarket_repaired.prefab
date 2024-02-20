@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5519532963650692164}
   - component: {fileID: 1931150387122260961}
+  - component: {fileID: 4103353292217487015}
+  - component: {fileID: 817742631797856675}
   m_Layer: 0
   m_Name: supermarket_repaired
   m_TagString: Untagged
@@ -52,14 +54,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fixed_ground_size: 1
   x_ground_size: 20
-  z_ground_size: 30
+  z_ground_size: 20
   min_ground_size: 20
-  max_ground_size: 30
+  max_ground_size: 20
   fixed_entrance_size: 1
   x_entrance_size: 6
   z_entrance_size: 6
   min_entrance_size: 6
   max_entrance_size: 6
+--- !u!114 &4103353292217487015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3121059538074601020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6a4d2caf9258d245b1f30c5cb0466eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  random_shelve_orientation: 1
+  horizontal_shelve_orientation_durablefood_area: 0
+  horizontal_shelve_orientation_fruits_area: 0
+  horizontal_shelve_orientation_beverages_area: 0
+  number_of_items_to_purchase: 1
+  number_of_static_obstacles: 1
+  available_static_obstacles:
+  - {fileID: 612432780565889836, guid: 2309fc43869efb84e97f810d7701d6ec, type: 3}
+  - {fileID: 4636400699403017173, guid: 0c56c59bd95efa34ea67815663808ba4, type: 3}
+  shelve_wall_tile:
+  - {fileID: 9105874131369534015, guid: 5fe4cb81de5e3be4ab7df97c760b1375, type: 3}
+  available_shelves:
+  - {fileID: 3577151186742716460, guid: 654eab21b4631c14d83ede6fc96c1fa9, type: 3}
+  agent: {fileID: 2984122611040358046}
+  goal: {fileID: 3800787646201735146}
+  waypoint: {fileID: 8046157479276514286, guid: c17727f4c5b263a44a4776cd91494f60, type: 3}
+  current_shortest_path: []
+--- !u!114 &817742631797856675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3121059538074601020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f19eb8c7b27233a43a98b2104d9ce705, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fence_tile: {fileID: 8338949753139154336, guid: 0a04445fa6e7c474b8d0d09bddc079c1, type: 3}
+  fence_doubleentrance_tile: {fileID: 3732486507125587177, guid: 4958c6fdbfb6a2446b355eafc9cf1e31, type: 3}
+  checkout: {fileID: 1455025287242494113, guid: e9c33155bf9a21c4c84b1eee1c9ac7ce, type: 3}
 --- !u!1 &3800787646201735146
 GameObject:
   m_ObjectHideFlags: 0
