@@ -51,7 +51,7 @@ public class MoveToGoalAgent : Agent
         sensor.AddObservation(local_velocity.z); // plus 1 float
         sensor.AddObservation(transform.localPosition); // plus 3 Vector3
         sensor.AddObservation(targetTransform.localPosition); // plus 3 Vector3
-        sensor.AddObservation(transform.localRotation); // plus 4 Quaternion
+        //sensor.AddObservation(transform.localRotation); // plus 4 Quaternion
         sensor.AddObservation(vector_distance.magnitude); // plus 1 float
         sensor.AddObservation(vector_distance_waypoint.magnitude);
     }
@@ -88,6 +88,7 @@ public class MoveToGoalAgent : Agent
         //TODO change to be more consistant
         //right now if size of the map increases the negative reward will also increase
         //so get the current gridsize
+        //collision_reward -= 0.005f * vector_distance.magnitude * 0.1f;
         AddReward(-0.005f * vector_distance.magnitude * 0.1f);
     }
 
@@ -108,12 +109,13 @@ public class MoveToGoalAgent : Agent
         else if(other.TryGetComponent<Waypoint>(out Waypoint waypoint))
         {
             current_waypoint = get_next_waypoint(shortest_path, waypoint.transform.localPosition);
+            collision_reward += 0.2f;
+            Debug.Log(collision_reward);
             AddReward(0.2f);
         }
         else
         {
-            //collision_reward -= 0.5f;
-            //Debug.Log(collision_reward);
+            collision_reward -= 0.5f;
             AddReward(-0.5f);
             is_collided = true;
         }
@@ -144,6 +146,7 @@ public class MoveToGoalAgent : Agent
             AddReward(-0.005f);
             //Debug.Log(collision_reward);
         }
+        
     }
 
     public Vector3 get_next_waypoint(List<Vector3> shortest_path, Vector3 old_waypoint)
