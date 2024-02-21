@@ -305,6 +305,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: supermarket_repaired
       objectReference: {fileID: 0}
+    - target: {fileID: 3703427100973473774, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: m_RayLayerMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 5519532963650692164, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: m_RootOrder
       value: 2
