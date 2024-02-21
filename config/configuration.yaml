@@ -1,5 +1,5 @@
 behaviors:
-  MoveAndAttackAgent:
+  MoveToGoal:
     trainer_type: ppo
     hyperparameters:
       batch_size: 128                   ### changed cause we are using more continuous action(default = 1024) ###  
