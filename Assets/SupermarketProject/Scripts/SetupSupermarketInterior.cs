@@ -931,8 +931,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             }
         }
         
-
-        Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);
+        ///// Using A* /////
         List<Vector2> shortest_path = calculate_a_star(goal_map_position_2d[0], Agent, Goal, grid_size_x, grid_size_z, occupied_grid);
 
         for (int i = 1; i < shortest_path.Count - 1; i++)
@@ -943,7 +942,6 @@ public class SetupSupermarketInterior : MonoBehaviour
             GameObject waypoint_obj = Instantiate(waypoint, waypoint_pos, waypoint_rotation, this.transform);
             waypoint_objects.Add(waypoint_obj);
         }
-        //this.GetComponentInParent<SetupSupermarketInterior>().current_shortest_path;
         this.GetComponentInChildren<MoveToGoalAgent>().shortest_path = current_shortest_path;
 
 
