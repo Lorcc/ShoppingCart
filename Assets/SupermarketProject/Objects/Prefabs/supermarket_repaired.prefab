@@ -553,7 +553,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3918704731879050294, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 8
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6275707575958323299, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
+      propertyPath: m_RayLength
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6275707575958323299, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
+      propertyPath: m_ObservationStacks
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8027033093714879023, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
+      propertyPath: m_RayLength
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8027033093714879023, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
+      propertyPath: m_ObservationStacks
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8460377995368969055, guid: d2d4918eb6057274f94bdee0b8dd0005, type: 3}
       propertyPath: m_Name
