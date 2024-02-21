@@ -31,7 +31,7 @@ public class MoveToGoalAgent : Agent
     float m_Existential;
     private float collision_reward = 0f;
 
-    private bool is_collided = false;
+    //private bool is_collided = false;
 
     private void Start()
     {
@@ -49,7 +49,7 @@ public class MoveToGoalAgent : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         var local_velocity = transform.InverseTransformDirection(agent_rigidbody.velocity);
-        //var vector_distance = targetTransform.localPosition - transform.localPosition;
+        var vector_distance = targetTransform.localPosition - transform.localPosition;
         //var vector_distance_waypoint = current_waypoint - transform.localPosition;
         sensor.AddObservation(local_velocity.x); // plus 1 float
         sensor.AddObservation(local_velocity.z); // plus 1 float
@@ -57,7 +57,7 @@ public class MoveToGoalAgent : Agent
         //sensor.AddObservation(transform.localPosition.z); // plus 1 float
         //sensor.AddObservation(targetTransform.localPosition.x); // plus 1 float
         //sensor.AddObservation(targetTransform.localPosition.z); // plus 1 float
-        //sensor.AddObservation(vector_distance.magnitude); // plus 1 float
+        sensor.AddObservation(vector_distance.magnitude); // plus 1 float
         //sensor.AddObservation(vector_distance_waypoint.magnitude); // plus 1 float
     }
     public override void OnActionReceived(ActionBuffers actions)
@@ -151,7 +151,7 @@ public class MoveToGoalAgent : Agent
                 dirToGo = transform.forward * m_ForwardSpeed;
                 break;
             case 2:
-                dirToGo = transform.forward * -m_ForwardSpeed * 0.8f;
+                dirToGo = transform.forward * -m_ForwardSpeed * 0.85f;
                 break;
         }
         switch (rotateAxis)
@@ -182,9 +182,9 @@ public class MoveToGoalAgent : Agent
         }
         else
         {
-            collision_reward -= 0.1f;
-            AddReward(-0.1f);
-            is_collided = true;
+            //collision_reward -= 0.1f;
+            //AddReward(-0.1f);
+            //is_collided = true;
         }
     }
 
@@ -200,19 +200,19 @@ public class MoveToGoalAgent : Agent
         }
         else
         {
-            is_collided = false;
+           // is_collided = false;
         }
     }
 
     //gets called every 0.02 sec so 50 times per second
     private void FixedUpdate()
     {
-        if (is_collided)
+        /*if (is_collided)
         {
             collision_reward -= 0.005f;
             AddReward(-0.005f);
             //Debug.Log(collision_reward);
-        }
+        }*/
         
     }
 
