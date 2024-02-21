@@ -204,7 +204,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: number_of_static_obstacles
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: shelve_wall_tile.Array.data[0]

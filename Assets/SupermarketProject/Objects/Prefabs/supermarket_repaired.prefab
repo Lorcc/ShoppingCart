@@ -53,8 +53,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fixed_ground_size: 1
-  x_ground_size: 17
-  z_ground_size: 17
+  x_ground_size: 13
+  z_ground_size: 13
   min_ground_size: 20
   max_ground_size: 20
   fixed_entrance_size: 1
@@ -84,7 +84,7 @@ MonoBehaviour:
   - {fileID: 612432780565889836, guid: 2309fc43869efb84e97f810d7701d6ec, type: 3}
   - {fileID: 4636400699403017173, guid: 0c56c59bd95efa34ea67815663808ba4, type: 3}
   shelve_wall_tile:
-  - {fileID: 9105874131369534015, guid: 5fe4cb81de5e3be4ab7df97c760b1375, type: 3}
+  - {fileID: 2644995143240122761, guid: b2d43801482085246a4788b0d5024fc7, type: 3}
   available_shelves:
   - {fileID: 3577151186742716460, guid: 654eab21b4631c14d83ede6fc96c1fa9, type: 3}
   agent: {fileID: 2984122611040358046}
