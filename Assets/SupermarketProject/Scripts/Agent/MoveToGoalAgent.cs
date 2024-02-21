@@ -53,11 +53,12 @@ public class MoveToGoalAgent : Agent
         var vector_distance_waypoint = current_waypoint - transform.localPosition;
         sensor.AddObservation(local_velocity.x); // plus 1 float
         sensor.AddObservation(local_velocity.z); // plus 1 float
-        sensor.AddObservation(transform.localPosition); // plus 3 Vector3
-        sensor.AddObservation(targetTransform.localPosition); // plus 3 Vector3
-        //sensor.AddObservation(transform.localRotation); // plus 4 Quaternion
+        sensor.AddObservation(transform.localPosition.x); // plus 1 float
+        sensor.AddObservation(transform.localPosition.z); // plus 1 float
+        sensor.AddObservation(targetTransform.localPosition.x); // plus 1 float
+        sensor.AddObservation(targetTransform.localPosition.z); // plus 1 float
         sensor.AddObservation(vector_distance.magnitude); // plus 1 float
-        sensor.AddObservation(vector_distance_waypoint.magnitude);
+        sensor.AddObservation(vector_distance_waypoint.magnitude); // plus 1 float
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
