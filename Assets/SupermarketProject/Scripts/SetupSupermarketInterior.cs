@@ -942,7 +942,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             GameObject waypoint_obj = Instantiate(waypoint, waypoint_pos, waypoint_rotation, this.transform);
             waypoint_objects.Add(waypoint_obj);
         }
-        this.GetComponentInChildren<MoveToGoalAgent>().shortest_path = current_shortest_path;
+        this.GetComponentInChildren<MoveToGoalAgent>().shortest_path_waypoints = waypoint_objects;
 
 
     }

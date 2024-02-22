@@ -459,8 +459,8 @@ MonoBehaviour:
   m_SensorName: RayPerceptionSensor
   m_DetectableTags:
   - wall
-  m_RaysPerDirection: 3
-  m_MaxRayDegrees: 180
+  m_RaysPerDirection: 4
+  m_MaxRayDegrees: 60
   m_SphereCastRadius: 0.2
   m_RayLength: 8
   m_RayLayerMask:
@@ -723,6 +723,7 @@ MonoBehaviour:
   targetTransform: {fileID: 0}
   agent_camera: {fileID: 1341628429422529564}
   shortest_path: []
+  shortest_path_waypoints: []
 --- !u!114 &7748667287056552563
 MonoBehaviour:
   m_ObjectHideFlags: 0

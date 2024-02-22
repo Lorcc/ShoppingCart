@@ -52,11 +52,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf078e42aa217374ca78fe42faf1b489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fixed_ground_size: 1
+  fixed_ground_size: 0
   x_ground_size: 13
   z_ground_size: 13
-  min_ground_size: 20
-  max_ground_size: 20
+  min_ground_size: 13
+  max_ground_size: 15
   fixed_entrance_size: 1
   x_entrance_size: 6
   z_entrance_size: 6

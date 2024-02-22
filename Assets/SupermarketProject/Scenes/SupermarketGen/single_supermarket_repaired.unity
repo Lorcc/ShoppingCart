@@ -132,19 +132,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: x_ground_size
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: z_ground_size
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: max_ground_size
-      value: 50
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: min_ground_size
-      value: 20
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: x_entrance_size
@@ -264,7 +264,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7665969287515943415, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9058573858109239272, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: m_LocalPosition.y

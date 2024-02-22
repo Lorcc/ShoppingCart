@@ -23,6 +23,7 @@ public class MoveToGoalAgent : Agent
 
 
     public List<Vector3> shortest_path = new List<Vector3>();
+    public List<GameObject> shortest_path_waypoints = new List<GameObject>();
     Vector3 current_waypoint;
 
     Rigidbody agent_rigidbody;
@@ -43,7 +44,7 @@ public class MoveToGoalAgent : Agent
     {
         collision_reward = 0f;
         this.GetComponentInParent<SetupSupermarketRepaired>().setup_Supermarket();
-        current_waypoint = shortest_path.Last();
+        current_waypoint = shortest_path_waypoints.Last().transform.localPosition;
         m_Existential = 5f / MaxStep;
     }
     public override void CollectObservations(VectorSensor sensor)
@@ -178,7 +179,7 @@ public class MoveToGoalAgent : Agent
         }
         else if(other.TryGetComponent<Waypoint>(out Waypoint waypoint))
         {
-            current_waypoint = get_next_waypoint(shortest_path, waypoint.transform.localPosition);
+            current_waypoint = get_next_waypoint(shortest_path_waypoints, waypoint.gameObject);
         }
         else
         {
@@ -216,7 +217,7 @@ public class MoveToGoalAgent : Agent
         
     }
 
-    public Vector3 get_next_waypoint(List<Vector3> shortest_path, Vector3 old_waypoint)
+    public Vector3 get_next_waypoint(List<GameObject> shortest_path, GameObject old_waypoint)
     {
         Vector3 next_waypoint;
         bool waypoint_ahead = false;
@@ -224,7 +225,11 @@ public class MoveToGoalAgent : Agent
         {
             if(shortest_path[i] == old_waypoint)
             {
-                shortest_path.RemoveRange(i, shortest_path.Count - i);
+                for(int j = shortest_path.Count - 1; j > i; j--)
+                {
+                    Destroy(shortest_path[j]);
+                    shortest_path.RemoveAt(j);
+                }
                 waypoint_ahead = true;
             }
         }
@@ -234,7 +239,7 @@ public class MoveToGoalAgent : Agent
         }
         else
         {
-            next_waypoint = shortest_path.Last();
+            next_waypoint = shortest_path.Last().transform.localPosition;
         }
 
         if (waypoint_ahead)
