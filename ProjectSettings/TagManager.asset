@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - Goal
+  - agent
+  - ground
+  - wall
+  - ball
+  - waypoint
   layers:
   - Default
   - TransparentFX
