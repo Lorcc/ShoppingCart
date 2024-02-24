@@ -1,9 +1,24 @@
 fileFormatVersion: 2
-guid: 7541ccd8c596d284aa99b1d93f4f906e
+guid: 34fecb0a8a2c88a4fa57919807d9b910
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m_metal_frame
+    second: {fileID: 2100000, guid: 513abe789e1bad649919023cfd6ae2e9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m_shelve
+    second: {fileID: 2100000, guid: 5afa728481fe80041ab737a7243b68c6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m_ticket_holder
+    second: {fileID: 2100000, guid: 8e8e63096f4ac17418eb77f313c55e00, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

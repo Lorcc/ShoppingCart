@@ -1,0 +1,65 @@
+{
+    "MoveToGoal": {
+        "checkpoints": [
+            {
+                "steps": 2499994,
+                "file_path": "results\\agent_lidarfront01\\MoveToGoal\\MoveToGoal-2499994.onnx",
+                "reward": null,
+                "creation_time": 1708634983.0214882,
+                "auxillary_file_paths": [
+                    "results\\agent_lidarfront01\\MoveToGoal\\MoveToGoal-2499994.pt"
+                ]
+            },
+            {
+                "steps": 2999974,
+                "file_path": "results\\agent_lidarfront01\\MoveToGoal\\MoveToGoal-2999974.onnx",
+                "reward": -3.998000368475914,
+                "creation_time": 1708636077.030844,
+                "auxillary_file_paths": [
+                    "results\\agent_lidarfront01\\MoveToGoal\\MoveToGoal-2999974.pt"
+                ]
+            },
+            {
+                "steps": 3499991,
+                "file_path": "results\\agent_lidarfront01\\MoveToGoal\\MoveToGoal-3499991.onnx",
+                "reward": -4.499250333756208,
+                "creation_time": 1708637169.0402637,
+                "auxillary_file_paths": [
+                    "results\\agent_lidarfront01\\MoveToGoal\\MoveToGoal-3499991.pt"
+                ]
+            },
+            {
+                "steps": 3999946,
+                "file_path": "results\\agent_lidarfront01\\MoveToGoal\\MoveToGoal-3999946.onnx",
+                "reward": -2.4985001757740974,
+                "creation_time": 1708638267.6420898,
+                "auxillary_file_paths": [
+                    "results\\agent_lidarfront01\\MoveToGoal\\MoveToGoal-3999946.pt"
+                ]
+            },
+            {
+                "steps": 4000010,
+                "file_path": "results\\agent_lidarfront01\\MoveToGoal\\MoveToGoal-4000010.onnx",
+                "reward": -2.4985001757740974,
+                "creation_time": 1708638267.7059195,
+                "auxillary_file_paths": [
+                    "results\\agent_lidarfront01\\MoveToGoal\\MoveToGoal-4000010.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 4000010,
+            "file_path": "results\\agent_lidarfront01\\MoveToGoal.onnx",
+            "reward": -2.4985001757740974,
+            "creation_time": 1708638267.7059195,
+            "auxillary_file_paths": [
+                "results\\agent_lidarfront01\\MoveToGoal\\MoveToGoal-4000010.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}
