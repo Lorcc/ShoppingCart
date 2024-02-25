@@ -211,9 +211,17 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: available_shelves.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: shelve_wall_tile.Array.data[0]
       value: 
       objectReference: {fileID: 2644995143240122761, guid: b2d43801482085246a4788b0d5024fc7, type: 3}
+    - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: available_shelves.Array.data[1]
+      value: 
+      objectReference: {fileID: 4989688689839571827, guid: b093aab2d9f12e44f82bc7bbb2e8a1a4, type: 3}
     - target: {fileID: 5519532963650692164, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -370,19 +378,9 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &932057377 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3800787646201735146, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
-  m_PrefabInstance: {fileID: 295110858}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &932057382 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3800787646201735149, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
-  m_PrefabInstance: {fileID: 295110858}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &962157606 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2984122611040358046, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
   m_PrefabInstance: {fileID: 295110858}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1130497027
@@ -474,35 +472,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3121059538074601020, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
   m_PrefabInstance: {fileID: 295110858}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2005754618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2005754615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6a4d2caf9258d245b1f30c5cb0466eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  random_shelve_orientation: 1
-  horizontal_shelve_orientation_durablefood_area: 0
-  horizontal_shelve_orientation_fruits_area: 0
-  horizontal_shelve_orientation_beverages_area: 0
-  number_of_items_to_purchase: 1
-  number_of_static_obstacles: 2
-  available_static_obstacles:
-  - {fileID: 4636400699403017173, guid: 0c56c59bd95efa34ea67815663808ba4, type: 3}
-  - {fileID: 612432780565889836, guid: 2309fc43869efb84e97f810d7701d6ec, type: 3}
-  shelve_wall_tile:
-  - {fileID: 9105874131369534015, guid: 5fe4cb81de5e3be4ab7df97c760b1375, type: 3}
-  available_shelves:
-  - {fileID: 3577151186742716460, guid: 654eab21b4631c14d83ede6fc96c1fa9, type: 3}
-  agent: {fileID: 962157606}
-  goal: {fileID: 932057377}
-  waypoint: {fileID: 8046157479276514286, guid: c17727f4c5b263a44a4776cd91494f60, type: 3}
-  current_shortest_path: []
 --- !u!114 &2005754619
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -46,6 +46,7 @@ public class ShelveFiller : MonoBehaviour
                     {
                         purchable_food_script.spawn_fruit_item();
                         p_item_position = purchable_food_script.transform.localPosition;
+
                         break;
                     }
                 }
@@ -74,7 +75,7 @@ public class ShelveFiller : MonoBehaviour
         return p_item_position;
     }
 
-    public void spawn_random_items(int section)
+    public void spawn_random_items(int section, int shelve_type)
     {
         if ((Section)section == Section.Durable)
         {
@@ -94,7 +95,7 @@ public class ShelveFiller : MonoBehaviour
                 FoodSpawner random_food_spawner_script = child.GetComponent<FoodSpawner>();
                 if (random_food_spawner_script != null)
                 {
-                    random_food_spawner_script.spawn_random_fruits_item();
+                    random_food_spawner_script.spawn_random_fruits_item(shelve_type);
                 }
             }
         }

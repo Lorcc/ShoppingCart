@@ -12,7 +12,7 @@ public class FoodSpawner : MonoBehaviour
     private float[] scale_value = { 0.75f, 1.25f };
     //TODO delete all_items
     private List<GameObject> all_items = new List<GameObject>();
-    private int number_of_items_per_row = 3;
+    private const int number_of_items_per_row = 3;
 
     public void spawn_random_durable_item()
     {
@@ -30,17 +30,28 @@ public class FoodSpawner : MonoBehaviour
         }
     }
     
-    public void spawn_random_fruits_item()
+    public void spawn_random_fruits_item(int shelve_type)
     {
-        Vector3 item_scale = new Vector3(Random.Range(scale_value[0], scale_value[1]), Random.Range(scale_value[0], scale_value[1]), 1);
+        Vector3 item_scale = new Vector3(1f, 1f, 1f);
         Quaternion object_rotation = Quaternion.Euler(0, 0, 0);
-
         int random_item = Random.Range(0, fruit_items.Length);
 
-        for (int i = 0; i < number_of_items_per_row; i++)
+        if (shelve_type == 0)
+        {
+            item_scale = new Vector3(Random.Range(scale_value[0], scale_value[1]), Random.Range(scale_value[0], scale_value[1]), 1);
+            for (int i = 0; i < number_of_items_per_row; i++)
+            {
+                GameObject new_object = Instantiate(fruit_items[random_item], this.transform);
+                new_object.transform.localPosition = new_object.transform.localPosition + new Vector3(i * 0.1f, 0f, 0f);
+                new_object.transform.localScale = item_scale;
+                all_items.Add(new_object);
+            }
+
+        }
+        else
         {
             GameObject new_object = Instantiate(fruit_items[random_item], this.transform);
-            new_object.transform.localPosition = new_object.transform.localPosition + new Vector3(i * 0.1f, 0f, 0f);
+            new_object.transform.localPosition = new_object.transform.localPosition;
             new_object.transform.localScale = item_scale;
             all_items.Add(new_object);
         }

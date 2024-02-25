@@ -489,6 +489,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             Vector3 temp_position;
             Vector3 temp_goal_position;
             Vector2Int temp_goal_map_position;
+            int shelve_type = 0;
 
             Section obj = Section.Durable;
             if (grid_vert > grid_size_x - fruits_size[2] + 1f)
@@ -497,7 +498,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             }
 
             GameObject new_object = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
-            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
+            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj, shelve_type);
             shelve_tiles.Add(new_object);
             if (spawn_food_to_purchase == true)
             {
@@ -533,9 +534,10 @@ public class SetupSupermarketInterior : MonoBehaviour
             Vector3 temp_position;
             Vector3 temp_goal_position;
             Vector2Int temp_goal_map_position;
+            int shelve_type = 0;
             Section obj = Section.Drinks;
             GameObject new_object = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
-            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
+            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj, shelve_type);
             shelve_tiles.Add(new_object);
 
             if (spawn_food_to_purchase == true)
@@ -572,6 +574,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             Vector3 temp_position;
             Vector3 temp_goal_position;
             Vector2Int temp_goal_map_position;
+            int shelve_type = 0;
 
             Section obj = Section.Durable;
             if (grid_hor < grid_size_z - beverages_size[2] - 1f)
@@ -581,7 +584,7 @@ public class SetupSupermarketInterior : MonoBehaviour
 
 
             GameObject new_object = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
-            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
+            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj, shelve_type);
             shelve_tiles.Add(new_object);
 
             if (spawn_food_to_purchase == true)
@@ -618,9 +621,10 @@ public class SetupSupermarketInterior : MonoBehaviour
             Vector3 temp_position;
             Vector3 temp_goal_position;
             Vector2Int temp_goal_map_position;
+            int shelve_type = 0;
             Section obj = Section.Fruit;
             GameObject new_object = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
-            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
+            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj, shelve_type);
             shelve_tiles.Add(new_object);
 
             if (spawn_food_to_purchase == true)
@@ -665,10 +669,11 @@ public class SetupSupermarketInterior : MonoBehaviour
                     {
                         if (durablefood_area.orientation == "horizontal")
                         {
+                            int shelve_type = 0;
                             Section obj = Section.Durable;
                             object_rotation = Quaternion.Euler(0, 90, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
-                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
+                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj, shelve_type);
                             shelve_tiles.Add(new_object);
                             if (spawn_food_to_purchase == true)
                             {
@@ -682,10 +687,11 @@ public class SetupSupermarketInterior : MonoBehaviour
                         }
                         else
                         {
+                            int shelve_type = 0;
                             Section obj = Section.Durable;
                             object_rotation = Quaternion.Euler(0, 0, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
-                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
+                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj, shelve_type);
                             shelve_tiles.Add(new_object);
                             if (spawn_food_to_purchase == true)
                             {
@@ -703,10 +709,11 @@ public class SetupSupermarketInterior : MonoBehaviour
                     {
                         if (fruit_area.orientation == "horizontal")
                         {
+                            int shelve_type = 1;
                             Section obj = Section.Fruit;
                             object_rotation = Quaternion.Euler(0, 90, 0);
-                            GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
-                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
+                            GameObject new_object = Instantiate(available_shelves[1], object_position, object_rotation, this.transform);
+                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj, shelve_type);
                             shelve_tiles.Add(new_object);
                             if (spawn_food_to_purchase == true)
                             {
@@ -719,10 +726,11 @@ public class SetupSupermarketInterior : MonoBehaviour
                         }
                         else
                         {
+                            int shelve_type = 1;
                             Section obj = Section.Fruit;
                             object_rotation = Quaternion.Euler(0, 0, 0);
-                            GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
-                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
+                            GameObject new_object = Instantiate(available_shelves[1], object_position, object_rotation, this.transform);
+                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj, shelve_type);
                             shelve_tiles.Add(new_object);
                             if (spawn_food_to_purchase == true)
                             {
@@ -739,10 +747,11 @@ public class SetupSupermarketInterior : MonoBehaviour
                     {
                         if (beverage_area.orientation == "horizontal")
                         {
+                            int shelve_type = 0;
                             Section obj = Section.Drinks;
                             object_rotation = Quaternion.Euler(0, 90, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
-                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
+                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj, shelve_type);
                             shelve_tiles.Add(new_object);
                             if (spawn_food_to_purchase == true)
                             {
@@ -755,10 +764,11 @@ public class SetupSupermarketInterior : MonoBehaviour
                         }
                         else
                         {
+                            int shelve_type = 0;
                             Section obj = Section.Drinks;
                             object_rotation = Quaternion.Euler(0, 0, 0);
                             GameObject new_object = Instantiate(available_shelves[0], object_position, object_rotation, this.transform);
-                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
+                            new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj, shelve_type);
                             shelve_tiles.Add(new_object);
                             if (spawn_food_to_purchase == true)
                             {
