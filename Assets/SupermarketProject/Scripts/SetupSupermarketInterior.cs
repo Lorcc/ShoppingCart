@@ -491,6 +491,11 @@ public class SetupSupermarketInterior : MonoBehaviour
             Vector2Int temp_goal_map_position;
 
             Section obj = Section.Durable;
+            if (grid_vert > grid_size_x - fruits_size[2] + 1f)
+            {
+                obj = Section.Fruit;
+            }
+
             GameObject new_object = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
             new_object.GetComponent<ShelveFiller>().spawn_random_items((int)obj);
             shelve_tiles.Add(new_object);

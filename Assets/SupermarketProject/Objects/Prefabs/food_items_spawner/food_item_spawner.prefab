@@ -45,7 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   durableable_food_items:
-  - {fileID: 3853866425287293871, guid: 07c678391c3f31b4b9087b26200b9dd6, type: 3}
+  - {fileID: 3096326813724202196, guid: e51d3d69e5f00c045b6a0dccf90aa2b7, type: 3}
+  - {fileID: 5268247411782668767, guid: 4e16fa57d4b8d1941b015373bd9e3c18, type: 3}
   fruit_items:
   - {fileID: 3853866425287293871, guid: 07c678391c3f31b4b9087b26200b9dd6, type: 3}
   beverages_items:
