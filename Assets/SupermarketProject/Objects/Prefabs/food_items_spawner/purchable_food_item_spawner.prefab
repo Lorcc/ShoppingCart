@@ -47,6 +47,7 @@ MonoBehaviour:
   durableable_food_items:
   - {fileID: 2656198549216577869, guid: 4976424e6a9a47d4aaa39790bc5ee22a, type: 3}
   - {fileID: 9038657663085506545, guid: 0f6595de85617ab4390d10ba524e180f, type: 3}
+  - {fileID: 4316646439181070906, guid: 3d2de08f95b4c714aa989893df44ef79, type: 3}
   fruit_items:
   - {fileID: 6227557486261460020, guid: d7309d8ecf5162c46938c380b3f30991, type: 3}
   beverages_items:
