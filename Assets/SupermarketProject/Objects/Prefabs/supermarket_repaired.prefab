@@ -87,6 +87,7 @@ MonoBehaviour:
   - {fileID: 2644995143240122761, guid: b2d43801482085246a4788b0d5024fc7, type: 3}
   available_shelves:
   - {fileID: 3577151186742716460, guid: 654eab21b4631c14d83ede6fc96c1fa9, type: 3}
+  - {fileID: 4989688689839571827, guid: b093aab2d9f12e44f82bc7bbb2e8a1a4, type: 3}
   agent: {fileID: 2984122611040358046}
   goal: {fileID: 3800787646201735146}
   waypoint: {fileID: 8046157479276514286, guid: c17727f4c5b263a44a4776cd91494f60, type: 3}
