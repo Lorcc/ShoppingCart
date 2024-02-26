@@ -49,7 +49,8 @@ MonoBehaviour:
   - {fileID: 9038657663085506545, guid: 0f6595de85617ab4390d10ba524e180f, type: 3}
   - {fileID: 4316646439181070906, guid: 3d2de08f95b4c714aa989893df44ef79, type: 3}
   fruit_items:
-  - {fileID: 6227557486261460020, guid: d7309d8ecf5162c46938c380b3f30991, type: 3}
+  - {fileID: 2681821334389776013, guid: 5e22712750154534ebed4e5386664c86, type: 3}
+  - {fileID: 305707324800061551, guid: bd11e5fa1a7a2a84fbf23532c50275aa, type: 3}
   beverages_items:
   - {fileID: 6089440818813123465, guid: 52071af37a9a5b946ba7f0c6513afe76, type: 3}
   - {fileID: 7863871301831459299, guid: cbd84910661e2694aacccbbbd9db11d6, type: 3}

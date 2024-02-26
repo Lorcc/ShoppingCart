@@ -49,6 +49,7 @@ MonoBehaviour:
   - {fileID: 5268247411782668767, guid: 4e16fa57d4b8d1941b015373bd9e3c18, type: 3}
   fruit_items:
   - {fileID: 3853866425287293871, guid: 07c678391c3f31b4b9087b26200b9dd6, type: 3}
+  - {fileID: 2534675001822059031, guid: f29ecc38c16369c45b23d79d99a84ece, type: 3}
   beverages_items:
   - {fileID: 6449736800615297071, guid: 55f1881811b9f974f8d277db6ba2bd9c, type: 3}
   - {fileID: 3892783746348519245, guid: fa19f2ed470fee445bb6c659ff28f86c, type: 3}
