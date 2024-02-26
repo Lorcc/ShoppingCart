@@ -29,12 +29,4 @@ public class PurchableFoodSpawner : MonoBehaviour
         GameObject new_object = Instantiate(beverages_items[random_item], this.transform);
         all_items.Add(new_object);
     }
-
-    public void spawn_fruit_item(Vector3 p_item_pos)
-    {
-        int random_item = Random.Range(0, fruit_items.Length);
-        GameObject new_object = Instantiate(fruit_items[random_item], this.transform);
-        all_items.Add(new_object);
-    }
-
 }

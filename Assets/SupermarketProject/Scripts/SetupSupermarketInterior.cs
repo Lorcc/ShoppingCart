@@ -17,9 +17,9 @@ public class SetupSupermarketInterior : MonoBehaviour
     [SerializeField] private bool horizontal_shelve_orientation_fruits_area = true;
     [SerializeField] private bool horizontal_shelve_orientation_beverages_area = true;
 
-    [SerializeField] [Tooltip(" ")] [Range(1,15)] private int number_of_items_to_purchase = 1;
+    [SerializeField] [Tooltip(" ")] [Range(1, 150)] private int number_of_items_to_purchase = 1;
 
-    [SerializeField] [Range(0, 15)] private int number_of_static_obstacles = 1;
+    [SerializeField] [Range(0, 10)] private int number_of_static_obstacles = 1;
     [SerializeField] private GameObject[] available_static_obstacles;
 
     [SerializeField] private GameObject[] shelve_wall_tile;

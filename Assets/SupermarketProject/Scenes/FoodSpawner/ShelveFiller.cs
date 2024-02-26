@@ -46,7 +46,6 @@ public class ShelveFiller : MonoBehaviour
                     {
                         purchable_food_script.spawn_fruit_item();
                         p_item_position = purchable_food_script.transform.localPosition;
-
                         break;
                     }
                 }

@@ -203,12 +203,16 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: random_shelve_orientation
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: number_of_static_obstacles
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: number_of_items_to_purchase
-      value: 15
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: available_shelves.Array.size
@@ -222,6 +226,10 @@ PrefabInstance:
       propertyPath: available_shelves.Array.data[1]
       value: 
       objectReference: {fileID: 4989688689839571827, guid: b093aab2d9f12e44f82bc7bbb2e8a1a4, type: 3}
+    - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: horizontal_shelve_orientation_fruits_area
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5519532963650692164, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -467,26 +475,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!1 &2005754615 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3121059538074601020, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
-  m_PrefabInstance: {fileID: 295110858}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2005754619
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2005754615}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f19eb8c7b27233a43a98b2104d9ce705, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fence_tile: {fileID: 8338949753139154336, guid: 0a04445fa6e7c474b8d0d09bddc079c1, type: 3}
-  fence_doubleentrance_tile: {fileID: 3732486507125587177, guid: 4958c6fdbfb6a2446b355eafc9cf1e31, type: 3}
-  checkout: {fileID: 1455025287242494113, guid: e9c33155bf9a21c4c84b1eee1c9ac7ce, type: 3}
 --- !u!1 &2040384597 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5665137664067744221, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
