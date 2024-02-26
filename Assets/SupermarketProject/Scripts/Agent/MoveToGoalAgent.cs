@@ -32,7 +32,7 @@ public class MoveToGoalAgent : Agent
     float m_Existential;
     private float collision_reward = 0f;
 
-    //private bool is_collided = false;
+    private bool is_collided = false;
 
     private void Start()
     {
@@ -183,9 +183,9 @@ public class MoveToGoalAgent : Agent
         }
         else
         {
-            //collision_reward -= 0.1f;
-            //AddReward(-0.1f);
-            //is_collided = true;
+            collision_reward -= 0.05f;
+            AddReward(-0.05f);
+            is_collided = true;
         }
     }
 
@@ -201,19 +201,19 @@ public class MoveToGoalAgent : Agent
         }
         else
         {
-           // is_collided = false;
+            is_collided = false;
         }
     }
 
     //gets called every 0.02 sec so 50 times per second
     private void FixedUpdate()
     {
-        /*if (is_collided)
+        if (is_collided)
         {
-            collision_reward -= 0.005f;
-            AddReward(-0.005f);
+            collision_reward -= 0.0001f;
+            AddReward(-0.0001f);
             //Debug.Log(collision_reward);
-        }*/
+        }
         
     }
 
