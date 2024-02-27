@@ -37,7 +37,6 @@ public class SetupSupermarketInterior : MonoBehaviour
 
     // List with the positions for A*
     private List<Vector2> goal_localpositions_2d = new List<Vector2>();
-    [HideInInspector] public List<Vector3> current_shortest_path = new List<Vector3>();
     
     enum Section { Fruit, Durable, Drinks }
 
@@ -52,7 +51,9 @@ public class SetupSupermarketInterior : MonoBehaviour
                                         {false,false,false}
                                         };
 
-
+    private bool[,] occupied_shelve_grid;
+    private int grid_length_x;
+    private int grid_length_z;
     public class Area
     {
         public Vector3Int area_size;
@@ -157,6 +158,8 @@ public class SetupSupermarketInterior : MonoBehaviour
     {
         ///// Reset Previous Values /////
         reset_Object_Lists();
+        grid_length_x = grid_size_x;
+        grid_length_z = grid_size_z;
 
         ////////// Shelve Orientation //////////
         Area durablefood_area;
@@ -922,6 +925,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                 occupied_grid_astar[grid_position_z + z_local, grid_position_x + x_local] = false;
             }
         }
+        occupied_shelve_grid = occupied_grid_astar;
 
         /*string text = "";
         for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
@@ -943,7 +947,7 @@ public class SetupSupermarketInterior : MonoBehaviour
         Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);*/
 
         ///// Using A* /////
-        calculate_a_star(goal_localpositions_2d[0], agent_starting_localposition, grid_size_x, grid_size_z, occupied_grid_astar);
+        calculate_a_star(agent_starting_localposition);
 
         
     }
@@ -1104,10 +1108,10 @@ public class SetupSupermarketInterior : MonoBehaviour
 
     ////////// Function for A* Application //////////
     //Returns localposition not map position
-    private void calculate_a_star(Vector2 goal_localposition, Vector3 agent_localposition, int grid_size_x, int grid_size_z, bool[,] occupiedGrids)
+    public void calculate_a_star(Vector3 agent_localposition)
     {
         List<Vector2> shortest_path = new List<Vector2>();
-        if (goal_localposition != null)
+        if (goal_localpositions_2d[0] != null)
         {
             //Debug.Log("Goal starting position: " + Goal.X + " " + Goal.Y);
             //A* algorithm to check if both agents can reach each other
@@ -1115,13 +1119,13 @@ public class SetupSupermarketInterior : MonoBehaviour
             Vector3 temp_position;
             Vector2Int map_position;
             GridTile Agent = new GridTile();
-            map_position = parse_Localposition_To_Map(agent_localposition, grid_size_x, grid_size_z);
+            map_position = parse_Localposition_To_Map(agent_localposition, grid_length_x, grid_length_z);
             Agent.X = map_position.y;
             Agent.Z = map_position.x;
 
             GridTile Goal = new GridTile();
-            temp_position = new Vector3(goal_localposition.x, this.transform.position.y, goal_localposition.y);
-            map_position = parse_Localposition_To_Map(temp_position, grid_size_x, grid_size_z);  
+            temp_position = new Vector3(goal_localpositions_2d[0].x, this.transform.position.y, goal_localpositions_2d[0].y);
+            map_position = parse_Localposition_To_Map(temp_position, grid_length_x, grid_length_z);  
             Goal.X = map_position.y;
             Goal.Z = map_position.x;
 
@@ -1140,22 +1144,20 @@ public class SetupSupermarketInterior : MonoBehaviour
                     while (true)
                     {
                         var test = new Vector2Int(tile.Z, tile.X);
-                        var test_local = parse_Map_To_Localposition(test, grid_size_x, grid_size_z);
+                        var test_local = parse_Map_To_Localposition(test, grid_length_x, grid_length_z);
                         shortest_path.Add(test_local);
 
                         tile = tile.Parent;
                         if (tile == null)
                         {
-                            for (int i = 1; i < shortest_path.Count - 1; i++)
+                            for (int i = 1; i < shortest_path.Count - 2; i++)
                             {
                                 Vector3 waypoint_pos = new Vector3(shortest_path[i].x, this.transform.position.y + 0.75f, shortest_path[i].y);
-                                current_shortest_path.Add(waypoint_pos);
                                 Quaternion waypoint_rotation = Quaternion.Euler(0, 0, 0);
                                 GameObject waypoint_obj = Instantiate(waypoint, waypoint_pos, waypoint_rotation, this.transform);
                                 waypoint_objects.Add(waypoint_obj);
                             }
                             this.GetComponentInChildren<MoveToGoalAgent>().shortest_path_waypoints = waypoint_objects;
-                            //Debug.Log(this.GetComponentInChildren<MoveToGoalAgent>().shortest_path_waypoints.Count);
                             break;
                         }
                     }
@@ -1164,7 +1166,7 @@ public class SetupSupermarketInterior : MonoBehaviour
 
                 visitedTiles.Add(checkTile);
                 activeTiles.Remove(checkTile);
-                var walkableTiles = GetWalkableTiles(occupiedGrids, checkTile, Goal, grid_size_x, grid_size_z);
+                var walkableTiles = GetWalkableTiles(occupied_shelve_grid, checkTile, Goal, grid_length_x, grid_length_z);
                 foreach (var walkableTile in walkableTiles)
                 {
                     //We have already visited this tile so we don't need to do so again!
@@ -1188,9 +1190,13 @@ public class SetupSupermarketInterior : MonoBehaviour
                 }
             }
             //Restart Arena Setup
-            print("No Path Found! Recalculate Map: " + this.name);
+            //print("No Path Found! Recalculate Map: " + this.name);
             //TODO change
             //return shortest_path;
+            if(goal_localpositions_2d[0] != null)
+            {
+                goal_localpositions_2d.RemoveAt(0);
+            }
         }
         else
         {
