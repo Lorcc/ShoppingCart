@@ -37,7 +37,6 @@ public class SetupSupermarketInterior : MonoBehaviour
 
     // List with the positions for A*
     private List<Vector2> goal_localpositions_2d = new List<Vector2>();
-    private List<Vector2Int> goal_map_position_2d = new List<Vector2Int>();
     [HideInInspector] public List<Vector3> current_shortest_path = new List<Vector3>();
     
     enum Section { Fruit, Durable, Drinks }
@@ -381,7 +380,6 @@ public class SetupSupermarketInterior : MonoBehaviour
 
 
         ////////// Merge Area Grids into Main Occupied Grid //////////
-
         int grid_position_x = 0;
         int grid_position_z = 0;
         //take out occupied durablefood fields
@@ -488,7 +486,6 @@ public class SetupSupermarketInterior : MonoBehaviour
             Quaternion shelve_rotation = Quaternion.Euler(0, -90, 0);
             Vector3 temp_position;
             Vector3 temp_goal_position;
-            Vector2Int temp_goal_map_position;
             int shelve_type = 0;
 
             Section obj = Section.Durable;
@@ -507,8 +504,6 @@ public class SetupSupermarketInterior : MonoBehaviour
                 //Calculation
                 temp_goal_position = new Vector3(shelve_position.x,shelve_position.y, shelve_position.z - 0.75f);
                 goal_localpositions_2d.Add(new Vector2(temp_goal_position.x, temp_goal_position.z));
-                temp_goal_map_position = parse_Localposition_To_Map(temp_goal_position, grid_size_x, grid_size_z);
-                goal_map_position_2d.Add(temp_goal_map_position);
             }
         }
         //Generate southern outer shelves
@@ -533,7 +528,6 @@ public class SetupSupermarketInterior : MonoBehaviour
             Quaternion shelve_rotation = Quaternion.Euler(0, 90, 0);
             Vector3 temp_position;
             Vector3 temp_goal_position;
-            Vector2Int temp_goal_map_position;
             int shelve_type = 0;
             Section obj = Section.Drinks;
             GameObject new_object = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
@@ -547,8 +541,6 @@ public class SetupSupermarketInterior : MonoBehaviour
                 //Calculation
                 temp_goal_position = new Vector3(shelve_position.x, shelve_position.y, shelve_position.z + 0.75f);
                 goal_localpositions_2d.Add(new Vector2(temp_goal_position.x, temp_goal_position.z));
-                temp_goal_map_position = parse_Localposition_To_Map(temp_goal_position, grid_size_x, grid_size_z);
-                goal_map_position_2d.Add(temp_goal_map_position);
             }
         }
         //Generate western outer shelves
@@ -573,7 +565,6 @@ public class SetupSupermarketInterior : MonoBehaviour
             Quaternion shelve_rotation = Quaternion.Euler(0, 180, 0);
             Vector3 temp_position;
             Vector3 temp_goal_position;
-            Vector2Int temp_goal_map_position;
             int shelve_type = 0;
 
             Section obj = Section.Durable;
@@ -594,8 +585,6 @@ public class SetupSupermarketInterior : MonoBehaviour
                 //Calculation
                 temp_goal_position = new Vector3(shelve_position.x + 0.75f, shelve_position.y, shelve_position.z);
                 goal_localpositions_2d.Add(new Vector2(temp_goal_position.x, temp_goal_position.z));
-                temp_goal_map_position = parse_Localposition_To_Map(temp_goal_position, grid_size_x, grid_size_z);
-                goal_map_position_2d.Add(temp_goal_map_position);
             }
         }
         //Generate eastern outer shelves
@@ -620,7 +609,6 @@ public class SetupSupermarketInterior : MonoBehaviour
             Quaternion shelve_rotation = Quaternion.Euler(0, 0, 0);
             Vector3 temp_position;
             Vector3 temp_goal_position;
-            Vector2Int temp_goal_map_position;
             int shelve_type = 0;
             Section obj = Section.Fruit;
             GameObject new_object = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
@@ -634,8 +622,6 @@ public class SetupSupermarketInterior : MonoBehaviour
                 //Calculation
                 temp_goal_position = new Vector3(shelve_position.x - 0.75f, shelve_position.y, shelve_position.z);
                 goal_localpositions_2d.Add(new Vector2(temp_goal_position.x, temp_goal_position.z));
-                temp_goal_map_position = parse_Localposition_To_Map(temp_goal_position, grid_size_x, grid_size_z);
-                goal_map_position_2d.Add(temp_goal_map_position);
             }
         }
 
@@ -681,8 +667,7 @@ public class SetupSupermarketInterior : MonoBehaviour
 
                                 //Calculation
                                 temp_goal_position = calculate_Goal_Position_Horizontal(object_position, temp_position);
-                                goal_localpositions_2d.Add(temp_goal_position);
-                                goal_map_position_2d.Add(new Vector2Int(grid_hor, grid_vert));
+                                goal_localpositions_2d.Add(temp_goal_position);                 
                             }
                         }
                         else
@@ -700,7 +685,6 @@ public class SetupSupermarketInterior : MonoBehaviour
                                 //Calculation
                                 temp_goal_position = calculate_Goal_Position_Vertical(object_position, temp_position);
                                 goal_localpositions_2d.Add(temp_goal_position);
-                                goal_map_position_2d.Add(new Vector2Int(grid_hor, grid_vert));
                             }
                         }
                     }
@@ -721,7 +705,6 @@ public class SetupSupermarketInterior : MonoBehaviour
                                 //Calculation
                                 temp_goal_position = calculate_Goal_Position_Horizontal(object_position, temp_position);
                                 goal_localpositions_2d.Add(temp_goal_position);
-                                goal_map_position_2d.Add(new Vector2Int(grid_hor, grid_vert));
                             }
                         }
                         else
@@ -738,7 +721,6 @@ public class SetupSupermarketInterior : MonoBehaviour
                                 //Calculation
                                 temp_goal_position = calculate_Goal_Position_Vertical(object_position, temp_position);
                                 goal_localpositions_2d.Add(temp_goal_position);
-                                goal_map_position_2d.Add(new Vector2Int(grid_hor, grid_vert));
                             }
                         }
                     }
@@ -759,7 +741,6 @@ public class SetupSupermarketInterior : MonoBehaviour
                                 //Calculation
                                 temp_goal_position = calculate_Goal_Position_Horizontal(object_position, temp_position);
                                 goal_localpositions_2d.Add(temp_goal_position);
-                                goal_map_position_2d.Add(new Vector2Int(grid_hor, grid_vert));
                             }
                         }
                         else
@@ -776,7 +757,6 @@ public class SetupSupermarketInterior : MonoBehaviour
                                 //Calculation
                                 temp_goal_position = calculate_Goal_Position_Vertical(object_position, temp_position);
                                 goal_localpositions_2d.Add(temp_goal_position);
-                                goal_map_position_2d.Add(new Vector2Int(grid_hor, grid_vert));
                             }
                         }
                     }
@@ -910,14 +890,11 @@ public class SetupSupermarketInterior : MonoBehaviour
         ////////// Goal Position //////////
         float goal_position_y = 0.75f;
         Vector3 goal_spawn_pos = new Vector3(goal_localpositions_2d[0].x, this.transform.position.y + goal_position_y, goal_localpositions_2d[0].y);
-        //Vector3 goal_spawn_pos = new Vector3(-8.5f,0.75f,14f);
-        Vector2Int goal_map_position = parse_Localposition_To_Map(goal_spawn_pos, grid_size_x, grid_size_z);
-        GridTile Goal = new GridTile();
-        Goal.X = goal_map_position.y;
-        Goal.Z = goal_map_position.x;
         goal.GetComponent<Goal>().reposition(goal_spawn_pos);
 
 
+        ////////// Delivery Position //////////
+        
         ////////// Application A* //////////
         bool[,] occupied_grid_astar = occupied_grid;
         int checkout_size_x = 7;
@@ -945,9 +922,28 @@ public class SetupSupermarketInterior : MonoBehaviour
                 occupied_grid_astar[grid_position_z + z_local, grid_position_x + x_local] = false;
             }
         }
-        
+
+        /*string text = "";
+        for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
+        {
+            for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
+            {
+                if (occupied_grid_astar[grid_hor, grid_vert] == false)
+                {
+                    text += "0 ";
+                }
+                else
+                {
+                    text += "1 ";
+                }
+            }
+            Debug.Log(text + "\n");
+            text = "";
+        }
+        Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);*/
+
         ///// Using A* /////
-        List<Vector2> shortest_path = calculate_a_star(goal_map_position_2d[0], Agent, Goal, grid_size_x, grid_size_z, occupied_grid);
+        List<Vector2> shortest_path = calculate_a_star(goal_localpositions_2d[0], Agent, grid_size_x, grid_size_z, occupied_grid_astar);
 
         for (int i = 1; i < shortest_path.Count - 1; i++)
         {
@@ -1118,14 +1114,19 @@ public class SetupSupermarketInterior : MonoBehaviour
 
     ////////// Function for A* Application //////////
     //Returns localposition not map position
-    private List<Vector2> calculate_a_star(Vector2 goal_position, GridTile Agent, GridTile Goal, int grid_size_x, int grid_size_z, bool[,] occupiedGrids)
+    private List<Vector2> calculate_a_star(Vector2 goal_localposition, GridTile Agent, int grid_size_x, int grid_size_z, bool[,] occupiedGrids)
     {
         List<Vector2> shortest_path = new List<Vector2>();
-        if (goal_position != null)
+        if (goal_localposition != null)
         {
             //Debug.Log("Goal starting position: " + Goal.X + " " + Goal.Y);
             //A* algorithm to check if both agents can reach each other
             //https://dotnetcoretutorials.com/2020/07/25/a-search-pathfinding-algorithm-in-c/
+            GridTile Goal = new GridTile();
+            Vector3 temp_position = new Vector3(goal_localposition.x, this.transform.position.y, goal_localposition.y);
+            Vector2Int goal_map_position = parse_Localposition_To_Map(temp_position, grid_size_x, grid_size_z);  
+            Goal.X = goal_map_position.y;
+            Goal.Z = goal_map_position.x;
             Agent.set_Distance(Goal.X, Goal.Z);
             List<GridTile> activeTiles = new List<GridTile>();
             activeTiles.Add(Agent);

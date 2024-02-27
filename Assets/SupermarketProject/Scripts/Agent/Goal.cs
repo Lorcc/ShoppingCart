@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Goal : MonoBehaviour
 {
+
     public void reposition(Vector3 position)
     {
         this.transform.position = position;
