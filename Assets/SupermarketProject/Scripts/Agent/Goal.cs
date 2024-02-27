@@ -8,7 +8,7 @@ public class Goal : MonoBehaviour
     {
         if (other.TryGetComponent<AgentReposition>(out AgentReposition component))
         {
-            //this.GetComponentInParent<SetupSupermarketInterior>().calculate_a_star();
+            this.GetComponentInParent<SetupSupermarketInterior>().calculate_a_star(this.transform.position);
         }
     }
 

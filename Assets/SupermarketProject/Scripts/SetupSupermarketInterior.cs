@@ -897,7 +897,10 @@ public class SetupSupermarketInterior : MonoBehaviour
 
 
         ////////// Delivery Position //////////
-        
+        float delivery_posititon_y = 0.75f;
+        Vector3 delivery_localposition = new Vector3(entrance_position.x - entrance_size.x / 2.0f - 0.5f, this.transform.position.y + delivery_posititon_y, entrance_position.z - entrance_size.z / 2.0f + 0.5f);
+
+
         ////////// Application A* //////////
         bool[,] occupied_grid_astar = occupied_grid;
         int checkout_size_x = 7;
@@ -927,29 +930,10 @@ public class SetupSupermarketInterior : MonoBehaviour
         }
         occupied_shelve_grid = occupied_grid_astar;
 
-        /*string text = "";
-        for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
-        {
-            for (int grid_vert = 0; grid_vert < grid_size_x; grid_vert++)
-            {
-                if (occupied_grid_astar[grid_hor, grid_vert] == false)
-                {
-                    text += "0 ";
-                }
-                else
-                {
-                    text += "1 ";
-                }
-            }
-            Debug.Log(text + "\n");
-            text = "";
-        }
-        Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);*/
 
         ///// Using A* /////
         calculate_a_star(agent_starting_localposition);
-
-        
+        goal_localpositions_2d.Add(new Vector2(delivery_localposition.x,delivery_localposition.z));
     }
 
 
@@ -1111,7 +1095,7 @@ public class SetupSupermarketInterior : MonoBehaviour
     public void calculate_a_star(Vector3 agent_localposition)
     {
         List<Vector2> shortest_path = new List<Vector2>();
-        if (goal_localpositions_2d[0] != null)
+        if (goal_localpositions_2d.Count != 0)
         {
             //Debug.Log("Goal starting position: " + Goal.X + " " + Goal.Y);
             //A* algorithm to check if both agents can reach each other
@@ -1193,8 +1177,10 @@ public class SetupSupermarketInterior : MonoBehaviour
             //print("No Path Found! Recalculate Map: " + this.name);
             //TODO change
             //return shortest_path;
-            if(goal_localpositions_2d[0] != null)
+            if(goal_localpositions_2d.Count != 0)
             {
+                Vector3 temp_position_test = new Vector3(goal_localpositions_2d[0].x, this.transform.position.y + 0.75f, goal_localpositions_2d[0].y);
+                goal.GetComponent<Goal>().reposition(temp_position_test);
                 goal_localpositions_2d.RemoveAt(0);
             }
         }

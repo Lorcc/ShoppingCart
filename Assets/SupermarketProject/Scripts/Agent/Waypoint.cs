@@ -8,8 +8,7 @@ public class Waypoint : MonoBehaviour
     {
         if (other.TryGetComponent<AgentReposition>(out AgentReposition component))
         {
-            Debug.Log("moin");
-            //Destroy(this.gameObject);
+            Destroy(this.gameObject);
         }
     }
 }

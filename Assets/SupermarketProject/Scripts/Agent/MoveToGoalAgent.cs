@@ -175,7 +175,7 @@ public class MoveToGoalAgent : Agent
         if(other.TryGetComponent<Goal>(out Goal component))
         {
             SetReward(5f);
-            EndEpisode();
+            //EndEpisode();
         }
         else if(other.TryGetComponent<Waypoint>(out Waypoint waypoint))
         {
