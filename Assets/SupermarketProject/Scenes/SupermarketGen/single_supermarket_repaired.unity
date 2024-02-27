@@ -140,11 +140,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: max_ground_size
-      value: 33
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: min_ground_size
-      value: 20
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: x_entrance_size
@@ -172,7 +172,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2316126177777887495, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: MaxStep
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 2316126177777887495, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: agent_camera
@@ -212,7 +212,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: number_of_items_to_purchase
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: available_shelves.Array.size

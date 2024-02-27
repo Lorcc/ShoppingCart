@@ -17,7 +17,7 @@ public class SetupSupermarketInterior : MonoBehaviour
     [SerializeField] private bool horizontal_shelve_orientation_fruits_area = true;
     [SerializeField] private bool horizontal_shelve_orientation_beverages_area = true;
 
-    [SerializeField] [Tooltip(" ")] [Range(1, 150)] private int number_of_items_to_purchase = 1;
+    [SerializeField] [Tooltip(" ")] [Range(1, 10)] private int number_of_items_to_purchase = 1;
 
     [SerializeField] [Range(0, 10)] private int number_of_static_obstacles = 1;
     [SerializeField] private GameObject[] available_static_obstacles;
@@ -943,19 +943,9 @@ public class SetupSupermarketInterior : MonoBehaviour
         Debug.Log("Gridsize_X: " + grid_size_x + " Gridsize_Z: " + grid_size_z);*/
 
         ///// Using A* /////
-        List<Vector2> shortest_path = calculate_a_star(goal_localpositions_2d[0], Agent, grid_size_x, grid_size_z, occupied_grid_astar);
+        calculate_a_star(goal_localpositions_2d[0], agent_starting_localposition, grid_size_x, grid_size_z, occupied_grid_astar);
 
-        for (int i = 1; i < shortest_path.Count - 1; i++)
-        {
-            Vector3 waypoint_pos = new Vector3(shortest_path[i].x, this.transform.position.y + 0.75f, shortest_path[i].y);
-            current_shortest_path.Add(waypoint_pos);
-            Quaternion waypoint_rotation = Quaternion.Euler(0, 0, 0);
-            GameObject waypoint_obj = Instantiate(waypoint, waypoint_pos, waypoint_rotation, this.transform);
-            waypoint_objects.Add(waypoint_obj);
-        }
-        this.GetComponentInChildren<MoveToGoalAgent>().shortest_path_waypoints = waypoint_objects;
-
-
+        
     }
 
 
@@ -1114,7 +1104,7 @@ public class SetupSupermarketInterior : MonoBehaviour
 
     ////////// Function for A* Application //////////
     //Returns localposition not map position
-    private List<Vector2> calculate_a_star(Vector2 goal_localposition, GridTile Agent, int grid_size_x, int grid_size_z, bool[,] occupiedGrids)
+    private void calculate_a_star(Vector2 goal_localposition, Vector3 agent_localposition, int grid_size_x, int grid_size_z, bool[,] occupiedGrids)
     {
         List<Vector2> shortest_path = new List<Vector2>();
         if (goal_localposition != null)
@@ -1122,11 +1112,19 @@ public class SetupSupermarketInterior : MonoBehaviour
             //Debug.Log("Goal starting position: " + Goal.X + " " + Goal.Y);
             //A* algorithm to check if both agents can reach each other
             //https://dotnetcoretutorials.com/2020/07/25/a-search-pathfinding-algorithm-in-c/
+            Vector3 temp_position;
+            Vector2Int map_position;
+            GridTile Agent = new GridTile();
+            map_position = parse_Localposition_To_Map(agent_localposition, grid_size_x, grid_size_z);
+            Agent.X = map_position.y;
+            Agent.Z = map_position.x;
+
             GridTile Goal = new GridTile();
-            Vector3 temp_position = new Vector3(goal_localposition.x, this.transform.position.y, goal_localposition.y);
-            Vector2Int goal_map_position = parse_Localposition_To_Map(temp_position, grid_size_x, grid_size_z);  
-            Goal.X = goal_map_position.y;
-            Goal.Z = goal_map_position.x;
+            temp_position = new Vector3(goal_localposition.x, this.transform.position.y, goal_localposition.y);
+            map_position = parse_Localposition_To_Map(temp_position, grid_size_x, grid_size_z);  
+            Goal.X = map_position.y;
+            Goal.Z = map_position.x;
+
             Agent.set_Distance(Goal.X, Goal.Z);
             List<GridTile> activeTiles = new List<GridTile>();
             activeTiles.Add(Agent);
@@ -1148,9 +1146,20 @@ public class SetupSupermarketInterior : MonoBehaviour
                         tile = tile.Parent;
                         if (tile == null)
                         {
-                            return shortest_path;
+                            for (int i = 1; i < shortest_path.Count - 1; i++)
+                            {
+                                Vector3 waypoint_pos = new Vector3(shortest_path[i].x, this.transform.position.y + 0.75f, shortest_path[i].y);
+                                current_shortest_path.Add(waypoint_pos);
+                                Quaternion waypoint_rotation = Quaternion.Euler(0, 0, 0);
+                                GameObject waypoint_obj = Instantiate(waypoint, waypoint_pos, waypoint_rotation, this.transform);
+                                waypoint_objects.Add(waypoint_obj);
+                            }
+                            this.GetComponentInChildren<MoveToGoalAgent>().shortest_path_waypoints = waypoint_objects;
+                            //Debug.Log(this.GetComponentInChildren<MoveToGoalAgent>().shortest_path_waypoints.Count);
+                            break;
                         }
                     }
+                    break;
                 }
 
                 visitedTiles.Add(checkTile);
@@ -1181,12 +1190,12 @@ public class SetupSupermarketInterior : MonoBehaviour
             //Restart Arena Setup
             print("No Path Found! Recalculate Map: " + this.name);
             //TODO change
-            return shortest_path;
+            //return shortest_path;
         }
         else
         {
             //TODO change
-            return shortest_path;
+            //return shortest_path;
         }
     }
 
