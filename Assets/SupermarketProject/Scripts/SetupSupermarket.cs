@@ -880,7 +880,7 @@ public class SetupSupermarket : MonoBehaviour
         Goal.X = (int)goal_pos.x;
         Goal.Y = (int)goal_pos.y;
         Vector3 goal_spawn_pos = new Vector3(goal_positions_2d[0].x, this.transform.position.y + 1.5f, goal_positions_2d[0].y);
-        goal.GetComponent<Goal>().reposition(goal_spawn_pos);
+        //goal.GetComponent<Item>().reposition(goal_spawn_pos);
 
         /*for (int i = 0; i < goal_positions_2d.Count; i++)
         {

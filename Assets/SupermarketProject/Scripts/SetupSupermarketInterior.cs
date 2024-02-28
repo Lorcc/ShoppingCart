@@ -24,16 +24,19 @@ public class SetupSupermarketInterior : MonoBehaviour
 
     [SerializeField] private GameObject[] shelve_wall_tile;
     [SerializeField] private GameObject[] available_shelves;
+    [SerializeField] private GameObject delivery_station;
 
     [SerializeField] private GameObject agent;
-    [SerializeField] private GameObject goal;
     [SerializeField] private GameObject waypoint;
+    [SerializeField] private GameObject item;
+    [SerializeField] private GameObject goal_delivery;
 
     SetupEntrance setup_entrance;
 
     private List<GameObject> shelve_tiles = new List<GameObject>();
     private List<GameObject> static_obstacles = new List<GameObject>();
     private List<GameObject> waypoint_objects = new List<GameObject>();
+    private List<GameObject> delivery_objects = new List<GameObject>();
 
     // List with the positions for A*
     private List<Vector2> goal_localpositions_2d = new List<Vector2>();
@@ -510,7 +513,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             }
         }
         //Generate southern outer shelves
-        for (int grid_vert = 0; grid_vert < grid_size_x - entrance_size[0]; grid_vert++)
+        for (int grid_vert = 0; grid_vert < grid_size_x - entrance_size[0] - 2; grid_vert++)
         {
             bool spawn_food_to_purchase = false;
             if (temp_number_of_items > 0)
@@ -546,6 +549,12 @@ public class SetupSupermarketInterior : MonoBehaviour
                 goal_localpositions_2d.Add(new Vector2(temp_goal_position.x, temp_goal_position.z));
             }
         }
+        //Generate delivery station
+        Vector3 delivery_post_position = this.transform.position + new Vector3(entrance_position.x - entrance_size.x / 2.0f - 1f, this.transform.position.y + 0.75f , entrance_position.z - entrance_size.z / 2.0f - 0.5f); ;
+        Quaternion delivery_post_rotation = Quaternion.Euler(0, 0, 0);
+        GameObject new_delivery = Instantiate(delivery_station, delivery_post_position, delivery_post_rotation, this.transform);
+        shelve_tiles.Add(new_delivery);
+
         //Generate western outer shelves
         for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
         {
@@ -878,27 +887,21 @@ public class SetupSupermarketInterior : MonoBehaviour
             }
         }
 
+        
 
         ////////// Agent Position //////////
         float agent_position_y = 0.75f;
         Vector3 agent_starting_localposition = new Vector3(entrance_position.x + entrance_size.x / 2.0f - 2.5f, this.transform.position.y + agent_position_y, entrance_position.z + entrance_size.z / 2.0f + 1.5f);
         GridTile Agent = new GridTile();
         Vector2Int agent_map_pos = parse_Localposition_To_Map(agent_starting_localposition, grid_size_x, grid_size_z);
-        //Debug.Log("Agent Starting Pos: " + agent_map_pos);
         Agent.X = agent_map_pos.y;
         Agent.Z = agent_map_pos.x;
         agent.GetComponent<AgentReposition>().reposition(agent_starting_localposition);
 
 
-        ////////// Goal Position //////////
-        float goal_position_y = 0.75f;
-        Vector3 goal_spawn_pos = new Vector3(goal_localpositions_2d[0].x, this.transform.position.y + goal_position_y, goal_localpositions_2d[0].y);
-        goal.GetComponent<Goal>().reposition(goal_spawn_pos);
-
-
         ////////// Delivery Position //////////
-        float delivery_posititon_y = 0.75f;
-        Vector3 delivery_localposition = new Vector3(entrance_position.x - entrance_size.x / 2.0f - 0.5f, this.transform.position.y + delivery_posititon_y, entrance_position.z - entrance_size.z / 2.0f + 0.5f);
+        float delivery_goal_posititon_y = 0.75f;
+        Vector3 delivery_localposition = new Vector3(entrance_position.x - entrance_size.x / 2.0f - 1.5f, this.transform.position.y + delivery_goal_posititon_y, entrance_position.z - entrance_size.z / 2.0f + 0.5f);
 
 
         ////////// Application A* //////////
@@ -932,8 +935,10 @@ public class SetupSupermarketInterior : MonoBehaviour
 
 
         ///// Using A* /////
+        //Future calculations are started via item collection
+        goal_localpositions_2d.Add(new Vector2(delivery_localposition.x, delivery_localposition.z));
         calculate_a_star(agent_starting_localposition);
-        goal_localpositions_2d.Add(new Vector2(delivery_localposition.x,delivery_localposition.z));
+
     }
 
 
@@ -941,6 +946,8 @@ public class SetupSupermarketInterior : MonoBehaviour
     {
         //***Empty Goal List***//
         goal_localpositions_2d.Clear();
+
+        
 
         //Clear shelve tiles
         foreach (GameObject shelve in shelve_tiles)
@@ -956,6 +963,11 @@ public class SetupSupermarketInterior : MonoBehaviour
         foreach (GameObject waypoint in waypoint_objects)
         {
             Destroy(waypoint);
+        }
+        //Clear delivery
+        foreach (GameObject delivery in delivery_objects)
+        {
+            Destroy(delivery);
         }
     }
 
@@ -1100,6 +1112,12 @@ public class SetupSupermarketInterior : MonoBehaviour
             //Debug.Log("Goal starting position: " + Goal.X + " " + Goal.Y);
             //A* algorithm to check if both agents can reach each other
             //https://dotnetcoretutorials.com/2020/07/25/a-search-pathfinding-algorithm-in-c/
+            for(int i = waypoint_objects.Count - 1; i >= 0; i--)
+            {
+                Destroy(waypoint_objects[i]);
+                waypoint_objects.RemoveAt(i);
+            }
+
             Vector3 temp_position;
             Vector2Int map_position;
             GridTile Agent = new GridTile();
@@ -1177,11 +1195,22 @@ public class SetupSupermarketInterior : MonoBehaviour
             //print("No Path Found! Recalculate Map: " + this.name);
             //TODO change
             //return shortest_path;
-            if(goal_localpositions_2d.Count != 0)
+            if(goal_localpositions_2d.Count > 1)
             {
                 Vector3 temp_position_test = new Vector3(goal_localpositions_2d[0].x, this.transform.position.y + 0.75f, goal_localpositions_2d[0].y);
-                goal.GetComponent<Goal>().reposition(temp_position_test);
+                Debug.Log(temp_position_test);
+                //goal.GetComponent<Item>().reposition(temp_position_test);
+                GameObject new_item = Instantiate(item, temp_position_test, new Quaternion(0f, 0f, 0f, 0f), this.transform);
+                delivery_objects.Add(new_item);
+                this.GetComponentInChildren<MoveToGoalAgent>().targetTransform = new_item.transform;
+
                 goal_localpositions_2d.RemoveAt(0);
+            }
+            else
+            {
+                GameObject delivery_goal = Instantiate(goal_delivery, new Vector3(goal_localpositions_2d[0].x, this.transform.position.y + 0.75f, goal_localpositions_2d[0].y), new Quaternion(0f,0f,0f,0f), this.transform);
+                delivery_objects.Add(delivery_goal);
+                this.GetComponentInChildren<MoveToGoalAgent>().targetTransform = delivery_goal.transform;
             }
         }
         else

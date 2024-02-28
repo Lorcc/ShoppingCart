@@ -12,7 +12,7 @@ using System.IO;
 
 public class MoveToGoalAgent : Agent
 {
-    [SerializeField] private Transform targetTransform;
+    [HideInInspector] public Transform targetTransform;
     [SerializeField] private GameObject agent_camera;
     private float agent_cameraspeed = 50f;
     private float agent_movespeed_force = 750f; 
@@ -172,14 +172,19 @@ public class MoveToGoalAgent : Agent
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent<Goal>(out Goal component))
-        {
-            SetReward(5f);
-            //EndEpisode();
-        }
-        else if(other.TryGetComponent<Waypoint>(out Waypoint waypoint))
+        if (other.TryGetComponent<Waypoint>(out Waypoint waypoint))    
         {
             current_waypoint = get_next_waypoint(shortest_path_waypoints, waypoint.gameObject);
+            
+        }
+        else if (other.TryGetComponent<Item>(out Item component))
+        {
+            AddReward(3f);
+        }
+        else if (other.TryGetComponent<Delivery_Goal>(out Delivery_Goal delivery_goal))
+        {
+            SetReward(5f);
+            EndEpisode();
         }
         else
         {
@@ -191,7 +196,7 @@ public class MoveToGoalAgent : Agent
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.TryGetComponent<Goal>(out Goal component))
+        if(other.TryGetComponent<Item>(out Item component))
         {
 
         }
