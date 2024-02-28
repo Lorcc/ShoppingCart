@@ -172,7 +172,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2316126177777887495, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: MaxStep
-      value: 50
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 2316126177777887495, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: agent_camera
@@ -284,7 +284,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7665969287515943415, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: m_BrainParameters.VectorObservationSize
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9058573858109239272, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: m_LocalPosition.y

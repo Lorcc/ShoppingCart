@@ -48,13 +48,17 @@ public class MoveToGoalAgent : Agent
         {
             current_waypoint = shortest_path_waypoints.Last().transform.localPosition;
         }
+        else
+        {
+            current_waypoint = targetTransform.localPosition;
+        }
         m_Existential = 5f / MaxStep;
     }
     public override void CollectObservations(VectorSensor sensor)
     {
         var local_velocity = transform.InverseTransformDirection(agent_rigidbody.velocity);
         var vector_distance = targetTransform.localPosition - transform.localPosition;
-        //var vector_distance_waypoint = current_waypoint - transform.localPosition;
+        var vector_distance_waypoint = current_waypoint - transform.localPosition;
         sensor.AddObservation(local_velocity.x); // plus 1 float
         sensor.AddObservation(local_velocity.z); // plus 1 float
         //sensor.AddObservation(transform.localPosition.x); // plus 1 float
@@ -62,7 +66,7 @@ public class MoveToGoalAgent : Agent
         //sensor.AddObservation(targetTransform.localPosition.x); // plus 1 float
         //sensor.AddObservation(targetTransform.localPosition.z); // plus 1 float
         sensor.AddObservation(vector_distance.magnitude); // plus 1 float
-        //sensor.AddObservation(vector_distance_waypoint.magnitude); // plus 1 float
+        sensor.AddObservation(vector_distance_waypoint.magnitude); // plus 1 float
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
