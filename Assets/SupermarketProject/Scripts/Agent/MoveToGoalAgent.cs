@@ -256,9 +256,9 @@ public class MoveToGoalAgent : Agent
 
         if (waypoint_ahead)
         {
-            collision_reward += 0.5f;
+            collision_reward += 0.3f;
             //Debug.Log(collision_reward);
-            AddReward(0.5f);
+            AddReward(0.3f);
         }
         return next_waypoint;
     }
