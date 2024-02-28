@@ -44,7 +44,10 @@ public class MoveToGoalAgent : Agent
     {
         collision_reward = 0f;
         this.GetComponentInParent<SetupSupermarketRepaired>().setup_Supermarket();
-        current_waypoint = shortest_path_waypoints.Last().transform.localPosition;
+        if (shortest_path_waypoints.Count > 0)
+        {
+            current_waypoint = shortest_path_waypoints.Last().transform.localPosition;
+        }
         m_Existential = 5f / MaxStep;
     }
     public override void CollectObservations(VectorSensor sensor)
@@ -126,7 +129,6 @@ public class MoveToGoalAgent : Agent
         cam_f = cam_f.normalized;
 
         movement_direction = cam_f * movement_x;
-        //agent_rigidbody.velocity = movement_direction * Time.fixedDeltaTime * agent_movespeed_velocity;
         agent_rigidbody.AddForce(movement_direction * Time.fixedDeltaTime * agent_movespeed_force, ForceMode.Force);
 
         agent_rigidbody.drag = ground_drag;
@@ -175,10 +177,11 @@ public class MoveToGoalAgent : Agent
         if (other.TryGetComponent<Waypoint>(out Waypoint waypoint))    
         {
             current_waypoint = get_next_waypoint(shortest_path_waypoints, waypoint.gameObject);
-            
+
         }
         else if (other.TryGetComponent<Item>(out Item component))
         {
+            collision_reward += 3f;
             AddReward(3f);
         }
         else if (other.TryGetComponent<Delivery_Goal>(out Delivery_Goal delivery_goal))
@@ -196,11 +199,15 @@ public class MoveToGoalAgent : Agent
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.TryGetComponent<Item>(out Item component))
+        if (other.TryGetComponent<Waypoint>(out Waypoint waypoint))   
         {
 
         }
-        else if(other.TryGetComponent<Waypoint>(out Waypoint waypoint))
+        else if (other.TryGetComponent<Item>(out Item component))
+        {
+
+        }
+        else if (other.TryGetComponent<Delivery_Goal>(out Delivery_Goal delivery_goal))
         {
 
         }

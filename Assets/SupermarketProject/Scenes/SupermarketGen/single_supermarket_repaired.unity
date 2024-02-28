@@ -132,11 +132,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: x_ground_size
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: z_ground_size
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: max_ground_size
@@ -156,7 +156,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: fixed_ground_size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: max_entrance_size
@@ -172,7 +172,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2316126177777887495, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: MaxStep
-      value: 2500
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 2316126177777887495, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: agent_camera
@@ -181,7 +181,7 @@ PrefabInstance:
     - target: {fileID: 2316126177777887495, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: targetTransform
       value: 
-      objectReference: {fileID: 932057382}
+      objectReference: {fileID: 0}
     - target: {fileID: 3121059538074601020, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: m_Name
       value: supermarket_repaired
@@ -386,11 +386,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!4 &932057382 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3800787646201735149, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
-  m_PrefabInstance: {fileID: 295110858}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1130497027
 GameObject:
   m_ObjectHideFlags: 0

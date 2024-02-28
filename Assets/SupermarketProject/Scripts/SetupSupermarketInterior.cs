@@ -463,7 +463,7 @@ public class SetupSupermarketInterior : MonoBehaviour
         }
 
         // Calculate Number of Outer Shelves //
-        int number_of_outer_shelves = grid_size_x + grid_size_x - (int)entrance_size[0] + grid_size_z + grid_size_z - (int)entrance_size[2];
+        int number_of_outer_shelves = grid_size_x + grid_size_x - (int)entrance_size[0] - 2+ grid_size_z + grid_size_z - (int)entrance_size[2];
         // Calculate Number of Shelves //
         int temp_number_of_shelves = number_of_shelves + number_of_outer_shelves;
 
@@ -1198,7 +1198,6 @@ public class SetupSupermarketInterior : MonoBehaviour
             if(goal_localpositions_2d.Count > 1)
             {
                 Vector3 temp_position_test = new Vector3(goal_localpositions_2d[0].x, this.transform.position.y + 0.75f, goal_localpositions_2d[0].y);
-                Debug.Log(temp_position_test);
                 //goal.GetComponent<Item>().reposition(temp_position_test);
                 GameObject new_item = Instantiate(item, temp_position_test, new Quaternion(0f, 0f, 0f, 0f), this.transform);
                 delivery_objects.Add(new_item);

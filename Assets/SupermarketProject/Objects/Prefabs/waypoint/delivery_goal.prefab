@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 5835303150490018916}
   - component: {fileID: 2355422946359122209}
   - component: {fileID: 6489238390683398784}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: delivery_goal
-  m_TagString: Untagged
+  m_TagString: Goal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
