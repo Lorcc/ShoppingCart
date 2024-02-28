@@ -12,7 +12,7 @@ using System.IO;
 
 public class MoveToGoalAgent : Agent
 {
-    [SerializeField] private Transform targetTransform;
+    [HideInInspector] public Transform targetTransform;
     [SerializeField] private GameObject agent_camera;
     private float agent_cameraspeed = 50f;
     private float agent_movespeed_force = 750f; 
@@ -32,7 +32,7 @@ public class MoveToGoalAgent : Agent
     float m_Existential;
     private float collision_reward = 0f;
 
-    //private bool is_collided = false;
+    private bool is_collided = false;
 
     private void Start()
     {
@@ -44,7 +44,10 @@ public class MoveToGoalAgent : Agent
     {
         collision_reward = 0f;
         this.GetComponentInParent<SetupSupermarketRepaired>().setup_Supermarket();
-        current_waypoint = shortest_path_waypoints.Last().transform.localPosition;
+        if (shortest_path_waypoints.Count > 0)
+        {
+            current_waypoint = shortest_path_waypoints.Last().transform.localPosition;
+        }
         m_Existential = 5f / MaxStep;
     }
     public override void CollectObservations(VectorSensor sensor)
@@ -126,7 +129,6 @@ public class MoveToGoalAgent : Agent
         cam_f = cam_f.normalized;
 
         movement_direction = cam_f * movement_x;
-        //agent_rigidbody.velocity = movement_direction * Time.fixedDeltaTime * agent_movespeed_velocity;
         agent_rigidbody.AddForce(movement_direction * Time.fixedDeltaTime * agent_movespeed_force, ForceMode.Force);
 
         agent_rigidbody.drag = ground_drag;
@@ -172,48 +174,58 @@ public class MoveToGoalAgent : Agent
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent<Goal>(out Goal component))
+        if (other.TryGetComponent<Waypoint>(out Waypoint waypoint))    
+        {
+            current_waypoint = get_next_waypoint(shortest_path_waypoints, waypoint.gameObject);
+
+        }
+        else if (other.TryGetComponent<Item>(out Item component))
+        {
+            collision_reward += 3f;
+            AddReward(3f);
+        }
+        else if (other.TryGetComponent<Delivery_Goal>(out Delivery_Goal delivery_goal))
         {
             SetReward(5f);
             EndEpisode();
         }
-        else if(other.TryGetComponent<Waypoint>(out Waypoint waypoint))
-        {
-            current_waypoint = get_next_waypoint(shortest_path_waypoints, waypoint.gameObject);
-        }
         else
         {
-            //collision_reward -= 0.1f;
-            //AddReward(-0.1f);
-            //is_collided = true;
+            collision_reward -= 0.05f;
+            AddReward(-0.05f);
+            is_collided = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.TryGetComponent<Goal>(out Goal component))
+        if (other.TryGetComponent<Waypoint>(out Waypoint waypoint))   
         {
 
         }
-        else if(other.TryGetComponent<Waypoint>(out Waypoint waypoint))
+        else if (other.TryGetComponent<Item>(out Item component))
+        {
+
+        }
+        else if (other.TryGetComponent<Delivery_Goal>(out Delivery_Goal delivery_goal))
         {
 
         }
         else
         {
-           // is_collided = false;
+            is_collided = false;
         }
     }
 
     //gets called every 0.02 sec so 50 times per second
     private void FixedUpdate()
     {
-        /*if (is_collided)
+        if (is_collided)
         {
-            collision_reward -= 0.005f;
-            AddReward(-0.005f);
+            collision_reward -= 0.0001f;
+            AddReward(-0.0001f);
             //Debug.Log(collision_reward);
-        }*/
+        }
         
     }
 
