@@ -550,7 +550,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             }
         }
         //Generate delivery station
-        Vector3 delivery_post_position = this.transform.position + new Vector3(entrance_position.x - entrance_size.x / 2.0f - 1f, this.transform.position.y + 0.75f , entrance_position.z - entrance_size.z / 2.0f - 0.5f); ;
+        Vector3 delivery_post_position = this.transform.position + new Vector3(entrance_position.x - entrance_size.x / 2.0f - 1f, 0.75f , entrance_position.z - entrance_size.z / 2.0f - 0.5f); ;
         Quaternion delivery_post_rotation = Quaternion.Euler(0, 0, 0);
         GameObject new_delivery = Instantiate(delivery_station, delivery_post_position, delivery_post_rotation, this.transform);
         shelve_tiles.Add(new_delivery);
