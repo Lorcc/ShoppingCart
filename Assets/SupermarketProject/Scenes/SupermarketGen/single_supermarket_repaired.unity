@@ -170,6 +170,14 @@ PrefabInstance:
       propertyPath: fixed_entrance_size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: max_ground_size_default
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: min_ground_size_default
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 2316126177777887495, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: MaxStep
       value: 5000

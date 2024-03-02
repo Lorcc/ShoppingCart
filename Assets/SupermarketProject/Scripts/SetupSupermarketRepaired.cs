@@ -1,22 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.MLAgents;
 
 public class SetupSupermarketRepaired : MonoBehaviour
 {
     [SerializeField] private bool fixed_ground_size = true;
     [SerializeField] [Range(13, 50)] private int x_ground_size = 20;
     [SerializeField] [Range(13, 50)] private int z_ground_size = 20;
-    [SerializeField] [Range(13, 50)] private int min_ground_size = 20;
-    [SerializeField] [Range(13, 50)] private int max_ground_size = 30;
+    [SerializeField] [Range(13, 50)] private int min_ground_size_default = 13;
+    [SerializeField] [Range(13, 50)] private int max_ground_size_default = 15;
     [SerializeField] private bool fixed_entrance_size = true;
     [SerializeField] [Range(6, 20)] private int x_entrance_size = 6;
     [SerializeField] [Range(6, 20)] private int z_entrance_size = 6;
     [SerializeField] [Range(6, 20)] private int min_entrance_size = 6;
     [SerializeField] [Range(6, 20)] private int max_entrance_size = 6;
+    private int min_ground_size;
+    private int max_ground_size;
 
     private List<GameObject> ground_tiles = new List<GameObject>();
 
+    //Curriculum Learning parameter
+    private void Awake()
+    {
+        min_ground_size = (int)Academy.Instance.EnvironmentParameters.GetWithDefault("min_ground_size", min_ground_size_default);
+        max_ground_size = (int)Academy.Instance.EnvironmentParameters.GetWithDefault("max_ground_size", max_ground_size_default);
+        
+    }
+
+    public void reset_Supermarket_Outer_Params()
+    {
+        min_ground_size = (int)Academy.Instance.EnvironmentParameters.GetWithDefault("min_ground_size", min_ground_size_default);
+        max_ground_size = (int)Academy.Instance.EnvironmentParameters.GetWithDefault("max_ground_size", max_ground_size_default);
+    }
 
     public void setup_Supermarket()
     {
@@ -136,13 +152,5 @@ public class SetupSupermarketRepaired : MonoBehaviour
                 }
             }
         }
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-        //setup_Supermarket();
     }
 }

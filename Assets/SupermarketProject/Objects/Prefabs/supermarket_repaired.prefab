@@ -54,8 +54,8 @@ MonoBehaviour:
   fixed_ground_size: 0
   x_ground_size: 13
   z_ground_size: 13
-  min_ground_size: 13
-  max_ground_size: 15
+  min_ground_size_default: 13
+  max_ground_size_default: 15
   fixed_entrance_size: 1
   x_entrance_size: 6
   z_entrance_size: 6
@@ -78,7 +78,7 @@ MonoBehaviour:
   horizontal_shelve_orientation_fruits_area: 0
   horizontal_shelve_orientation_beverages_area: 0
   number_of_items_to_purchase: 1
-  number_of_static_obstacles: 1
+  number_of_static_obstacles_default: 1
   available_static_obstacles:
   - {fileID: 612432780565889836, guid: 2309fc43869efb84e97f810d7701d6ec, type: 3}
   - {fileID: 4636400699403017173, guid: 0c56c59bd95efa34ea67815663808ba4, type: 3}

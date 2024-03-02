@@ -40,10 +40,13 @@ public class MoveToGoalAgent : Agent
         agent_rigidbody.freezeRotation = true;
     }
 
-    public override void OnEpisodeBegin()
+    public override void OnEpisodeBegin()    
     {
         collision_reward = 0f;
+        this.GetComponentInParent<SetupSupermarketRepaired>().reset_Supermarket_Outer_Params();
+        this.GetComponentInParent<SetupSupermarketInterior>().reset_Supermarket_Inner_Params();
         this.GetComponentInParent<SetupSupermarketRepaired>().setup_Supermarket();
+
         if (shortest_path_waypoints.Count > 0)
         {
             current_waypoint = shortest_path_waypoints.Last().transform.localPosition;

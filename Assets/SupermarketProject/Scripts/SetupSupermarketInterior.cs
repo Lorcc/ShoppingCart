@@ -19,7 +19,8 @@ public class SetupSupermarketInterior : MonoBehaviour
 
     [SerializeField] [Tooltip(" ")] [Range(1, 10)] private int number_of_items_to_purchase = 1;
 
-    [SerializeField] [Range(0, 10)] private int number_of_static_obstacles = 1;
+    [SerializeField] [Range(0, 10)] private int number_of_static_obstacles_default = 1;
+    private int number_of_static_obstacles = 1;
     [SerializeField] private GameObject[] available_static_obstacles;
 
     [SerializeField] private GameObject[] shelve_wall_tile;
@@ -57,6 +58,21 @@ public class SetupSupermarketInterior : MonoBehaviour
     private bool[,] occupied_shelve_grid;
     private int grid_length_x;
     private int grid_length_z;
+
+    
+    private void Awake()
+    {
+        // Gets entrance script
+        setup_entrance = this.transform.GetComponent<SetupEntrance>();
+        number_of_static_obstacles = (int)Academy.Instance.EnvironmentParameters.GetWithDefault("purchable_item_count", number_of_static_obstacles_default);
+    }
+    //Curriculum learning
+    public void reset_Supermarket_Inner_Params()
+    {
+        number_of_static_obstacles = (int)Academy.Instance.EnvironmentParameters.GetWithDefault("purchable_item_count", number_of_static_obstacles_default);
+    }
+
+
     public class Area
     {
         public Vector3Int area_size;
@@ -1217,12 +1233,5 @@ public class SetupSupermarketInterior : MonoBehaviour
             //TODO change
             //return shortest_path;
         }
-    }
-
-
-    private void Awake()
-    {
-        // Gets entrance script
-        setup_entrance = this.transform.GetComponent<SetupEntrance>();
     }
 }
