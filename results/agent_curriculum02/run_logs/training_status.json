@@ -1,0 +1,38 @@
+{
+    "purchable_item_count": {
+        "lesson_num": 0
+    },
+    "min_ground_size": {
+        "lesson_num": 0
+    },
+    "max_ground_size": {
+        "lesson_num": 0
+    },
+    "MoveToGoal": {
+        "checkpoints": [
+            {
+                "steps": 243376,
+                "file_path": "results\\agent_curriculum02\\MoveToGoal\\MoveToGoal-243376.onnx",
+                "reward": null,
+                "creation_time": 1709417000.9351947,
+                "auxillary_file_paths": [
+                    "results\\agent_curriculum02\\MoveToGoal\\MoveToGoal-243376.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 243376,
+            "file_path": "results\\agent_curriculum02\\MoveToGoal.onnx",
+            "reward": null,
+            "creation_time": 1709417000.9351947,
+            "auxillary_file_paths": [
+                "results\\agent_curriculum02\\MoveToGoal\\MoveToGoal-243376.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}

@@ -31,53 +31,56 @@ environment_parameters:
     curriculum:
       - name: Lesson0
         completion_criteria:
-          mesure: progress
+          measure: progress
           behavior: MoveToGoal
           signal_smoothing: true
           min_lesson_length: 200
-          thresholds: 0.8
-        value: 1
+          threshold: 0.8
+        value: 1.0
       - name: Lesson1
         completion_criteria:
-          mesure: progress
+          measure: progress
           behavior: MoveToGoal
           signal_smoothing: true
           min_lesson_length: 200
-          thresholds: 0.8
+          threshold: 0.8
         value:
           sampler_type: uniform
           sampler_parameters:
             min_value: 1.0
-            max_value: 2.99
+            max_value: 3.0
       - name: Lesson2
         value:
-        sampler_type: uniform
-        sampler_parameters:
-          min_value: 1.0
-          max_value: 4.99
+          sampler_type: uniform
+          sampler_parameters:
+            min_value: 1.0
+            max_value: 5.0
 
   min_ground_size:
-    value: 13
+    sampler_type: uniform
+    sampler_parameters:
+      min_value: 13.0
+      max_value: 14.0
   
   max_ground_size:
     curriculum:
       - name: Lesson0
         completion_criteria:
-          mesure: progress
+          measure: progress
           behavior: MoveToGoal
           signal_smoothing: true
           min_lesson_length: 200
-          thresholds: 0.8
-        value: 15
+          threshold: 0.8
+        value: 15.0
       - name: Lesson1
         completion_criteria:
-          mesure: progress
+          measure: progress
           behavior: MoveToGoal
           signal_smoothing: true
           min_lesson_length: 200
-          thresholds: 0.8
-        value: 17
+          threshold: 0.8
+        value: 17.0
       - name: Lesson2
-        value: 19
+        value: 19.0
     
           
