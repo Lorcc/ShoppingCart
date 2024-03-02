@@ -25,9 +25,9 @@ behaviors:
     max_steps: 4000000
     time_horizon: 64                    ###changed to an higher value because the archer has to walk around and find the Goal first which could take some time(default = 64) ###
     summary_freq: 50000                 #(default = 50000). Number of experiences that needs to be collected before generating and displaying training statistics. This determines the granularity of the graphs in Tensorboard.
-   
+
 environment_parameters:
-  surrounding_parameters:
+  purchable_item_count:
     curriculum:
       - name: Lesson0
         completion_criteria:
@@ -35,10 +35,49 @@ environment_parameters:
           behavior: MoveToGoal
           signal_smoothing: true
           min_lesson_length: 200
-          thresholds: [0.4,0.6,0.8],
-          parameters:
-          {
-            "purchable_items": [1,2,3,4],
-            "min_ground_size": [13,14,15,15],
-            "max_ground_size": [15,17,19,21]
-          }
+          thresholds: 0.8
+        value: 1
+      - name: Lesson1
+        completion_criteria:
+          mesure: progress
+          behavior: MoveToGoal
+          signal_smoothing: true
+          min_lesson_length: 200
+          thresholds: 0.8
+        value:
+          sampler_type: uniform
+          sampler_parameters:
+            min_value: 1.0
+            max_value: 2.99
+      - name: Lesson2
+        value:
+        sampler_type: uniform
+        sampler_parameters:
+          min_value: 1.0
+          max_value: 4.99
+
+  min_ground_size:
+    value: 13
+  
+  max_ground_size:
+    curriculum:
+      - name: Lesson0
+        completion_criteria:
+          mesure: progress
+          behavior: MoveToGoal
+          signal_smoothing: true
+          min_lesson_length: 200
+          thresholds: 0.8
+        value: 15
+      - name: Lesson1
+        completion_criteria:
+          mesure: progress
+          behavior: MoveToGoal
+          signal_smoothing: true
+          min_lesson_length: 200
+          thresholds: 0.8
+        value: 17
+      - name: Lesson2
+        value: 19
+    
+          
