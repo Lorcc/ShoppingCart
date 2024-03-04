@@ -18,7 +18,7 @@ public class MoveToGoalAgent : Agent
     private float agent_movespeed_force = 750f; 
     //private float agent_movespeed_velocity = 150f;
     private float ground_drag = 1f;
-    private float m_ForwardSpeed = 8f;
+    private float m_ForwardSpeed = 13.25f; //8f for sphere collider
     Vector3 movement_direction;
 
 
@@ -161,7 +161,7 @@ public class MoveToGoalAgent : Agent
                 dirToGo = transform.forward * m_ForwardSpeed;
                 break;
             case 2:
-                dirToGo = transform.forward * -m_ForwardSpeed * 0.85f;
+                dirToGo = transform.forward * -m_ForwardSpeed * 0.95f;
                 break;
         }
         switch (rotateAxis)

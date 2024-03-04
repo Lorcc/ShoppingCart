@@ -67,6 +67,11 @@ public class SetupSupermarketRepaired : MonoBehaviour
 
         ////////// Ground Area //////////
         float ground_area_position_y = 0f;
+        GameObject ground = this.transform.Find("ground").gameObject;
+        Vector3 ground_size = new Vector3(grid_size_x, 0.5f, grid_size_z);
+        ground.transform.localScale = ground_size;
+        Vector3 ground_position = this.transform.position;
+        ground.transform.position = ground_position;
 
         GameObject entrance_area = this.transform.Find("ground_entrance").gameObject;
         Vector3 entrance_size = new Vector3(entrance_size_x, 0.5f, entrance_size_z);

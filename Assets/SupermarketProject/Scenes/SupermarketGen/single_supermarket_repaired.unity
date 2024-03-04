@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1073310792533885587, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: m_ForwardSpeed
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: x_ground_size
       value: 13
@@ -185,7 +189,7 @@ PrefabInstance:
     - target: {fileID: 2316126177777887495, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: agent_camera
       value: 
-      objectReference: {fileID: 2040384597}
+      objectReference: {fileID: 0}
     - target: {fileID: 2316126177777887495, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: targetTransform
       value: 
@@ -478,8 +482,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!1 &2040384597 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5665137664067744221, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
-  m_PrefabInstance: {fileID: 295110858}
-  m_PrefabAsset: {fileID: 0}
