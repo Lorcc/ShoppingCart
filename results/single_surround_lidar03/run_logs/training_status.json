@@ -1,0 +1,56 @@
+{
+    "purchable_item_count": {
+        "lesson_num": 1
+    },
+    "min_ground_size": {
+        "lesson_num": 0
+    },
+    "max_ground_size": {
+        "lesson_num": 1
+    },
+    "MoveToGoal": {
+        "checkpoints": [
+            {
+                "steps": 499945,
+                "file_path": "results\\single_surround_lidar03\\MoveToGoal\\MoveToGoal-499945.onnx",
+                "reward": 15.84674970805645,
+                "creation_time": 1709648393.0963857,
+                "auxillary_file_paths": [
+                    "results\\single_surround_lidar03\\MoveToGoal\\MoveToGoal-499945.pt"
+                ]
+            },
+            {
+                "steps": 999974,
+                "file_path": "results\\single_surround_lidar03\\MoveToGoal\\MoveToGoal-999974.onnx",
+                "reward": 14.095924738794565,
+                "creation_time": 1709649607.5095017,
+                "auxillary_file_paths": [
+                    "results\\single_surround_lidar03\\MoveToGoal\\MoveToGoal-999974.pt"
+                ]
+            },
+            {
+                "steps": 1326665,
+                "file_path": "results\\single_surround_lidar03\\MoveToGoal\\MoveToGoal-1326665.onnx",
+                "reward": null,
+                "creation_time": 1709650445.1094053,
+                "auxillary_file_paths": [
+                    "results\\single_surround_lidar03\\MoveToGoal\\MoveToGoal-1326665.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1326665,
+            "file_path": "results\\single_surround_lidar03\\MoveToGoal.onnx",
+            "reward": null,
+            "creation_time": 1709650445.1094053,
+            "auxillary_file_paths": [
+                "results\\single_surround_lidar03\\MoveToGoal\\MoveToGoal-1326665.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}

@@ -55,7 +55,7 @@ public class MoveToGoalAgent : Agent
         {
             current_waypoint = targetTransform.localPosition;
         }
-        m_Existential = 5f / MaxStep;
+        m_Existential = 10f / MaxStep;
     }
     public override void CollectObservations(VectorSensor sensor)
     {
