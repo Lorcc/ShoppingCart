@@ -240,7 +240,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 10000
+  MaxStep: 20000
   targetTransform: {fileID: 0}
   agent_camera: {fileID: 1341628429422529564}
   shortest_path: []
