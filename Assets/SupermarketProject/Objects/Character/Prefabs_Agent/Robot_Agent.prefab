@@ -122,72 +122,12 @@ MonoBehaviour:
   m_SensorName: RayPerceptionSensor
   m_DetectableTags:
   - wall
-  m_RaysPerDirection: 4
-  m_MaxRayDegrees: 60
-  m_SphereCastRadius: 0.2
-  m_RayLength: 8
-  m_RayLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967291
-  m_ObservationStacks: 1
-  m_AlternatingRayOrder: 1
-  rayHitColor: {r: 1, g: 0, b: 0, a: 1}
-  rayMissColor: {r: 1, g: 1, b: 1, a: 1}
-  m_StartVerticalOffset: 0
-  m_EndVerticalOffset: 0
---- !u!1 &6376239684518087945
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3501025575639048904}
-  - component: {fileID: 8027033093714879023}
-  m_Layer: 0
-  m_Name: SingleRaySensor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3501025575639048904
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6376239684518087945}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.353, z: 0.453}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2429256246785184297}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8027033093714879023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6376239684518087945}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bb6b867a41448888c1cd4f99643ad71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SensorName: RayPerceptionSensorSingle
-  m_DetectableTags:
-  - wall
-  - waypoint
   - Goal
-  m_RaysPerDirection: 0
-  m_MaxRayDegrees: 0
+  - waypoint
+  m_RaysPerDirection: 10
+  m_MaxRayDegrees: 180
   m_SphereCastRadius: 0.2
-  m_RayLength: 10
+  m_RayLength: 12
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -235,7 +175,6 @@ Transform:
   - {fileID: 175236034286521864}
   - {fileID: 2451758101528715783}
   - {fileID: 291718948861103437}
-  - {fileID: 3501025575639048904}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -304,7 +243,6 @@ MonoBehaviour:
   MaxStep: 10000
   targetTransform: {fileID: 0}
   agent_camera: {fileID: 1341628429422529564}
-  m_ForwardSpeed: 20
   shortest_path: []
   shortest_path_waypoints: []
 --- !u!114 &7748667287056552563
