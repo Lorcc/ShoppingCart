@@ -1,0 +1,77 @@
+{
+    "purchable_item_count": {
+        "lesson_num": 3
+    },
+    "obstacle_amount": {
+        "lesson_num": 1
+    },
+    "min_ground_size": {
+        "lesson_num": 0
+    },
+    "max_ground_size": {
+        "lesson_num": 3
+    },
+    "MoveToGoal": {
+        "checkpoints": [
+            {
+                "steps": 4499986,
+                "file_path": "results\\ultrasonicsensor01\\MoveToGoal\\MoveToGoal-4499986.onnx",
+                "reward": 43.13700145483017,
+                "creation_time": 1709850768.7580445,
+                "auxillary_file_paths": [
+                    "results\\ultrasonicsensor01\\MoveToGoal\\MoveToGoal-4499986.pt"
+                ]
+            },
+            {
+                "steps": 4999973,
+                "file_path": "results\\ultrasonicsensor01\\MoveToGoal\\MoveToGoal-4999973.onnx",
+                "reward": null,
+                "creation_time": 1709852237.653983,
+                "auxillary_file_paths": [
+                    "results\\ultrasonicsensor01\\MoveToGoal\\MoveToGoal-4999973.pt"
+                ]
+            },
+            {
+                "steps": 5499987,
+                "file_path": "results\\ultrasonicsensor01\\MoveToGoal\\MoveToGoal-5499987.onnx",
+                "reward": null,
+                "creation_time": 1709853680.9017742,
+                "auxillary_file_paths": [
+                    "results\\ultrasonicsensor01\\MoveToGoal\\MoveToGoal-5499987.pt"
+                ]
+            },
+            {
+                "steps": 5999988,
+                "file_path": "results\\ultrasonicsensor01\\MoveToGoal\\MoveToGoal-5999988.onnx",
+                "reward": null,
+                "creation_time": 1709855135.5965734,
+                "auxillary_file_paths": [
+                    "results\\ultrasonicsensor01\\MoveToGoal\\MoveToGoal-5999988.pt"
+                ]
+            },
+            {
+                "steps": 6000052,
+                "file_path": "results\\ultrasonicsensor01\\MoveToGoal\\MoveToGoal-6000052.onnx",
+                "reward": null,
+                "creation_time": 1709855135.6609082,
+                "auxillary_file_paths": [
+                    "results\\ultrasonicsensor01\\MoveToGoal\\MoveToGoal-6000052.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 6000052,
+            "file_path": "results\\ultrasonicsensor01\\MoveToGoal.onnx",
+            "reward": null,
+            "creation_time": 1709855135.6609082,
+            "auxillary_file_paths": [
+                "results\\ultrasonicsensor01\\MoveToGoal\\MoveToGoal-6000052.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}

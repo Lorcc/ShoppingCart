@@ -1,0 +1,47 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1709839052",
+        "python_version": "3.9.13 (tags/v3.9.13:6de2ca5, May 17 2022, 16:36:42) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\Marc\\Documents\\Unity\\ShoppingCart\\venv\\Scripts\\mlagents-learn config\\curricula\\configuration_moreitemstime.yaml",
+        "mlagents_version": "0.30.0",
+        "mlagents_envs_version": "0.30.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "1.7.1+cu110",
+        "numpy_version": "1.21.2",
+        "end_time_seconds": "1709839063"
+    },
+    "total": 10.653577,
+    "count": 1,
+    "self": 10.0111376,
+    "children": {
+        "run_training.setup": {
+            "total": 0.10621930000000024,
+            "count": 1,
+            "self": 0.10621930000000024
+        },
+        "TrainerController.start_learning": {
+            "total": 0.5362201000000004,
+            "count": 1,
+            "self": 0.0002874000000003818,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 0.5359236000000003,
+                    "count": 1,
+                    "self": 0.5359236000000003
+                },
+                "trainer_threads": {
+                    "total": 8.999999998593466e-07,
+                    "count": 1,
+                    "self": 8.999999998593466e-07
+                },
+                "TrainerController._save_models": {
+                    "total": 8.19999999990273e-06,
+                    "count": 1,
+                    "self": 8.19999999990273e-06
+                }
+            }
+        }
+    }
+}
