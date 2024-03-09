@@ -42,7 +42,8 @@ public class SetupSupermarketInterior : MonoBehaviour
 
     // List with the positions for A*
     private List<Vector2> goal_localpositions_2d = new List<Vector2>();
-    
+    private List<Vector2Int> goal_map_positions_2d = new List<Vector2Int>();
+
     enum Section { Fruit, Durable, Drinks }
 
     private bool[,] horizontal_shelve = new bool[3, 3]{
@@ -498,7 +499,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             {
                 float random_number = Random.Range(0.0f, 1.0f);
 
-                if (random_number < ((float)temp_number_of_items / (float)temp_number_of_shelves))
+                if (random_number <= ((float)temp_number_of_items / (float)temp_number_of_shelves))
                 {
                     spawn_food_to_purchase = true;
                     temp_number_of_items--;
@@ -510,7 +511,8 @@ public class SetupSupermarketInterior : MonoBehaviour
             Vector3 shelve_position = this.transform.position + new Vector3((grid_vert - (grid_size_x / 2.0f) + offset_x), object_position_y, (grid_size_z / 2.0f) + offset_z);
             Quaternion shelve_rotation = Quaternion.Euler(0, -90, 0);
             Vector3 temp_position;
-            Vector3 temp_goal_position;
+            Vector2 temp_goal_position;
+            Vector2Int temp_goal_map_position;
             int shelve_type = 0;
 
             Section obj = Section.Durable;
@@ -527,8 +529,10 @@ public class SetupSupermarketInterior : MonoBehaviour
                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
 
                 //Calculation
-                temp_goal_position = new Vector3(shelve_position.x,shelve_position.y, shelve_position.z - 0.75f);
-                goal_localpositions_2d.Add(new Vector2(temp_goal_position.x, temp_goal_position.z));
+                temp_goal_position = new Vector3(shelve_position.x, shelve_position.z - 0.75f);
+                goal_localpositions_2d.Add(temp_goal_position);
+                temp_goal_map_position = parse_Localposition_To_Map(new Vector3 (temp_goal_position.x, 0, temp_goal_position.y), grid_size_x, grid_size_z);
+                goal_map_positions_2d.Add(temp_goal_map_position);
             }
         }
         //Generate southern outer shelves
@@ -539,7 +543,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             {
                 float random_number = Random.Range(0.0f, 1.0f);
 
-                if (random_number < ((float)temp_number_of_items / (float)temp_number_of_shelves))
+                if (random_number <= ((float)temp_number_of_items / (float)temp_number_of_shelves))
                 {
                     spawn_food_to_purchase = true;
                     temp_number_of_items--;
@@ -552,7 +556,8 @@ public class SetupSupermarketInterior : MonoBehaviour
             Vector3 shelve_position = this.transform.position + new Vector3((grid_vert - (grid_size_x / 2.0f) + offset_x), object_position_y, (-grid_size_z / 2.0f) - offset_z);
             Quaternion shelve_rotation = Quaternion.Euler(0, 90, 0);
             Vector3 temp_position;
-            Vector3 temp_goal_position;
+            Vector2 temp_goal_position;
+            Vector2Int temp_goal_map_position;
             int shelve_type = 0;
             Section obj = Section.Drinks;
             GameObject new_object = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
@@ -564,10 +569,13 @@ public class SetupSupermarketInterior : MonoBehaviour
                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
 
                 //Calculation
-                temp_goal_position = new Vector3(shelve_position.x, shelve_position.y, shelve_position.z + 0.75f);
-                goal_localpositions_2d.Add(new Vector2(temp_goal_position.x, temp_goal_position.z));
+                temp_goal_position = new Vector3(shelve_position.x, shelve_position.z + 0.75f);
+                goal_localpositions_2d.Add(temp_goal_position);
+                temp_goal_map_position = parse_Localposition_To_Map(new Vector3(temp_goal_position.x, 0, temp_goal_position.y), grid_size_x, grid_size_z);
+                goal_map_positions_2d.Add(temp_goal_map_position);
             }
         }
+        
         //Generate delivery station
         Vector3 delivery_post_position = this.transform.position + new Vector3(entrance_position.x - entrance_size.x / 2.0f - 1f, 0.75f , entrance_position.z - entrance_size.z / 2.0f - 0.5f); ;
         Quaternion delivery_post_rotation = Quaternion.Euler(0, 0, 0);
@@ -582,7 +590,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             {
                 float random_number = Random.Range(0.0f, 1.0f);
 
-                if (random_number < ((float)temp_number_of_items / (float)temp_number_of_shelves))
+                if (random_number <= ((float)temp_number_of_items / (float)temp_number_of_shelves))
                 {
                     spawn_food_to_purchase = true;
                     temp_number_of_items--;
@@ -595,7 +603,9 @@ public class SetupSupermarketInterior : MonoBehaviour
             Vector3 shelve_position = this.transform.position + new Vector3((-(grid_size_x / 2.0f) - offset_x), object_position_y, grid_hor - (grid_size_z / 2.0f) + offset_z);
             Quaternion shelve_rotation = Quaternion.Euler(0, 180, 0);
             Vector3 temp_position;
-            Vector3 temp_goal_position;
+            Vector2 temp_goal_position;
+            Vector2Int temp_goal_map_position;
+
             int shelve_type = 0;
 
             Section obj = Section.Durable;
@@ -614,8 +624,10 @@ public class SetupSupermarketInterior : MonoBehaviour
                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
 
                 //Calculation
-                temp_goal_position = new Vector3(shelve_position.x + 0.75f, shelve_position.y, shelve_position.z);
-                goal_localpositions_2d.Add(new Vector2(temp_goal_position.x, temp_goal_position.z));
+                temp_goal_position = new Vector3(shelve_position.x + 0.75f, shelve_position.z);
+                goal_localpositions_2d.Add(temp_goal_position);
+                temp_goal_map_position = parse_Localposition_To_Map(new Vector3(temp_goal_position.x, 0, temp_goal_position.y), grid_size_x, grid_size_z);
+                goal_map_positions_2d.Add(temp_goal_map_position);
             }
         }
         //Generate eastern outer shelves
@@ -626,7 +638,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             {
                 float random_number = Random.Range(0.0f, 1.0f);
 
-                if (random_number < ((float)temp_number_of_items / (float)temp_number_of_shelves))
+                if (random_number <= ((float)temp_number_of_items / (float)temp_number_of_shelves))
                 {
                     spawn_food_to_purchase = true;
                     temp_number_of_items--;
@@ -639,7 +651,9 @@ public class SetupSupermarketInterior : MonoBehaviour
             Vector3 shelve_position = this.transform.position + new Vector3(((grid_size_x / 2.0f) + offset_x), object_position_y, grid_hor - (grid_size_z / 2.0f) + offset_z);
             Quaternion shelve_rotation = Quaternion.Euler(0, 0, 0);
             Vector3 temp_position;
-            Vector3 temp_goal_position;
+            Vector2 temp_goal_position;
+            Vector2Int temp_goal_map_position;
+
             int shelve_type = 0;
             Section obj = Section.Fruit;
             GameObject new_object = Instantiate(shelve_wall_tile[0], shelve_position, shelve_rotation, this.transform);
@@ -651,8 +665,10 @@ public class SetupSupermarketInterior : MonoBehaviour
                 temp_position = new_object.GetComponent<ShelveFiller>().spawn_purchable_item((int)obj);
 
                 //Calculation
-                temp_goal_position = new Vector3(shelve_position.x - 0.75f, shelve_position.y, shelve_position.z);
-                goal_localpositions_2d.Add(new Vector2(temp_goal_position.x, temp_goal_position.z));
+                temp_goal_position = new Vector3(shelve_position.x - 0.75f, shelve_position.z);
+                goal_localpositions_2d.Add(temp_goal_position);
+                temp_goal_map_position = parse_Localposition_To_Map(new Vector3(temp_goal_position.x, 0, temp_goal_position.y), grid_size_x, grid_size_z);
+                goal_map_positions_2d.Add(temp_goal_map_position);
             }
         }
 
@@ -668,7 +684,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                     {
                         float random_number = Random.Range(0.0f, 1.0f);
 
-                        if (random_number < ((float)temp_number_of_items / (float)temp_number_of_shelves))
+                        if (random_number <= ((float)temp_number_of_items / (float)temp_number_of_shelves))
                         {
                             spawn_food_to_purchase = true;
                             temp_number_of_items--;
@@ -680,6 +696,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                     Vector3 object_position = this.transform.position + new Vector3((grid_vert - (grid_size_x / 2.0f) + object_offset), object_position_y, (grid_size_z / 2.0f) - grid_hor - object_offset);
                     Vector3 temp_position;
                     Vector2 temp_goal_position;
+                    Vector2Int temp_goal_map_position;
 
                     //Durablefood Area
                     if (grid_hor < durablefoods_size[2] && grid_vert < durablefoods_size[0])
@@ -698,7 +715,9 @@ public class SetupSupermarketInterior : MonoBehaviour
 
                                 //Calculation
                                 temp_goal_position = calculate_Goal_Position_Horizontal(object_position, temp_position);
-                                goal_localpositions_2d.Add(temp_goal_position);                 
+                                goal_localpositions_2d.Add(temp_goal_position);
+                                temp_goal_map_position = parse_Localposition_To_Map(new Vector3(temp_goal_position.x, 0, temp_goal_position.y), grid_size_x, grid_size_z);
+                                goal_map_positions_2d.Add(temp_goal_map_position);
                             }
                         }
                         else
@@ -716,6 +735,8 @@ public class SetupSupermarketInterior : MonoBehaviour
                                 //Calculation
                                 temp_goal_position = calculate_Goal_Position_Vertical(object_position, temp_position);
                                 goal_localpositions_2d.Add(temp_goal_position);
+                                temp_goal_map_position = parse_Localposition_To_Map(new Vector3(temp_goal_position.x, 0, temp_goal_position.y), grid_size_x, grid_size_z);
+                                goal_map_positions_2d.Add(temp_goal_map_position);
                             }
                         }
                     }
@@ -736,6 +757,8 @@ public class SetupSupermarketInterior : MonoBehaviour
                                 //Calculation
                                 temp_goal_position = calculate_Goal_Position_Horizontal(object_position, temp_position);
                                 goal_localpositions_2d.Add(temp_goal_position);
+                                temp_goal_map_position = parse_Localposition_To_Map(new Vector3(temp_goal_position.x, 0, temp_goal_position.y), grid_size_x, grid_size_z);
+                                goal_map_positions_2d.Add(temp_goal_map_position);
                             }
                         }
                         else
@@ -752,6 +775,8 @@ public class SetupSupermarketInterior : MonoBehaviour
                                 //Calculation
                                 temp_goal_position = calculate_Goal_Position_Vertical(object_position, temp_position);
                                 goal_localpositions_2d.Add(temp_goal_position);
+                                temp_goal_map_position = parse_Localposition_To_Map(new Vector3(temp_goal_position.x, 0, temp_goal_position.y), grid_size_x, grid_size_z);
+                                goal_map_positions_2d.Add(temp_goal_map_position);
                             }
                         }
                     }
@@ -772,6 +797,8 @@ public class SetupSupermarketInterior : MonoBehaviour
                                 //Calculation
                                 temp_goal_position = calculate_Goal_Position_Horizontal(object_position, temp_position);
                                 goal_localpositions_2d.Add(temp_goal_position);
+                                temp_goal_map_position = parse_Localposition_To_Map(new Vector3(temp_goal_position.x, 0, temp_goal_position.y), grid_size_x, grid_size_z);
+                                goal_map_positions_2d.Add(temp_goal_map_position);
                             }
                         }
                         else
@@ -788,6 +815,8 @@ public class SetupSupermarketInterior : MonoBehaviour
                                 //Calculation
                                 temp_goal_position = calculate_Goal_Position_Vertical(object_position, temp_position);
                                 goal_localpositions_2d.Add(temp_goal_position);
+                                temp_goal_map_position = parse_Localposition_To_Map(new Vector3(temp_goal_position.x, 0, temp_goal_position.y), grid_size_x, grid_size_z);
+                                goal_map_positions_2d.Add(temp_goal_map_position);
                             }
                         }
                     }
@@ -823,7 +852,13 @@ public class SetupSupermarketInterior : MonoBehaviour
             }
         }
 
-        int number_of_possible_obstacle_fields = grid_size_x * grid_size_z - number_of_shelves - number_of_occupied_checkout_entrance_fields;
+        //Add position of items to the grid, so that it is impossible to spawn an obstacle at the position of the item
+        for (int i = 0; i < goal_map_positions_2d.Count; i++)
+        {
+            occupied_grid_static_obstacles[goal_map_positions_2d[i].x,goal_map_positions_2d[i].y] = true;
+        }
+
+        int number_of_possible_obstacle_fields = grid_size_x * grid_size_z - number_of_shelves - number_of_occupied_checkout_entrance_fields - goal_map_positions_2d.Count;
         int temp_number_of_obstacles = number_of_static_obstacles;
         for (int grid_hor = 0; grid_hor < grid_size_z; grid_hor++)
         {
@@ -837,7 +872,7 @@ public class SetupSupermarketInterior : MonoBehaviour
                 if (occupied_grid_static_obstacles[grid_hor, grid_vert] == false)
                 {
                     float random_number = Random.Range(0.0f, 1.0f);
-                    if (random_number < ((float)temp_number_of_obstacles / (float)number_of_possible_obstacle_fields))
+                    if (random_number <= ((float)temp_number_of_obstacles / (float)number_of_possible_obstacle_fields))
                     {
                         float object_offset = 0.5f;
                         int random_item = Random.Range(0, available_static_obstacles.Length);
@@ -957,7 +992,6 @@ public class SetupSupermarketInterior : MonoBehaviour
         //Future calculations are started via item collection
         goal_localpositions_2d.Add(new Vector2(delivery_localposition.x, delivery_localposition.z));
         calculate_a_star(agent_starting_localposition);
-
     }
 
 
@@ -965,7 +999,7 @@ public class SetupSupermarketInterior : MonoBehaviour
     {
         //***Empty Goal List***//
         goal_localpositions_2d.Clear();
-
+        goal_map_positions_2d.Clear();
         
 
         //Clear shelve tiles
@@ -1037,8 +1071,6 @@ public class SetupSupermarketInterior : MonoBehaviour
 
     public Vector2Int parse_Localposition_To_Map(Vector3 local_position, int grid_size_x, int grid_size_z)
     {
-        //Vector3 object_position = this.transform.position + new Vector3((grid_vert - (grid_size_x / 2.0f) + object_offset), object_position_y, (grid_size_z / 2.0f) - grid_hor - object_offset);
-
         float x_half_map_size = (float)(grid_size_x - 1.0f) / 2.0f;
         float z_half_map_size = (float)(grid_size_z - 1.0f) / 2.0f;
         Vector2Int parsed_value = new Vector2Int();
