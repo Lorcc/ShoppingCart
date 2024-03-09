@@ -23,7 +23,7 @@ behaviors:
         strength: 1.0                   #(default = 1.0) Factor by which to multiply the reward given by the environment. Typical ranges will vary depending on the reward signal. 
     keep_checkpoints: 5
     max_steps: 6000000
-    time_horizon: 64                    ###changed to an higher value because the archer has to walk around and find the Goal first which could take some time(default = 64) ###
+    time_horizon: 64                    ###changed to an higher value because the robot has to walk around and find the Goal first which could take some time(default = 64) ###
     summary_freq: 50000                 #(default = 50000). Number of experiences that needs to be collected before generating and displaying training statistics. This determines the granularity of the graphs in Tensorboard.
 
 environment_parameters:
