@@ -132,7 +132,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1073310792533885587, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: MaxStep
-      value: 50
+      value: 20000
       objectReference: {fileID: 0}
     - target: {fileID: 1073310792533885587, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: m_ForwardSpeed
