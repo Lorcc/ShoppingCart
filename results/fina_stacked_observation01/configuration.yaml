@@ -67,7 +67,7 @@ environment_parameters:
     - value:
         sampler_type: constant
         sampler_parameters:
-          seed: 2561
+          seed: 9640
           value: 1.0
       name: Lesson0
       completion_criteria:
@@ -80,7 +80,7 @@ environment_parameters:
     - value:
         sampler_type: uniform
         sampler_parameters:
-          seed: 2562
+          seed: 9641
           min_value: 1.0
           max_value: 4.0
       name: Lesson1
@@ -94,7 +94,7 @@ environment_parameters:
     - value:
         sampler_type: uniform
         sampler_parameters:
-          seed: 2563
+          seed: 9642
           min_value: 2.0
           max_value: 5.0
       name: Lesson2
@@ -108,7 +108,7 @@ environment_parameters:
     - value:
         sampler_type: uniform
         sampler_parameters:
-          seed: 2564
+          seed: 9643
           min_value: 3.0
           max_value: 8.0
       name: Lesson3
@@ -118,7 +118,7 @@ environment_parameters:
     - value:
         sampler_type: constant
         sampler_parameters:
-          seed: 2565
+          seed: 9644
           value: 1.0
       name: Lesson0
       completion_criteria:
@@ -131,7 +131,7 @@ environment_parameters:
     - value:
         sampler_type: uniform
         sampler_parameters:
-          seed: 2566
+          seed: 9645
           min_value: 1.0
           max_value: 4.0
       name: Lesson1
@@ -145,7 +145,7 @@ environment_parameters:
     - value:
         sampler_type: uniform
         sampler_parameters:
-          seed: 2567
+          seed: 9646
           min_value: 2.0
           max_value: 5.0
       name: Lesson2
@@ -159,7 +159,7 @@ environment_parameters:
     - value:
         sampler_type: uniform
         sampler_parameters:
-          seed: 2568
+          seed: 9647
           min_value: 3.0
           max_value: 8.0
       name: Lesson3
@@ -169,7 +169,7 @@ environment_parameters:
     - value:
         sampler_type: uniform
         sampler_parameters:
-          seed: 2569
+          seed: 9648
           min_value: 13.0
           max_value: 14.0
       name: min_ground_size
@@ -179,7 +179,7 @@ environment_parameters:
     - value:
         sampler_type: constant
         sampler_parameters:
-          seed: 2570
+          seed: 9649
           value: 15.0
       name: Lesson0
       completion_criteria:
@@ -192,7 +192,7 @@ environment_parameters:
     - value:
         sampler_type: constant
         sampler_parameters:
-          seed: 2571
+          seed: 9650
           value: 17.0
       name: Lesson1
       completion_criteria:
@@ -205,7 +205,7 @@ environment_parameters:
     - value:
         sampler_type: constant
         sampler_parameters:
-          seed: 2572
+          seed: 9651
           value: 19.0
       name: Lesson2
       completion_criteria:
@@ -218,15 +218,15 @@ environment_parameters:
     - value:
         sampler_type: constant
         sampler_parameters:
-          seed: 2573
+          seed: 9652
           value: 21.0
       name: Lesson3
       completion_criteria: null
 checkpoint_settings:
-  run_id: ppo
+  run_id: fina_stacked_observation01
   initialize_from: null
   load_model: false
-  resume: true
+  resume: false
   force: false
   train_model: false
   inference: false

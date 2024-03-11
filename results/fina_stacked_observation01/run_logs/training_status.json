@@ -1,0 +1,77 @@
+{
+    "purchable_item_count": {
+        "lesson_num": 0
+    },
+    "obstacle_amount": {
+        "lesson_num": 0
+    },
+    "min_ground_size": {
+        "lesson_num": 0
+    },
+    "max_ground_size": {
+        "lesson_num": 0
+    },
+    "MoveToGoal": {
+        "checkpoints": [
+            {
+                "steps": 2499997,
+                "file_path": "results\\fina_stacked_observation01\\MoveToGoal\\MoveToGoal-2499997.onnx",
+                "reward": null,
+                "creation_time": 1710093544.3018117,
+                "auxillary_file_paths": [
+                    "results\\fina_stacked_observation01\\MoveToGoal\\MoveToGoal-2499997.pt"
+                ]
+            },
+            {
+                "steps": 2999944,
+                "file_path": "results\\fina_stacked_observation01\\MoveToGoal\\MoveToGoal-2999944.onnx",
+                "reward": -6.607400730252266,
+                "creation_time": 1710094726.1062753,
+                "auxillary_file_paths": [
+                    "results\\fina_stacked_observation01\\MoveToGoal\\MoveToGoal-2999944.pt"
+                ]
+            },
+            {
+                "steps": 3499948,
+                "file_path": "results\\fina_stacked_observation01\\MoveToGoal\\MoveToGoal-3499948.onnx",
+                "reward": null,
+                "creation_time": 1710095919.9826992,
+                "auxillary_file_paths": [
+                    "results\\fina_stacked_observation01\\MoveToGoal\\MoveToGoal-3499948.pt"
+                ]
+            },
+            {
+                "steps": 3999961,
+                "file_path": "results\\fina_stacked_observation01\\MoveToGoal\\MoveToGoal-3999961.onnx",
+                "reward": null,
+                "creation_time": 1710097125.955757,
+                "auxillary_file_paths": [
+                    "results\\fina_stacked_observation01\\MoveToGoal\\MoveToGoal-3999961.pt"
+                ]
+            },
+            {
+                "steps": 4426169,
+                "file_path": "results\\fina_stacked_observation01\\MoveToGoal\\MoveToGoal-4426169.onnx",
+                "reward": null,
+                "creation_time": 1710098176.741922,
+                "auxillary_file_paths": [
+                    "results\\fina_stacked_observation01\\MoveToGoal\\MoveToGoal-4426169.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 4426169,
+            "file_path": "results\\fina_stacked_observation01\\MoveToGoal.onnx",
+            "reward": null,
+            "creation_time": 1710098176.741922,
+            "auxillary_file_paths": [
+                "results\\fina_stacked_observation01\\MoveToGoal\\MoveToGoal-4426169.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.30.0",
+        "torch_version": "1.7.1+cu110"
+    }
+}
