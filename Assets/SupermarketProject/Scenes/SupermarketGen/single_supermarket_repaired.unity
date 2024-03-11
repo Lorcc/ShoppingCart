@@ -254,6 +254,10 @@ PrefabInstance:
       propertyPath: horizontal_shelve_orientation_fruits_area
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4945898473809336931, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5519532963650692164, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: m_RootOrder
       value: 2

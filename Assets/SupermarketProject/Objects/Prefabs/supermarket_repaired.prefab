@@ -78,7 +78,7 @@ MonoBehaviour:
   horizontal_shelve_orientation_durablefood_area: 0
   horizontal_shelve_orientation_fruits_area: 0
   horizontal_shelve_orientation_beverages_area: 0
-  number_of_items_to_purchase: 1
+  number_of_items_to_purchase_default: 1
   number_of_static_obstacles_default: 1
   available_static_obstacles:
   - {fileID: 612432780565889836, guid: 2309fc43869efb84e97f810d7701d6ec, type: 3}

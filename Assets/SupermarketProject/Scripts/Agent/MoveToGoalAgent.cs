@@ -28,6 +28,12 @@ public class MoveToGoalAgent : Agent
 
     Rigidbody agent_rigidbody;
 
+    private int collision_count = 0;
+    private int self_done_surroundings = 0;
+    private int waypoint_count = 0;
+    private int done_surroundings = 0;
+    private int items_bought = 0;
+
     //Reward
     float m_Existential;
     private float collision_reward = 0f;
@@ -42,6 +48,8 @@ public class MoveToGoalAgent : Agent
 
     public override void OnEpisodeBegin()    
     {
+        done_surroundings += 1;
+        //Debug.Log(transform.parent.name + " Collision Count: " + collision_count + " Waypoint Count: " + waypoint_count + " Item Count: "+ items_bought + " Surrounding Count: " + self_done_surroundings);
         collision_reward = 0f;
         this.GetComponentInParent<SetupSupermarketRepaired>().reset_Supermarket_Outer_Params();
         this.GetComponentInParent<SetupSupermarketInterior>().reset_Supermarket_Inner_Params();
@@ -61,7 +69,7 @@ public class MoveToGoalAgent : Agent
     {
         var local_velocity = transform.InverseTransformDirection(agent_rigidbody.velocity);
         var vector_distance = targetTransform.localPosition - transform.localPosition;
-        var vector_distance_waypoint = current_waypoint - transform.localPosition;
+        //var vector_distance_waypoint = current_waypoint - transform.localPosition;
         sensor.AddObservation(local_velocity.x); // plus 1 float
         sensor.AddObservation(local_velocity.z); // plus 1 float
         //sensor.AddObservation(transform.localPosition.x); // plus 1 float
@@ -69,7 +77,7 @@ public class MoveToGoalAgent : Agent
         //sensor.AddObservation(targetTransform.localPosition.x); // plus 1 float
         //sensor.AddObservation(targetTransform.localPosition.z); // plus 1 float
         sensor.AddObservation(vector_distance.magnitude); // plus 1 float
-        sensor.AddObservation(vector_distance_waypoint.magnitude); // plus 1 float
+        //sensor.AddObservation(vector_distance_waypoint.magnitude); // plus 1 float
     }
     public override void OnActionReceived(ActionBuffers actions)
     {
@@ -184,20 +192,23 @@ public class MoveToGoalAgent : Agent
         if (other.TryGetComponent<Waypoint>(out Waypoint waypoint))    
         {
             current_waypoint = get_next_waypoint(shortest_path_waypoints, waypoint.gameObject);
-
+            waypoint_count += 1;
         }
         else if (other.TryGetComponent<Item>(out Item component))
         {
+            items_bought += 1;
             collision_reward += 3f;
             AddReward(3f);
         }
         else if (other.TryGetComponent<Delivery_Goal>(out Delivery_Goal delivery_goal))
         {
+            self_done_surroundings += 1;
             SetReward(5f);
             EndEpisode();
         }
         else
         {
+            collision_count += 1;
             collision_reward -= 0.05f;
             AddReward(-0.05f);
             is_collided = true;
