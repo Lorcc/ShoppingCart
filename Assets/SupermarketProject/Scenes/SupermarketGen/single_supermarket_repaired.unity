@@ -130,6 +130,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 817742631797856675, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: checkout
+      value: 
+      objectReference: {fileID: 1455025287242494113, guid: e9c33155bf9a21c4c84b1eee1c9ac7ce, type: 3}
+    - target: {fileID: 817742631797856675, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: checkout_wall
+      value: 
+      objectReference: {fileID: 1455025287242494113, guid: e9c33155bf9a21c4c84b1eee1c9ac7ce, type: 3}
     - target: {fileID: 1073310792533885587, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: MaxStep
       value: 20000
@@ -140,11 +148,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: x_ground_size
-      value: 13
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: z_ground_size
-      value: 13
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: max_ground_size
@@ -156,23 +164,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: x_entrance_size
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: z_entrance_size
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: fixed_ground_size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: max_entrance_size
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: min_entrance_size
-      value: 6
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: fixed_entrance_size
@@ -180,11 +188,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: max_ground_size_default
-      value: 20
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 1931150387122260961, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: min_ground_size_default
-      value: 15
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 2316126177777887495, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: MaxStep
@@ -220,7 +228,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: random_shelve_orientation
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: number_of_static_obstacles
@@ -244,15 +252,19 @@ PrefabInstance:
       objectReference: {fileID: 4989688689839571827, guid: b093aab2d9f12e44f82bc7bbb2e8a1a4, type: 3}
     - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: number_of_static_obstacles_default
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: number_of_items_to_purchase_default
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: horizontal_shelve_orientation_fruits_area
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103353292217487015, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
+      propertyPath: horizontal_shelve_orientation_beverages_area
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4945898473809336931, guid: 5d4ec6c49c241744399c4a3cfa32f432, type: 3}
       propertyPath: m_Model

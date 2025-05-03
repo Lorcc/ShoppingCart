@@ -74,11 +74,24 @@ public class SetupEntrance : MonoBehaviour
             }
         }
         //Spawn entrance fences vertical(from bottom up or south to north)
-        //first six steps are always the same because of the checkout 
+        //first six steps are always the same because of the checkout
         int z_entr_end = (int)grid_size_z - (int)entrance_size.z;
         int z_entr = (int)grid_size_z - CHECKOUT_SIZE;
         float fence_position_x = (grid_size_x / 2.0f) - entrance_size.x;
         float fence_offset_z = 0.5f;
+
+        /*int z_entr_count = (int)((int)entrance_size.z / CHECKOUT_SIZE) - 1;
+        print(z_entr_count);
+        while (z_entr_count > 0)
+        {
+            Vector3 other_checkout_spawn_position = new Vector3(entrance_position.x - entrance_size[0] / 2.0f - 2.5f, this.transform.position.y + object_position_y, entrance_position.z - entrance_size.z / 2.0f + 3.5f + CHECKOUT_SIZE * z_entr_count);
+            Quaternion other_checkout_rotation = Quaternion.Euler(0, 0, 0);
+            GameObject other_checkout = Instantiate(checkout, other_checkout_spawn_position, other_checkout_rotation, this.transform);
+            checkout_objects.Add(other_checkout);
+            z_entr -= CHECKOUT_SIZE;
+            z_entr_count--;
+        }*/
+
         while (z_entr > z_entr_end)
         {
             Quaternion fence_rotation = Quaternion.Euler(0, 90, 0);

@@ -516,7 +516,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             int shelve_type = 0;
 
             Section obj = Section.Durable;
-            if (grid_vert > grid_size_x - fruits_size[2] + 1f)
+            if (grid_vert > grid_size_x - fruits_size[0] - 1.0f)
             {
                 obj = Section.Fruit;
             }
@@ -609,7 +609,7 @@ public class SetupSupermarketInterior : MonoBehaviour
             int shelve_type = 0;
 
             Section obj = Section.Durable;
-            if (grid_hor < grid_size_z - beverages_size[2] - 1f)
+            if (grid_hor < grid_size_z - durablefoods_size[2])
             {
                 obj = Section.Drinks;
             }
